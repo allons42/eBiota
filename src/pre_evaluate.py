@@ -1,12 +1,9 @@
 import cobra
-import re
 import os
 import time
-import copy
 from multiprocessing import Pool
-import pandas as pd
 
-from eBiota_utils import get_metabolites_list
+from eBiota_utils import get_metabolites_list, config
 
 
 def test_fva_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_only=False): 
@@ -54,13 +51,16 @@ def test_fva_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_on
 
 
 def pre_eval(name, possible_path):
+    path_GEM = config["path_GEM"]
+    suffix = config["suffix"]
+    output_dir = "tmp/bacteria_label_level30/"
     try:
-        gem = cobra.io.read_sbml_model("/data3/jhhou/ebiota/GEM_rewrite/bacteria/Carve_RefSeq/" + name + '.xml.gz')
+        gem = cobra.io.read_sbml_model(os.path.join(path_GEM, name + suffix))
     except:
-        print("/data3/jhhou/ebiota/GEM_rewrite/bacteria/Carve_RefSeq/" + name + '.xml.gz: not found')
+        print(os.path.join(path_GEM, name + suffix) +': not found')
         return
     
-    global basic, output_dir
+    global basic
     for rxn in gem.exchanges:
         rxt = rxn.reactants[0].id
         if rxt not in basic.keys():
@@ -106,7 +106,7 @@ def pre_eval(name, possible_path):
     
     
 def run_evaluate():
-    input_dir = "BFS_result/path_from_secretion_to_intake_simplified/"
+    input_dir = "tmp/BFS_result/path_from_secretion_to_intake_simplified/"
     output_dir = "tmp/bacteria_label_level30/"
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -116,11 +116,11 @@ def run_evaluate():
     
     # multi process
     fs = os.listdir(output_dir)
-    print(len(fs), "GEMs already done")
+    print(f"{len(all_bac)} bacteria in total, {len(fs)} have been evaluated.")
     done = set(fs)
     
     start = time.time()
-    n_proc = 10
+    n_proc = config["max_proc"]
 
     while len(done) < len(all_bac):
 
@@ -146,7 +146,7 @@ def run_evaluate():
         pool.join()
 
     end = time.time()
-    print("runtime:%.2f seconds"%(end-start))
+    print("evaluation runtime: %.2f seconds"%(end-start))
 
 if __name__ == '__main__':
     run_evaluate()

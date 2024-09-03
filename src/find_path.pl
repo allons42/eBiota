@@ -182,9 +182,9 @@ new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria(); # find path
 sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 	#输入是GEM文件，输出是所有的解析结果，包括代谢物，代谢反应，摄取物，分泌物
 	#初始化，建立文件夹
-	mkdir "BFS_result" unless -e "BFS_result"; 
-	mkdir "BFS_result/storable" unless -e "BFS_result/storable";
-	mkdir "BFS_result/metabolite" unless -e "BFS_result/metabolite";
+	mkdir "tmp/BFS_result" unless -e "tmp/BFS_result"; 
+	mkdir "tmp/BFS_result/storable" unless -e "tmp/BFS_result/storable";
+	mkdir "tmp/BFS_result/metabolite" unless -e "tmp/BFS_result/metabolite";
 	my %hash; #存储结果的哈希数据结构
 	opendir Dir,$dir;
 	my @files=readdir Dir; #读取目录
@@ -199,7 +199,7 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		$bac_names{$f_name}=1;
 		print "$f_name\n";
 		open IN,"<$dir/$file";
-		open OUT,">BFS_result/metabolite/$f_name.txt";
+		open OUT,">tmp/BFS_result/metabolite/$f_name.txt";
 		my $id;
 		my $name;
 		while(<IN>){ #逐行读取GEM文件
@@ -221,15 +221,15 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		close IN;
 		close OUT;
 	}
-	lock_nstore(\%bac_names,"BFS_result/storable/bacteria_names.storable"); #将数据结构存储为二进制格式文件
+	lock_nstore(\%bac_names,"tmp/BFS_result/storable/bacteria_names.storable"); #将数据结构存储为二进制格式文件
 	
-	open OUT,">BFS_result/all_metabolites.txt";
+	open OUT,">tmp/BFS_result/all_metabolites.txt";
 	foreach my $metabolite(keys %hash){
 		print OUT "id=$metabolite name=$hash{$metabolite}{'name'}\n"; #将结果打印为txt文件
 	}
 	close OUT;
-	lock_nstore(\%hash,"BFS_result/storable/metabolite.storable");
-	open OUT,">BFS_result/all_metabolites_names.txt";
+	lock_nstore(\%hash,"tmp/BFS_result/storable/metabolite.storable");
+	open OUT,">tmp/BFS_result/all_metabolites_names.txt";
 	my %names;
 	foreach my $metabolite(keys %hash){
 		$names{$hash{$metabolite}{'name'}}=$metabolite; #建立由代谢物ID到代谢物名称的哈希映射
@@ -238,7 +238,7 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		print OUT "name=$name id=$names{$name}\n";
 	}
 	close OUT;
-	lock_nstore(\%names,"BFS_result/storable/metabolite_name_to_id.storable");
+	lock_nstore(\%names,"tmp/BFS_result/storable/metabolite_name_to_id.storable");
 	# return;
 
 	#获取所有代谢反应
@@ -246,7 +246,7 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 	opendir Dir,$dir; #读取GEM目录
 	my @strains=readdir Dir;
 	@strains=sort @strains;
-	my %metabolites=%{lock_retrieve("BFS_result/storable/metabolite.storable")}; #读取已经存储的代谢物哈希
+	my %metabolites=%{lock_retrieve("tmp/BFS_result/storable/metabolite.storable")}; #读取已经存储的代谢物哈希
 	opendir Dir,$dir;
 	@files=readdir Dir;
 	@files=sort @files;
@@ -327,11 +327,11 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		close IN;
 	}
 	#下面都是存储和打印哈希结构
-	open OUT,">BFS_result/all_reactions.txt";
+	open OUT,">tmp/BFS_result/all_reactions.txt";
 	print OUT Dumper(%all_reactions);
 	close OUT;
 	# return;
-	open OUT,">BFS_result/all_reactions_statistics.txt";
+	open OUT,">tmp/BFS_result/all_reactions_statistics.txt";
 	my $reaction_number=keys %all_reactions;
 	print OUT "$reaction_number\n";
 	print "reversible_reaction: $num\n";
@@ -353,12 +353,12 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 	}
 	close OUT;
 	
-	lock_nstore(\%all_reactions,"BFS_result/storable/all_reactions.storable");
+	lock_nstore(\%all_reactions,"tmp/BFS_result/storable/all_reactions.storable");
 	# return;
 
 	#获取每一个细菌GEM的代谢反应，并分细菌存储
-	mkdir "BFS_result/reaction_of_every_bacteria" unless -e "BFS_result/reaction_of_every_bacteria";
-	mkdir "BFS_result/reaction_of_every_bacteria/storable" unless -e "BFS_result/reaction_of_every_bacteria/storable";
+	mkdir "tmp/BFS_result/reaction_of_every_bacteria" unless -e "tmp/BFS_result/reaction_of_every_bacteria";
+	mkdir "tmp/BFS_result/reaction_of_every_bacteria/storable" unless -e "tmp/BFS_result/reaction_of_every_bacteria/storable";
 	my %bac_reactions; #每一个细菌的代谢反应哈希
 	opendir Dir,$dir;
 	@files=readdir Dir;
@@ -397,26 +397,26 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		close IN;
 		my $reaction_number=keys %{$bac_reactions{$f_name}};
 		print "reaction_number=$reaction_number\n";
-		open OUT,">BFS_result/reaction_of_every_bacteria/$f_name.txt";
+		open OUT,">tmp/BFS_result/reaction_of_every_bacteria/$f_name.txt";
 		print OUT Dumper(%{$bac_reactions{$f_name}});
 		close OUT;
-		lock_nstore(\%{$bac_reactions{$f_name}},"BFS_result/reaction_of_every_bacteria/storable/$f_name.storable");
+		lock_nstore(\%{$bac_reactions{$f_name}},"tmp/BFS_result/reaction_of_every_bacteria/storable/$f_name.storable");
 	}
 	# return;
 	foreach my $bacteria(sort keys %bac_names){
 		print "get reaction info for each bacteria: $bacteria\n";
-		mkdir "BFS_result/reaction_info_for_every_bacteria" unless -e "BFS_result/reaction_info_for_every_bacteria";
-		mkdir "BFS_result/reaction_info_for_every_bacteria/storable" unless -e "BFS_result/reaction_info_for_every_bacteria/storable";
-		mkdir "BFS_result/reaction_info_for_every_bacteria/reaction_info" unless -e "BFS_result/reaction_info_for_every_bacteria/reaction_info";
-		my %bac_reaction_id=%{lock_retrieve("BFS_result/reaction_of_every_bacteria/storable/$bacteria.storable")};
+		mkdir "tmp/BFS_result/reaction_info_for_every_bacteria" unless -e "tmp/BFS_result/reaction_info_for_every_bacteria";
+		mkdir "tmp/BFS_result/reaction_info_for_every_bacteria/storable" unless -e "tmp/BFS_result/reaction_info_for_every_bacteria/storable";
+		mkdir "tmp/BFS_result/reaction_info_for_every_bacteria/reaction_info" unless -e "tmp/BFS_result/reaction_info_for_every_bacteria/reaction_info";
+		my %bac_reaction_id=%{lock_retrieve("tmp/BFS_result/reaction_of_every_bacteria/storable/$bacteria.storable")};
 		my %bac;
 		foreach my $r_id(keys %bac_reaction_id){
 			%{$bac{$r_id}}=%{$all_reactions{$r_id}};
 		}
-		open OUT,">BFS_result/reaction_info_for_every_bacteria/reaction_info/$bacteria.txt";
+		open OUT,">tmp/BFS_result/reaction_info_for_every_bacteria/reaction_info/$bacteria.txt";
 		print OUT Dumper(%bac);
 		close OUT;
-		lock_nstore(\%bac,"BFS_result/reaction_info_for_every_bacteria/storable/$bacteria.storable");
+		lock_nstore(\%bac,"tmp/BFS_result/reaction_info_for_every_bacteria/storable/$bacteria.storable");
 	}
 	# return;
 
@@ -424,9 +424,9 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 	#get_reaction
 	my %all_reactants;
 	my %all_products;
-	mkdir "BFS_result/reaction" unless -e "BFS_result/reaction";
-	mkdir "BFS_result/reaction/reactant" unless -e "BFS_result/reaction/reactant";
-	mkdir "BFS_result/reaction/product" unless -e "BFS_result/reaction/product";
+	mkdir "tmp/BFS_result/reaction" unless -e "tmp/BFS_result/reaction";
+	mkdir "tmp/BFS_result/reaction/reactant" unless -e "tmp/BFS_result/reaction/reactant";
+	mkdir "tmp/BFS_result/reaction/product" unless -e "tmp/BFS_result/reaction/product";
 	opendir Dir,$dir;
 	@files=readdir Dir;
 	@files=sort @files;
@@ -436,11 +436,11 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		my $f_name=$1;
 		next if $new_carve_me_not_bacteria{$f_name};
 		print "get reactant and product for each bacteria: $f_name\n";
-		my %bac_reaction=%{lock_retrieve("BFS_result/reaction_info_for_every_bacteria/storable/$f_name.storable")};
+		my %bac_reaction=%{lock_retrieve("tmp/BFS_result/reaction_info_for_every_bacteria/storable/$f_name.storable")};
 		my %reactants;
 		my %products;
-		open OUT1,">BFS_result/reaction/reactant/$f_name.txt";
-		open OUT2,">BFS_result/reaction/product/$f_name.txt";
+		open OUT1,">tmp/BFS_result/reaction/reactant/$f_name.txt";
+		open OUT2,">tmp/BFS_result/reaction/product/$f_name.txt";
 		foreach my $reaction_id(sort keys %bac_reaction){
 			foreach my $reactant(sort keys %{$bac_reaction{$reaction_id}{'reactant'}}){
 				# 判断产物和摄取物时需要排除EX反应！
@@ -468,23 +468,23 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		close OUT1;
 		close OUT2;
 	}
-	open OUT1,">BFS_result/all_reactants.txt";
-	open OUT2,">BFS_result/all_products.txt";
+	open OUT1,">tmp/BFS_result/all_reactants.txt";
+	open OUT2,">tmp/BFS_result/all_products.txt";
 	foreach my $reactant(keys %all_reactants){
 		print OUT1 "id=$reactant name=$all_reactants{$reactant}{'name'} reaction_id=$all_reactants{$reactant}{'reaction_id'}\n";
 	}
 	foreach my $product(keys %all_products){
 		print OUT2 "id=$product name=$all_products{$product}{'name'} reaction_id=$all_products{$product}{'reaction_id'}\n";
 	}
-	lock_nstore(\%all_reactants,"BFS_result/storable/reactants.storable");
-	lock_nstore(\%all_products,"BFS_result/storable/products.storable");
+	lock_nstore(\%all_reactants,"tmp/BFS_result/storable/reactants.storable");
+	lock_nstore(\%all_products,"tmp/BFS_result/storable/products.storable");
 	# return;
 
 	#获取所有的摄取物
 	#get_intake
-	mkdir "BFS_result/intake" unless -e "BFS_result/intake";
-	mkdir "BFS_result/secretion" unless -e "BFS_result/secretion";
-	my $dir2="BFS_result/reaction/reactant";
+	mkdir "tmp/BFS_result/intake" unless -e "tmp/BFS_result/intake";
+	mkdir "tmp/BFS_result/secretion" unless -e "tmp/BFS_result/secretion";
+	my $dir2="tmp/BFS_result/reaction/reactant";
 	opendir DIR2,$dir2;
 	@files=readdir DIR2;
 	my %all_intakes;
@@ -496,7 +496,7 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		next if $new_carve_me_not_bacteria{$f_name};
 		next unless ($bac_names{$f_name} and $bac_names{$f_name}==1);
 		my %intakes;
-		open IN,"<BFS_result/reaction/reactant/$file"; #遍历已经找到的所有代谢反应的反应物信息
+		open IN,"<tmp/BFS_result/reaction/reactant/$file"; #遍历已经找到的所有代谢反应的反应物信息
 		while(<IN>){
 			chomp;
 			$_=~ /id=(.*?) name=(.*?) reaction_id=(.*?)$/;
@@ -507,26 +507,26 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 			$all_intakes{$metabolites{$id}{'name'}}{'bacteria'}{$f_name}="" if $id=~ /_e$/;
 		}
 		$file=~ /^(.*?)\.txt/;
-		open OUT,">BFS_result/intake/$1.txt";
+		open OUT,">tmp/BFS_result/intake/$1.txt";
 		foreach my $intake(keys %intakes){
 			print OUT "$intake\n";
 		}
 		close OUT;
 	}
-	open OUT,">BFS_result/all_intake_names.txt";
+	open OUT,">tmp/BFS_result/all_intake_names.txt";
 	foreach my $intake(keys %all_intakes){
 		print OUT "$intake\n";
 	}
 	close OUT;
-	open OUT,">BFS_result/all_intake_with_bacteria.txt";
+	open OUT,">tmp/BFS_result/all_intake_with_bacteria.txt";
 	# print Dumper(%all_intakes);
 	close OUT;
-	lock_nstore(\%all_intakes,"BFS_result/storable/all_intake_with_bacteria.storable");
+	lock_nstore(\%all_intakes,"tmp/BFS_result/storable/all_intake_with_bacteria.storable");
 	# return;
 
 	#获取所有的分泌物
 	#get_secretion
-	my $dir3="BFS_result/reaction/product";
+	my $dir3="tmp/BFS_result/reaction/product";
 	opendir DIR3,$dir3;
 	@files=readdir DIR3;
 	my %all_secretions;
@@ -537,10 +537,10 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		next if $new_carve_me_not_bacteria{$f_name};
 		next unless ($bac_names{$f_name} and $bac_names{$f_name}==1);
 		print "$file\n";
-		my %bac_reaction=%{lock_retrieve("BFS_result/reaction_info_for_every_bacteria/storable/$f_name.storable")};
+		my %bac_reaction=%{lock_retrieve("tmp/BFS_result/reaction_info_for_every_bacteria/storable/$f_name.storable")};
 		my %secretions;
 		my %real_secretions;
-		open IN,"<BFS_result/reaction/product/$file";
+		open IN,"<tmp/BFS_result/reaction/product/$file";
 		while(<IN>){ #遍历的是已经找到的所有代谢反应的产物
 			chomp;
 			$_=~ /id=(.*?) name=(.*?) reaction_id=(.*?)$/;
@@ -578,7 +578,7 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 			}
 		}
 		$file=~ /^(.*?)\.txt/;
-		open OUT,">BFS_result/secretion/$1.txt";
+		open OUT,">tmp/BFS_result/secretion/$1.txt";
 		foreach my $secretion(keys %real_secretions){
 			print OUT "$secretion\n";
 		}
@@ -587,23 +587,23 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		print "$1 secretion_number=$secretion_number\n";
 	}
 	# return;
-	open OUT,">BFS_result/all_secretion_names.txt";
+	open OUT,">tmp/BFS_result/all_secretion_names.txt";
 	foreach my $secretion(keys %all_secretions){
 		print OUT "$secretion\n";
 	}
 	close OUT;
-	open OUT,">BFS_result/all_secretion_with_bacteria.txt";
+	open OUT,">tmp/BFS_result/all_secretion_with_bacteria.txt";
 	print OUT Dumper(%all_secretions);
 	close OUT;
-	lock_nstore(\%all_secretions,"BFS_result/storable/all_secretion_with_bacteria.storable");
+	lock_nstore(\%all_secretions,"tmp/BFS_result/storable/all_secretion_with_bacteria.storable");
 	# return;
 
 	#获取每一个细菌的所有摄取物和分泌物
 	#get_intake_and_secretion_of_every_bacteria
-	mkdir "BFS_result/intake_and_secretion_of_every_bacteria" unless -e "BFS_result/intake_and_secretion_of_every_bacteria";
-	mkdir "BFS_result/intake_and_secretion_of_every_bacteria/storable" unless -e "BFS_result/intake_and_secretion_of_every_bacteria/storable";
+	mkdir "tmp/BFS_result/intake_and_secretion_of_every_bacteria" unless -e "tmp/BFS_result/intake_and_secretion_of_every_bacteria";
+	mkdir "tmp/BFS_result/intake_and_secretion_of_every_bacteria/storable" unless -e "tmp/BFS_result/intake_and_secretion_of_every_bacteria/storable";
 	my %bac;
-	my $product_dir="BFS_result/reaction/product";
+	my $product_dir="tmp/BFS_result/reaction/product";
 	opendir DIR,$product_dir;
 	@files=readdir DIR;
 	my $num=0;
@@ -611,7 +611,7 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		next if $file=~ /^\./;
 		$num++;
 		my %secretions;
-		open IN,"<BFS_result/reaction/product/$file";
+		open IN,"<tmp/BFS_result/reaction/product/$file";
 		$file=~ /^(.*?)\.txt/;
 		my $bac_name=$1;
 		next if $new_carve_me_not_bacteria{$bac_name};
@@ -628,7 +628,7 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 	}
 	closedir DIR;
 	$num=0;
-	my $reactant_dir="BFS_result/reaction/reactant";
+	my $reactant_dir="tmp/BFS_result/reaction/reactant";
 	opendir DIR,$reactant_dir;
 	@files=readdir DIR;
 	foreach my $file(sort @files){
@@ -636,7 +636,7 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 		$num++;
 		print "$num\n" if $num%100==0;
 		my %intakes;
-		open IN,"<BFS_result/reaction/reactant/$file";
+		open IN,"<tmp/BFS_result/reaction/reactant/$file";
 		$file=~ /^(.*?)\.txt/;
 		my $bac_name=$1;
 		next if $new_carve_me_not_bacteria{$bac_name};
@@ -650,15 +650,15 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 			$bac{$bac_name}{'intake'}{$id}{'reaction_id'}=$reaction_id if $id=~ /_e$/;
 		}
 	}
-	open OUT,">BFS_result/intake_and_secretion_of_every_bacteria.txt";
+	open OUT,">tmp/BFS_result/intake_and_secretion_of_every_bacteria.txt";
 	print OUT Dumper(%bac);
 	close OUT;
-	lock_nstore(\%bac,"BFS_result/storable/intake_and_secretion_of_every_bacteria.storable");
+	lock_nstore(\%bac,"tmp/BFS_result/storable/intake_and_secretion_of_every_bacteria.storable");
 	foreach my $bacteria(sort keys %bac){
-		open OUT,">BFS_result/intake_and_secretion_of_every_bacteria/$bacteria.txt";
+		open OUT,">tmp/BFS_result/intake_and_secretion_of_every_bacteria/$bacteria.txt";
 		print OUT Dumper(%{$bac{$bacteria}});
 		close OUT;
-		lock_nstore(\%{$bac{$bacteria}},"BFS_result/intake_and_secretion_of_every_bacteria/storable/$bacteria.storable");
+		lock_nstore(\%{$bac{$bacteria}},"tmp/BFS_result/intake_and_secretion_of_every_bacteria/storable/$bacteria.storable");
 	}
 	# return;
 }
@@ -666,8 +666,8 @@ sub new_carve_me_read_and_analyze_specific_bacteria_gem{
 
 #寻找从摄取物到分泌物的代谢通路
 sub new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria{
-	my %bac_names=%{lock_retrieve("BFS_result/storable/bacteria_names.storable")};
-	mkdir "BFS_result/path_from_secretion_to_intake" unless -e "BFS_result/path_from_secretion_to_intake";
+	my %bac_names=%{lock_retrieve("tmp/BFS_result/storable/bacteria_names.storable")};
+	mkdir "tmp/BFS_result/path_from_secretion_to_intake" unless -e "tmp/BFS_result/path_from_secretion_to_intake";
 	my %path;
 	my %path_intake_to_media;
 
@@ -675,9 +675,9 @@ sub new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria{
 	foreach my $bac(sort keys %bac_names){
 		next if $bac eq "Recon3D";
 		print "$bac\n";
-		my %bac_reaction=%{lock_retrieve("BFS_result/reaction_info_for_every_bacteria/storable/$bac.storable")}; #读取细菌代谢反应哈希
+		my %bac_reaction=%{lock_retrieve("tmp/BFS_result/reaction_info_for_every_bacteria/storable/$bac.storable")}; #读取细菌代谢反应哈希
 		my %product_to_reactant; 
-		my %bac_metabolite=%{lock_retrieve("BFS_result/intake_and_secretion_of_every_bacteria/storable/$bac.storable")}; #读取细菌代谢物哈希
+		my %bac_metabolite=%{lock_retrieve("tmp/BFS_result/intake_and_secretion_of_every_bacteria/storable/$bac.storable")}; #读取细菌代谢物哈希
 		# return;
 		my %bac_meta_name; #获取细菌的所有代谢物名称和id
 		foreach my $meta_id(keys %bac_metabolite){
@@ -700,7 +700,7 @@ sub new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria{
 			my $secretion_name=$bac_secretion{$secretion}{'name'};
 			$sec_name{$secretion_name}=1;
 		} 
-		open OUT,">BFS_result/path_from_secretion_to_intake/$bac.txt";
+		open OUT,">tmp/BFS_result/path_from_secretion_to_intake/$bac.txt";
 		foreach my $reaction_id(keys %bac_reaction){ #建立由代谢反应产物->代谢反应反应物的映射
 			foreach my $product(keys %{$bac_reaction{$reaction_id}{'product'}}){
 				next unless $bac_reaction{$reaction_id}{'product'}{$product}{'name'};
@@ -788,14 +788,14 @@ sub new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria{
 		}
 		close OUT;
 	}
-	open OUT,">BFS_result/path_from_secretion_to_intake.txt";
+	open OUT,">tmp/BFS_result/path_from_secretion_to_intake.txt";
 	print OUT Dumper(%path);
 	close OUT;
-	open OUT,">BFS_result/path_from_intake_to_media.txt";
+	open OUT,">tmp/BFS_result/path_from_intake_to_media.txt";
 	print OUT Dumper(%path_intake_to_media);
 	close OUT;
-	lock_nstore(\%path,"BFS_result/storable/path_from_secretion_to_intake.storable");
-	lock_nstore(\%path_intake_to_media,"BFS_result/storable/path_from_intake_to_media.storable");
+	lock_nstore(\%path,"tmp/BFS_result/storable/path_from_secretion_to_intake.storable");
+	lock_nstore(\%path_intake_to_media,"tmp/BFS_result/storable/path_from_intake_to_media.storable");
 }
 
 #按照代谢目标，筛选细菌组合
@@ -803,9 +803,9 @@ sub new_carve_me_analyze_path_result{
 	my $target=shift @_; #目标物质
 	my $intermediate=shift @_; #代谢衔接物
 	my $csource=shift @_; #碳源
-	my %path=%{lock_retrieve("BFS_result/storable/path_from_secretion_to_intake.storable")}; #之前对每一种细菌获取的分泌物到摄取物的路径
+	my %path=%{lock_retrieve("tmp/BFS_result/storable/path_from_secretion_to_intake.storable")}; #之前对每一种细菌获取的分泌物到摄取物的路径
 	my %result;
-	#my %bac_id_to_name=%{lock_retrieve("BFS_result/storable/bac_id_to_name.storable")}; 
+	#my %bac_id_to_name=%{lock_retrieve("tmp/BFS_result/storable/bac_id_to_name.storable")}; 
 	$result{'target'}{'name'}=$target;
 	$result{'intermediate'}{'name'}=$intermediate;
 	#寻找从代谢衔接物到目标物质的细菌
@@ -843,21 +843,21 @@ sub new_carve_me_analyze_path_result{
 		}
 	}
 	print Dumper(%result);
-	open OUT,">BFS_result/$target\_$intermediate\_$csource.txt";
+	open OUT,">tmp/BFS_result/$target\_$intermediate\_$csource.txt";
 	print OUT Dumper(%result);
 }
 
 sub new_carve_me_find_all_secretion_can_be_synthesized_from_specific_intermediate_csource{ #寻找可以上述物质为碳源合成的所有产物及相应细菌
 	my @csources=@{shift @_}; #获取碳源列表
 	my %path;
-	%path=%{lock_retrieve("BFS_result/storable/path_from_secretion_to_intake.storable")}; #从分泌物到摄取物的路径及可以实现转化的细菌列表
-	mkdir "BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource" unless -e "BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource";
-	my %intake_with_bac=%{lock_retrieve("BFS_result/storable/all_intake_with_bacteria.storable")}; #可以摄取特定物质的细菌列表
+	%path=%{lock_retrieve("tmp/BFS_result/storable/path_from_secretion_to_intake.storable")}; #从分泌物到摄取物的路径及可以实现转化的细菌列表
+	mkdir "tmp/BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource" unless -e "tmp/BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource";
+	my %intake_with_bac=%{lock_retrieve("tmp/BFS_result/storable/all_intake_with_bacteria.storable")}; #可以摄取特定物质的细菌列表
 	foreach my $csource(@csources){ #对每一个碳源分别遍历
 		my %result;
 		print "$csource\n";
-		open OUT,">BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource/$csource.txt";
-		open OUT2,">BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource/$csource\_with_bacteria.txt";
+		open OUT,">tmp/BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource/$csource.txt";
+		open OUT2,">tmp/BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource/$csource\_with_bacteria.txt";
 		foreach my $bac(sort keys %{$intake_with_bac{$csource}{'bacteria'}}){ #遍历所有可以摄取该物质的细菌
 			foreach my $target(keys %{$path{$bac}}){ #该细菌可以合成的所有目标物质
 				foreach my $intake(sort keys %{$path{$bac}{$target}{'intake'}}){ #如果该细菌合成该目标物质所使用的碳源与列表中的碳源一致
@@ -874,7 +874,7 @@ sub new_carve_me_find_all_secretion_can_be_synthesized_from_specific_intermediat
 		}
 		close OUT;
 		close OUT2;
-		open OUT,">BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource/$csource.csv";
+		open OUT,">tmp/BFS_result/all_secretion_can_be_synthesized_from_specific_intermediate_csource/$csource.csv";
 		foreach my $target(sort keys %result){
 			print OUT "$target\n";
 			foreach my $bac(sort keys %{$result{$target}{'bacteria'}}){
@@ -889,9 +889,9 @@ sub new_carve_me_find_all_secretion_can_be_synthesized_from_specific_intermediat
 sub new_carve_me_find_bacteria_can_produce_with_csource{ #寻找可以用特定碳源合成上述物质的细菌
 	my @targets=@{shift @_}; #目标物质
 	my $csource=shift @_; #碳源
-	my %path=%{lock_retrieve("BFS_result/storable/path_from_secretion_to_intake.storable")}; #从分泌物到摄取物的路径及可以实现转化的细菌列表
+	my %path=%{lock_retrieve("tmp/BFS_result/storable/path_from_secretion_to_intake.storable")}; #从分泌物到摄取物的路径及可以实现转化的细菌列表
 	my %result;
-	my %bac_id_to_name=%{lock_retrieve("BFS_result/storable/bac_id_to_name.storable")};
+	my %bac_id_to_name=%{lock_retrieve("tmp/BFS_result/storable/bac_id_to_name.storable")};
 	foreach my $target(@targets){ #遍历目标物质
 		foreach my $bac(sort keys %path){ #遍历路径中的每一种细菌
 			my $bac_name=$bac;
@@ -920,15 +920,15 @@ sub new_carve_me_deep_analysis_of_bacteria_internal_pathways_and_link_target_sec
 	print "$target_intake\n";
 	print "$target_secretion\n";
 	print "$bac_name\n";
-	my %metabolite=%{lock_retrieve("BFS_result/storable/metabolite.storable")};
-	my %secretion_and_intake=%{lock_retrieve("BFS_result/intake_and_secretion_of_every_bacteria/storable/$bac_name.storable")};
+	my %metabolite=%{lock_retrieve("tmp/BFS_result/storable/metabolite.storable")};
+	my %secretion_and_intake=%{lock_retrieve("tmp/BFS_result/intake_and_secretion_of_every_bacteria/storable/$bac_name.storable")};
 	my %intake=%{$secretion_and_intake{'intake'}};
 	foreach my $intake(keys %intake){
 		$intake{$metabolite{$intake}{'name'}}=1;
 	}
-	mkdir "BFS_result/reactant_and_product" unless -e "BFS_result/reactant_and_product";
-	mkdir "BFS_result/reactant_and_product/storable" unless -e "BFS_result/reactant_and_product/storable";
-	my %bac_reaction=%{lock_retrieve("BFS_result/reaction_info_for_every_bacteria/storable/$bac_name.storable")};
+	mkdir "tmp/BFS_result/reactant_and_product" unless -e "tmp/BFS_result/reactant_and_product";
+	mkdir "tmp/BFS_result/reactant_and_product/storable" unless -e "tmp/BFS_result/reactant_and_product/storable";
+	my %bac_reaction=%{lock_retrieve("tmp/BFS_result/reaction_info_for_every_bacteria/storable/$bac_name.storable")};
 	my %reactant_to_product;
 	foreach my $reaction_id(keys %bac_reaction){
 		my $reaction_name=$bac_reaction{$reaction_id}{'reaction_name'};
@@ -970,10 +970,10 @@ sub new_carve_me_deep_analysis_of_bacteria_internal_pathways_and_link_target_sec
 	foreach my $product(keys %add_reaction){
 		$reactant_to_product{$add_reaction{$product}}{'product'}{$product}{'reaction'}{'add_reaction'}="";
 	}
-	open OUT,">BFS_result/reactant_and_product/$bac_name\_link_reactant_to_product.txt";
+	open OUT,">tmp/BFS_result/reactant_and_product/$bac_name\_link_reactant_to_product.txt";
 	print OUT Dumper(%reactant_to_product);
 	close OUT;
-	lock_nstore(\%reactant_to_product,"BFS_result/reactant_and_product/storable/$bac_name\_link_reactant_to_product.storable");
+	lock_nstore(\%reactant_to_product,"tmp/BFS_result/reactant_and_product/storable/$bac_name\_link_reactant_to_product.storable");
 	my %product_to_reactant;
 	foreach my $reaction_id(sort keys %bac_reaction){
 		my $reactant_number=keys %{$bac_reaction{$reaction_id}{'reactant'}};
@@ -1015,10 +1015,10 @@ sub new_carve_me_deep_analysis_of_bacteria_internal_pathways_and_link_target_sec
 	foreach my $product(keys %add_reaction){
 		$product_to_reactant{$product}{'reactant'}{$add_reaction{$product}}{'reaction'}{'add_reaction'}="";
 	}
-	open OUT,">BFS_result/reactant_and_product/$bac_name\_link_product_to_reactant.txt";
+	open OUT,">tmp/BFS_result/reactant_and_product/$bac_name\_link_product_to_reactant.txt";
 	print OUT Dumper(%product_to_reactant);
 	close OUT;
-	lock_nstore(\%product_to_reactant,"BFS_result/reactant_and_product/storable/$bac_name\_link_product_to_reactant.storable");
+	lock_nstore(\%product_to_reactant,"tmp/BFS_result/reactant_and_product/storable/$bac_name\_link_product_to_reactant.storable");
 
 	my @arr;
 	my %path;

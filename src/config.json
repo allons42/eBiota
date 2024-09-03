@@ -1,5 +1,5 @@
 {
-    "suffix": "xml", 
+    "suffix": ".xml",
     "path_GEM": "GEM",
     "path_rewrite": "rewrite_GEM",
     "path_output": "result",
@@ -10,6 +10,12 @@
     "prune": true,
     "substrate": "glc__D_e",
     "intermediate": "default",
-    "product": "h2_e"
-    
+    "product": "h2_e",
+    "community_size": 2,
+    "knockout": false,
+    "USE_CUDA": true,
+    "CUDA_VISIBLE_DEVICES": "2",
+    "feature_index_type": "moreReacFeature",
+    "data_taxa_type": "gcf",
+    "dl_model_path": "../data/model_file/model_weights.pth"
 }

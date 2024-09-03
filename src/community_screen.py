@@ -34,8 +34,9 @@ def same_gem(gcf1, gcf2):
 
 
 def save_rxn_id(f):
-    gem = cobra.io.read_sbml_model(os.path.join(config, f))
+    gem = cobra.io.read_sbml_model(os.path.join(config["path_GEM"], f))
     rxn = set([r.id for r in gem.reactions])
+    print("saving reaction id at", f"{mem_path}{f.split('.xml')[0]}.pkl")
     with open(f"{mem_path}{f.split('.xml')[0]}.pkl", "wb") as fout:
         pickle.dump(rxn, fout)
 
@@ -59,7 +60,7 @@ def unique():
     pool.join() # wait for all child processes to finish
 
     # remove similar gems in each path
-    for k,v in tqdm(bac_good.items()):
+    for k,v in tqdm(bac_good.items(), desc="remove similar gems in each path"):
         new_list = [v[0]]
         bid, newid = 0, 1
         for gcf,growth,prod in v[1:]: # examine each bacteria

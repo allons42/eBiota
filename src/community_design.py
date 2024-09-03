@@ -152,16 +152,24 @@ def FBA(names, gem, biomass_func, interests):
 
 
 def coculture(pair, medium, O2_bool, glucose_bool, rxn_in, rxn_out, intermediate):
-    a = read_gem(pair[0], medium=medium, o2=O2_bool, glc=glucose_bool)
-    b = read_gem(pair[1], medium=medium, o2=O2_bool, glc=glucose_bool)
-    if a is None or b is None:
-        return None
-    names = [a.id, b.id]
-    gem, biomass_func = merge_model(names, [a,b])
+    GEMs = []
+    for x in pair:
+        gem = read_gem(x, medium=medium, o2=O2_bool, glc=glucose_bool)
+        if gem is None:
+            return None
+        GEMs.append(gem)
+    
+    single = []
+    for gem in GEMs:
+        single.append(gem.optimize().objective_value)
+    names = [gem.id for gem in GEMs]
+    gem, biomass_func = merge_model(names, GEMs)
     gem.reactions.get_by_id(rxn_in).lower_bound = -10
     oneres = FBA(names, gem, biomass_func, [rxn_in, rxn_out])
     if oneres:
         oneres["intermediate"] = intermediate
+        for i in range(len(pair)):
+            oneres[f"Bac{i+1}_single_growth"] = single[i]
     else:
         with open(config["ERR_LOG"], "a") as err:
             err.write(f"Infeasible: {rxn_in[3:]}, {rxn_out[3:]}, {O2_bool}, {glucose_bool}, {pair}\n")
@@ -243,8 +251,8 @@ def run_community_design():
                 all_res.append(oneres)
         
         res_sorted = sorted(all_res, key=lambda x: x[rxn_out+"_1"]*x["Growth1"]+x[rxn_out+"_2"]*x["Growth2"], reverse=True)
-        fout = open(f"{root_output}{substrate}__to__{product}__{O2}__{glucose}.txt", "w")
-        fout.write(f"Bac1\tBac2\tGrowth1\tGrowth2\tintermediate\t{rxn_in}_1\t{rxn_in}_2\tglucose_absorption_1\tglucose_absorption_2\t{rxn_out}_1\t{rxn_out}_2\tcross_feeding_forward\tcross_feeding_reverse\n")
+        fout = open(os.path.join(root_output, f"{substrate}__to__{product}__{O2}__{glucose}.txt"), "w")
+        fout.write(f"Bac1\tBac2\tGrowth1\tGrowth2\tintermediate\t{rxn_in}_1\t{rxn_in}_2\tglucose_absorption_1\tglucose_absorption_2\t{rxn_out}_1\t{rxn_out}_2\tcross_feeding_forward\tcross_feeding_reverse\tBac1_single_growth\tBac2_single_growth\n")
         for tmp_d in res_sorted:
             fout.write(tmp_d["Bac1"] + "\t")
             fout.write(tmp_d["Bac2"] + "\t")
@@ -265,6 +273,8 @@ def run_community_design():
             for k,v in tmp_d["cross21"].items():
                 fout.write(f",{k}:{round(v,8)+0.0:.8f}")
                 
+            fout.write(f"{round(tmp_d['Bac1_single_growth'],8)+0.0:.8f}\t") 
+            fout.write(f"{round(tmp_d['Bac2_single_growth'],8)+0.0:.8f}\t")
             fout.write("\n")
         fout.close()
         with open(FBA_LOG, "a") as log:

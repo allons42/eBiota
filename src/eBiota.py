@@ -1,16 +1,14 @@
-import os
-import sys
-import json
-import pandas as pd
 import argparse
-from tqdm import tqdm
 import subprocess
+import os
+import shutil
 
-from parse_path import trans
-from eBiota_utils import rewrite
+from parse_path import translate_path
+from eBiota_utils import rewrite, config, update_config
 from pre_evaluate import run_evaluate
 from community_screen import get_combination
 from community_design import run_community_design
+# from community_check import DeepCooc
 
 __author__ = "Jiaheng Hou, Haoyu Zhang, Yulin Liao"
 __copyright__ = "Copyright (c) 2024 Zhulab"
@@ -28,13 +26,7 @@ def parse_arg():
     )
     
     args.add_argument(
-        "--input_csv",
-        default=None,
-        type=str,
-        help="Path to csv file with all parameters ebiota may need."
-    )
-    args.add_argument(
-        "--output",
+        "--outdir",
         default=None,
         type=str,
         help="Path of the output root."
@@ -42,15 +34,11 @@ def parse_arg():
     args = args.parse_args()
     return args
 
-def main_production_target():
-    # 用户给定底物+产物，设计菌群
-    pass
 
 def main(args):
     function_mode = args.Function
-    with open('config.json', 'r') as file:
-        config = json.load(file)
-    if args.Function=="design":
+    if function_mode == "design":
+        print("Start to analyze the input GEMs...")
         cmd = "perl find_path.pl " +  config["path_GEM"]
         suc = subprocess.call(cmd, shell=True)
         if suc == 0:
@@ -59,14 +47,29 @@ def main(args):
             print("An error occurred in CoreBFS. Please check the parameters!")
             return
         
-        trans()
+        translate_path()
+        print("All path detected! Start to evaluate the GEMs...")
+
         rewrite()
         run_evaluate()
+        print("Evaluation completed! Start to build communities...")
+
+        get_combination()
+        run_community_design()
+        #DeepCooc()
+        print("All done!")
+    
+    if args.Function == "test":
         get_combination()
         run_community_design()
 
-
 if __name__ == "__main__":
     args = parse_arg()
+    update_config(args)
+    """
+    if os.path.exists("tmp"):
+        shutil.rmtree("tmp")
+    os.mkdir("tmp")
+    """
     main(args)
     

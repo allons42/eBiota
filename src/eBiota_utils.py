@@ -1,19 +1,45 @@
-import re
 import os
-import time
-import copy
 import json
 import cobra
 import pandas as pd
 from tqdm import tqdm
 import pickle
-import seaborn as sns
-import numpy as np
-from multiprocessing import Pool
-import matplotlib.pyplot as plt
 
-with open('config.json', 'r') as file:
-    config = json.load(file)
+def read_and_check_config():
+    # read config file
+    with open('config.json', 'r') as file:
+        config = json.load(file)
+
+    # check the format of config
+    if config["suffix"] not in [".xml.gz", ".xml"]:
+        print("suffix should be .xml or .xml.gz")
+        exit()
+    if not os.path.exists(config["path_GEM"]):
+        print(f"path_GEM {config['path_GEM']} not found")
+        exit()
+    if os.path.exists(config["path_output"]):
+        print("Output directory already exists. Please check the output directory.")
+        exit()
+    if not os.path.exists(config["medium"]):
+        print("medium not found")
+        exit()
+    if type(config["max_proc"]) != int or config["max_proc"] < 1:
+        print("max_proc should be a positive integer")
+        exit()
+    if type(config["prune"]) != bool:
+        print("prune should be a boolean, true or false")
+        exit()
+    
+    return config
+
+config = read_and_check_config()
+
+def update_config(arg):
+    if arg.outdir:
+        config["path_output"] = arg.outdir
+
+    with open('config.json', 'w') as f:
+        json.dump(config, f, indent=4)
 
 
 # 获取培养基，返回一个字典
@@ -26,7 +52,7 @@ def get_metabolites_list(medium="Basic"):
         "ASF": "ASF_medium"}
     
     df = pd.read_csv(f"stats/{medium_file[medium]}.csv", sep=",")
-    basic =  {key:values for key, values in zip(df['id'], df['maxFlux'])}
+    basic = {key:values for key, values in zip(df['id'], df['maxFlux'])}
     return basic
 
 # read start and linker metabolites
@@ -62,12 +88,16 @@ def rewrite():
     root_old = config["path_GEM"]
     root_new = config["path_rewrite"]
     suffix = config["suffix"]
+    if not os.path.exists(root_new):
+        os.mkdir(root_new)
 
     files = os.listdir(root_old)
     files = [x for x in files if x.endswith(suffix)]
     
     for file in tqdm(files, desc="rewriting GEMs for community design"):
-        gem = cobra.io.read_sbml_model(root_old + file)
+        if os.path.exists(os.path.join(root_new, file)):
+            continue
+        gem = cobra.io.read_sbml_model(os.path.join(root_old, file))
         ID = gem.id
         for x in gem.metabolites:
             if x.id[-1]!='e':
@@ -80,8 +110,7 @@ def rewrite():
         #    x.id = ID + '_' + x.id
         
         gem.repair()
-        cobra.io.write_sbml_model(gem, root_new + file)
-    return
+        cobra.io.write_sbml_model(gem, os.path.join(root_new, file))
 
 
 def get_good_bacteria(pkl=None):
@@ -116,7 +145,6 @@ def get_good_bacteria(pkl=None):
     return bac_good
 
 
-
 # return: gem
 def read_gem(file, medium=None, o2=True, glc=True):
     try:
@@ -144,9 +172,10 @@ def read_gem(file, medium=None, o2=True, glc=True):
 # 参数：GEM_path（根路径），names（所有GEM文件名的列表），suffix（后缀为.xml或.xml.gz）
 #     若设定培养基，需要指定medium，O2，glucose，medium=None的情况下默认包括所有物质
 # 返回值：合并后的model，各菌biomass function的id
-def merge_model(GEM_path, names, suffix=".xml.gz", medium=None, O2=True, glucose=True, base_threshold=0.1):
+def merge_model(GEM_path, names, medium=None, O2=True, glucose=True, base_threshold=0.1):
     GEM = []
     sing = []
+    suffix = config["suffix"]
     for name in names:
         try:
             GEM.append(read_gem(os.path.join(GEM_path, name+suffix), medium, o2=O2, glc=glucose))
@@ -196,36 +225,6 @@ def merge_model(GEM_path, names, suffix=".xml.gz", medium=None, O2=True, glucose
     
     return new_model, biomass_func
 
-# sim: comets structure
-# n: 共培养的细菌种类数
-# file_names: 长度为n的list，指定输出文件名    
-# example: print_fluxes(sim,2)
-def print_fluxes(sim,n,file_names=None):
-    if file_names == None:
-        file_names = []
-        for i in range(n):
-            file_names.append("fluxes_%d.csv"%i)
-            
-    for bac in range(n):
-        fout = open(file_names[bac],"w")
-        keys = ["REACTION_NAMES","ID","LB","UB","EXCH","EXCH_IND","V_MAX","KM","HILL"]
-        rxn_num = sim.layout.models[bac].reactions.shape[0]
-        cycles = sim.fluxes.shape[0] // n
-        fout.write("REACTION_NAMES,ID,LB,UB,EXCH,EXCH_IND,V_MAX,KM,HILL,")
-        
-        for i in range(cycles):
-            fout.write("cycle "+str(i)+",")
-        fout.write("\n")
-        
-        for i in range(rxn_num):
-            for j in range(9):
-                fout.write(str(sim.layout.models[bac].reactions[keys[j]][i]) + ",")
-            for j in range(cycles):
-                fout.write(str(sim.fluxes[i+4][j*n+bac]) + ",")
-            fout.write("\n")
-        
-        fout.close()
-        
 
 # draw phase plane
 # GEM: cobra格式代谢模型
@@ -237,7 +236,7 @@ def print_fluxes(sim,n,file_names=None):
 # labels: 自定义标题和横轴纵轴名称
 # extra_points: [x,y,text], 三个list组成的list，用来标记额外点
 # example: draw_phase_plane(Se, "BIOMASS__1", "EX_sucr_e")
-def draw_phase_plane(GEM, rxn1, rxn2, ref = [0.001, 0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.5, 2, 3.3, 10, 1000], relative_ref = True, axis_lim = True, max_point = True, labels = None, extra_points=None):
+def draw_phase_plane(GEM, rxn1, rxn2, ref=[0.001, 0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.5, 2, 3.3, 10, 1000], relative_ref=True, axis_lim=True, max_point=True, labels=None, extra_points=None):
     from cobra import Metabolite
     mu = Metabolite(
         'mu_c',
