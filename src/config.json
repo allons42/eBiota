@@ -1,0 +1,15 @@
+{
+    "suffix": "xml", 
+    "path_GEM": "GEM",
+    "path_rewrite": "rewrite_GEM",
+    "path_output": "result",
+    "medium": "stats/BasicLB_medium.csv",
+    "ERR_LOG": "errorLog.txt",
+    "LOG": "Log.txt",
+    "max_proc": 10,
+    "prune": true,
+    "substrate": "glc__D_e",
+    "intermediate": "default",
+    "product": "h2_e"
+    
+}

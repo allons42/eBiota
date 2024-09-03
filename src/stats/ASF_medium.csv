@@ -1,0 +1,74 @@
+,SEED Compound,concentrations,minflux,maxflux,name,source,reason,molar_mass,mass_per_liter,mass_per_liter_upper_bound,concentration,maxFlux,id
+0,cpd00001,0.001,-100,100,H2O,water,,,,,inf,1000.0,h2o_e
+1,cpd00009,0.001,-100,100,Phosphate,mineral,,,,,,5.0,pi_e
+2,cpd00018,0.001,-100,100,AMP,yeast extract,,346.0,,7.5,,0.1,amp_e
+3,cpd00023,0.001,-100,100,L-Glutamate,tryptone,,146.0,0.75,15.0,109.5,5.0,glu__L_e
+4,cpd00027,0.001,-100,100,D-Glucose,yeast extract,"Glucose was not supplemented, assume trace from yeast extract",180.0,,7.5,,0.1,glc__D_e
+5,cpd00028,0.001,-100,100,Heme,hemin,Hemin is just heme with a Cl- bound to the Fe core of heme.,614.0,0.5,0.5,0.000814332,0.8,pheme_e
+6,cpd00030,0.001,-100,100,Mn2+,yeast extract,,,,7.5,,0.1,mn2_e
+7,cpd00033,0.001,-100,100,Glycine,tryptone,,75.0,0.75,15.0,0.2,5.0,gly_e
+8,cpd00034,0.001,-100,100,Zn2+,yeast extract,,,,7.5,,0.1,zn2_e
+9,cpd00035,0.001,-100,100,L-Alanine,tryptone,,89.0,0.75,15.0,,5.0,ala__L_e
+10,cpd00039,0.001,-100,100,L-Lysine,tryptone,,147.0,0.75,15.0,,5.0,lys__L_e
+11,cpd00041,0.001,-100,100,L-Aspartate,tryptone,,132.0,0.75,15.0,,5.0,asp__L_e
+12,cpd00046,0.001,-100,100,CMP,yeast extract,,322.0,,7.5,,0.1,cmp_e
+13,cpd00048,0.001,-100,100,Sulfate,mineral,,,,,,5.0,so4_e
+14,cpd00051,0.001,-100,100,L-Arginine,tryptone,,175.0,0.75,15.0,,5.0,arg__L_e
+15,cpd00054,0.001,-100,100,L-Serine,tryptone,,105.0,0.75,15.0,,5.0,ser__L_e
+16,cpd00058,0.001,-100,100,Cu2+,yeast extract,,,,7.5,,0.1,cu2_e
+17,cpd00060,0.001,-100,100,L-Methionine,tryptone,,149.0,0.75,15.0,,5.0,met__L_e
+18,cpd00063,0.001,-100,100,Ca2+,mineral,,,,,,5.0,ca2_e
+19,cpd00065,0.001,-100,100,L-Tryptophan,tryptone,,204.0,0.75,15.0,,5.0,trp__L_e
+20,cpd00066,0.001,-100,100,L-Phenylalanine,tryptone,,165.0,0.75,15.0,,5.0,phe__L_e
+21,cpd00067,0.001,-100,100,H+,water,,,,,,5.0,h_e
+22,cpd00069,0.001,-100,100,L-Tyrosine,tryptone,,181.0,0.75,15.0,,5.0,tyr__L_e
+23,cpd00084,0.001,-100,100,L-Cysteine,"tryptone, cysteine",,121.0,1.1,15.0,,5.0,cys__L_e
+24,cpd00091,0.001,-100,100,UMP,yeast extract,,323.0,,7.5,,0.1,ump_e
+25,cpd00092,0.001,-100,100,Uracil,yeast extract,,112.0,,7.5,,0.1,ura_e
+26,cpd00099,0.001,-100,100,Cl-,mineral,,,,,,5.0,cl_e
+27,cpd00107,0.001,-100,100,L-Leucine,tryptone,,131.0,0.75,15.0,,5.0,leu__L_e
+28,cpd00119,0.001,-100,100,L-Histidine,tryptone,,155.0,0.75,15.0,,5.0,his__L_e
+29,cpd00126,0.001,-100,100,GMP,yeast extract,,362.0,,7.5,,0.1,gmp_e
+30,cpd00129,0.001,-100,100,L-Proline,tryptone,,114.0,0.75,15.0,,5.0,pro__L_e
+31,cpd00149,0.001,-100,100,Co2+,atmosphere,,,,,,1000.0,cobalt2_e
+32,cpd00156,0.001,-100,100,L-Valine,tryptone,,117.0,0.75,15.0,,5.0,val__L_e
+33,cpd00161,0.001,-100,100,L-Threonine,tryptone,,119.0,0.75,15.0,,5.0,thr__L_e
+34,cpd00182,0.001,-100,100,Adenosine,yeast extract,,267.0,,7.5,,0.1,adn_e
+35,cpd00184,0.001,-100,100,Thymidine,yeast extract,,242.0,,7.5,,0.1,thymd_e
+36,cpd00205,0.001,-100,100,K+,mineral,,,,,,5.0,k_e
+37,cpd00215,0.001,-100,100,Pyridoxal,yeast extract,,167.0,,7.5,,0.1,pydx_e
+38,cpd00218,0.001,-100,100,Niacin,yeast extract,,122.0,,7.5,,0.1,nac_e
+40,cpd00220,0.001,-100,100,Riboflavin,yeast extract,,376.0,,7.5,,0.1,ribflv_e
+41,cpd00226,0.001,-100,100,HYXN,yeast extract,,136.0,,7.5,,0.1,hxan_e
+42,cpd00239,0.001,-100,100,H2S,yeast extract,,,,7.5,,0.1,h2s_e
+43,cpd00246,0.001,-100,100,Inosine,yeast extract,,268.0,,7.5,,0.1,ins_e
+44,cpd00249,0.001,-100,100,Uridine,yeast extract,,244.0,,7.5,,0.1,uri_e
+45,cpd00254,0.001,-100,100,Mg,mineral,,,,,,5.0,mg2_e
+46,cpd00311,0.001,-100,100,Guanosine,yeast extract,,283.0,,7.5,,0.1,gsn_e
+47,cpd00322,0.001,-100,100,L-Isoleucine,tryptone,,131.0,0.75,15.0,,5.0,ile__L_e
+49,cpd00383,0.001,-100,100,Shikimate,yeast extract,,173.0,,7.5,,0.1,skm_e
+50,cpd00393,0.001,-100,100,Folate,yeast extract,,439.0,,7.5,,0.1,fol_e
+51,cpd00438,0.001,-100,100,Deoxyadenosine,yeast extract,,251.0,,7.5,,0.1,dad_2_e
+52,cpd00531,0.001,-100,100,Hg2+,yeast extract,,,,7.5,,0.1,hg2_e
+53,cpd00541,0.001,-100,100,Lipoate,yeast extract,,205.0,,7.5,,0.1,lipoate_e
+54,cpd00644,0.001,-100,100,PAN,yeast extract,,218.0,,7.5,,0.1,pnto__R_e
+55,cpd00654,0.001,-100,100,Deoxycytidine,yeast extract,,227.0,,7.5,,0.1,dcyt_e
+57,cpd00971,0.001,-100,100,Na+,mineral,,,,,,5.0,na1_e
+58,cpd01012,0.001,-100,100,Cd2+,yeast extract,,,,7.5,,0.1,cd2_e
+59,cpd01048,0.001,-100,100,Arsenate,yeast extract,,140.0,,7.5,,0.1,aso4_e
+61,cpd10515,0.001,-100,100,Fe2+,yeast extract,,,,7.5,,0.1,fe2_e
+62,cpd10516,0.001,-100,100,Fe3+,yeast extract,,,,7.5,,0.1,fe3_e
+63,cpd11595,0.001,-100,100,chromate,yeast extract,,,,7.5,,0.1,cro4_e
+64,cpd00208,0.001,-100,100,LACT,lactose,,342.0,0.075,,0.00021929799999999999,0.219298246,lcts_e
+68,cpd00305,0.001,-100,100,Thiamin,yeast extract,,265.0,,7.5,,0.1,thm_e
+70,cpd00132,0.001,-100,100,L-Asparagine,tryptone,,132.0,0.75,15.0,0.005681818000000001,5.0,asn__L_e
+71,cpd00053,0.001,-100,100,L-Glutamine,tryptone,,146.0,0.75,15.0,,5.0,gln__L_e
+72,cpd00029,0.001,-100,100,cpd00029,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,ac_e
+73,cpd00098,0.001,-100,100,cpd00098,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,chol_e
+74,cpd00363,0.001,-100,100,cpd00363,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,etoh_e
+76,cpd00133,0.001,-100,100,cpd00133,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,ncam_e
+77,cpd00106,0.001,-100,100,cpd00106,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,fum_e
+78,cpd00047,0.001,-100,100,cpd00047,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,for_e
+79,cpd05178,0.001,-100,100,cpd05178,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,3mb_e
+80,cpd00159,0.001,-100,100,cpd00159,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,lac__L_e
+81,cpd00540,0.001,-100,100,cpd00540,metabolomics,consumed from fresh media according to metabolomics,0.0,0.0,0.0,0.0,0.1,glyb_e

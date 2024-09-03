@@ -1,0 +1,116 @@
+﻿id,frequence,name,Compound Type,maxFlux,formula,Carbon Number,SEED Compound,说明
+coa_e,687,Coenzyme A,Coenzyme,0.1,C21H32N7O16P3S,21,cpd00010,辅酶A
+alaala_e,115,D-Alanyl-D-alanine,Dipeptide,0.1,C6H12N2O3,6,cpd00731,
+cgly_e,560,Cys-Gly,Dipeptide,0.1,C5H10N2O3S,5,cpd01017,半胱氨酰甘氨酸
+LalaDglu_e,,L-alanine-D-glutamate,Dipeptide,0.1,C8H13N2O5,8,cpd15385,
+LalaLglu_e,2,L-alanine-L-glutamate,Dipeptide,0.1,C8H13N2O5,8,cpd15388,
+progly_e,222,L-Prolinylglycine,Dipeptide,0.1,C7H12N2O3,7,cpd15551,
+h_e,15,H+,Inorganic,0.1,H,0,cpd00067,
+h2s_e,26,Hydrogen sulfide,Inorganic,0.1,HS;H2S,0,cpd00239,
+ade_e,119,Adenine,Nucleobase,0.1,C5H5N5,5,cpd00128,腺嘌呤
+csn_e,122,Cytosine,Nucleobase,0.1,C4H5N3O,4,cpd00307,胞嘧啶
+gua_e,106,Guanine,Nucleobase,0.1,C5H4N5O;C5H5N5O,5,cpd00207,鸟嘌呤
+hxan_e,5,Hypoxanthine,Nucleobase,0.1,C5H4N4O,5,cpd00226,次黄嘌呤
+thym_e,322,Thymine,Nucleobase,0.1,C5H6N2O2,5,cpd00151,胸腺嘧啶
+ura_e,28,Uracil,Nucleobase,0.1,C4H4N2O2,4,cpd00092,尿嘧啶
+xan_e,6,Xanthine,Nucleobase,0.1,C5H4N4O2,5,cpd00309,黄嘌呤
+adn_e,132,Adenosine,Nucleoside,0.1,C10H13N5O4,10,cpd00182,腺苷
+cytd_e,164,Cytidine,Nucleoside,0.1,C9H13N3O5,9,cpd00367;cpd01900,胞嘧啶核苷
+dad_2_e,5,Deoxyadenosine,Nucleoside,0.1,C10H13N5O3,10,cpd00438,脱氧腺苷
+dcyt_e,5,Deoxycytidine,Nucleoside,0.1,C9H13N3O4,9,cpd00654,脱氧胞苷
+dgsn_e,5,Deoxyguanosine,Nucleoside,0.1,C10H13N5O4,10,cpd00277,脱氧鸟苷
+din_e,1,Deoxyinosine,Nucleoside,0.1,C10H12N4O4,10,cpd03279,脱氧肌苷
+duri_e,,Deoxyuridine,Nucleoside,0.1,C9H12N2O5,9,cpd00412,脱氧尿苷
+gsn_e,59,Guanosine,Nucleoside,0.1,C10H13N5O5;C10H12N5O5,10,cpd00311,鸟苷
+ins_e,3,Inosine,Nucleoside,0.1,C10H12N4O5,10,cpd00246,肌苷
+thymd_e,69,Thymidine,Nucleoside,0.1,C10H14N2O5,10,cpd00184,胸腺嘧啶核苷
+uri_e,49,Uridine,Nucleoside,0.1,C9H12N2O6,9,cpd00249;cpd16545,尿苷
+xtsn_e,3,Xanthosine,Nucleoside,0.1,C10H12N4O6,10,cpd01217,黄苷
+23camp_e,2,"2',3'-Cyclic AMP",Nucleotide,0.1,C10H11N5O6P,10,cpd01570,环核苷酸A
+23ccmp_e,1,"2',3'-Cyclic CMP",Nucleotide,0.1,C9H11N3O7P,9,cpd01571,
+23cgmp_e,,"2',3'-Cyclic GMP",Nucleotide,0.1,C10H11N5O7P,10,cpd03702,
+23cump_e,,"2',3'-Cyclic UMP",Nucleotide,0.1,C9H10N2O8P,9,cpd01572,
+3amp_e,120,3'-AMP,Nucleotide,0.1,C10H12N5O7P,10,cpd00988,
+3cmp_e,51,3'-CMP,Nucleotide,0.1,C9H12N3O8P,9,cpd03454,
+3gmp_e,68,3'-GMP,Nucleotide,0.1,C10H12N5O8P,10,cpd03701,
+3ump_e,3,3'-UMP,Nucleotide,0.1,C9H11N2O9P,9,cpd00989,
+amp_e,197,AMP,Nucleotide,0.1,C10H12N5O7P,10,cpd00018,
+cmp_e,269,CMP,Nucleotide,0.1,C9H12N3O8P,9,cpd00046,
+damp_e,2,DAMP,Nucleotide,0.1,C10H12N5O6P,10,cpd00294,
+dcmp_e,,DCMP,Nucleotide,0.1,C9H12N3O7P,9,cpd00206,
+dgmp_e,,DGMP,Nucleotide,0.1,C10H12N5O7P,10,cpd00296,
+dimp_e,,DIMP,Nucleotide,0.1,C10H11N4O7P;C10H12N4O7P,10,cpd03704,
+dtmp_e,71,DTMP,Nucleotide,0.1,C10H13N2O8P,10,cpd00298,
+dump_e,,DUMP,Nucleotide,0.1,C9H11N2O8P,9,cpd00299,
+gdp_e,,GDP,Nucleotide,0.1,C10H12N5O11P2,10,cpd00031,
+gmp_e,199,GMP,Nucleotide,0.1,C10H12N5O8P,10,cpd00126,
+gtp_e,,GTP,Nucleotide,0.1,C10H12N5O14P3,10,cpd00038,
+imp_e,1,IMP,Nucleotide,0.1,C10H11N4O8P,10,cpd00114,
+tmp_e,5,TMP,Nucleotide,0.1,C10H13N2O8P;P3O9,10,,
+ump_e,64,UMP,Nucleotide,0.1,C9H11N2O9P,9,cpd00091,
+xmp_e,,XMP,Nucleotide,0.1,C10H11N4O9P,10,cpd00497,黄嘌呤核苷
+lipoate_e,,Lipoate,Organic Acids,0.1,C8H13O2S2;C8H14O2S2,8,cpd00541;cpd14958,硫辛酸 抗氧化剂
+pheme_e,,Protoheme,Potential Product,0.1,C34H32FeN4O4;C34FeH30N4O4;C34H30FeN4O4,34,cpd00028,
+ascb__L_e,10,L-Ascorbate,Vitamin,0.1,C6H7O6;C6H8O6,6,,Vitamin C
+chol_e,1,Choline,Vitamin,0.1,C5H14NO,5,cpd00098,胆碱
+chols_e,42,Choline sulfate,Vitamin,0.1,C5H13NO4S,5,cpd00681,硫酸胆碱
+fol_e,540,Folate,Vitamin,0.1,C19H17N7O6;C19H18N7O6,19,cpd00393,Vitamin B9 叶酸
+inost_e,28,Myo-Inositol,Vitamin,0.1,C6H12O6,6,cpd00121;cpd03668,肌醇，維生素B8
+nac_e,644,Nicotinate,Vitamin,0.1,C6H4NO2,6,cpd00218,Vitamin B3 烟酸
+ncam_e,510,Nicotinamide,Vitamin,0.1,C6H6N2O,6,cpd00133,烟酰胺 Vitamin B3衍生物，NADP前体
+nmn_e,2611,NMN,Vitamin,0.1,C11H14N2O8P;C11H13N2O8P,11,cpd00355,Vitamin B3 β-烟酰胺单核苷酸
+pnto__R_e,300,(R)-Pantothenate,Vitamin,0.1,C9H16NO5;C9H15NO5,9,cpd00644,Vitamin B5 (R)-泛酸
+pydam_e,24,Pyridoxamine,Vitamin,0.1,C8H13N2O2,8,cpd00419,Vitamin B6
+pydx_e,98,Pyridoxal,Vitamin,0.1,C8H9NO3,8,cpd00215,Vitamin B6 吡哆醛
+pydxn_e,140,Pyridoxine,Vitamin,0.1,C8H11NO3,8,cpd00263,Vitamin B6 吡哆醇
+ribflv_e,2529,Riboflavin,Vitamin,0.1,C17H19N4O6;C17H20N4O6,17,cpd00220,Vitamin B2
+rnam_e,89,N Ribosylnicotinamide,Vitamin,0.1,C11H15N2O5;C11H14N2O5,11,cpd02016,N-核糖烟酰胺（维生素B3）
+thm_e,4490,Thiamin,Vitamin,0.1,C12H17N4OS,12,cpd00305,Vitamin B1
+ala__D_e,47,D-Alanine,Amino Acids 20,1,C3H7NO2,3,cpd00117,
+ala__L_e,50,L-Alanine,Amino Acids 20,1,C3H7NO2,3,cpd00035,
+ala_B_e,416,Beta-Alanine,Amino Acids 20,1,C3H7NO2,3,cpd00085,
+arg__L_e,2649,L-Arginine,Amino Acids 20,1,C6H15N4O2,6,cpd00051,
+asn__L_e,2837,L-Asparagine,Amino Acids 20,1,C4H8N2O3,4,cpd00132,
+asp__L_e,646,L-Aspartate,Amino Acids 20,1,C4H6NO4,4,cpd00041,
+cys__D_e,,D-Cysteine,Amino Acids 20,1,C3H7NO2S,3,cpd00587,
+cys__L_e,27,L-Cysteine,Amino Acids 20,1,C3H7NO2S,3,cpd00084,
+gln__L_e,912,L-Glutamine,Amino Acids 20,1,C5H10N2O3,5,cpd00053,
+glu__D_e,45,D-Glutamate,Amino Acids 20,1,C5H8NO4,5,cpd00186,
+glu__L_e,26,L-Glutamate,Amino Acids 20,1,C5H8NO4,5,cpd00023,
+gly_e,20,Glycine,Amino Acids 20,1,C2H5NO2,2,cpd00033,
+his__L_e,3182,L-Histidine,Amino Acids 20,1,C6H9N3O2,6,cpd00119,
+ile__L_e,1942,L-Isoleucine,Amino Acids 20,1,C6H13NO2,6,cpd00322,
+leu__L_e,2527,L-Leucine,Amino Acids 20,1,C6H13NO2,6,cpd00107,
+lys__L_e,1451,L-Lysine,Amino Acids 20,1,C6H15N2O2,6,cpd00039,
+met__L_e,778,L-Methionine,Amino Acids 20,1,C5H11NO2S,5,cpd00060,
+phe__L_e,1382,L-Phenylalanine,Amino Acids 20,1,C9H11NO2,9,cpd00066,
+pro__L_e,345,L-Proline,Amino Acids 20,1,C5H9NO2,5,cpd00129,
+ser__D_e,1,D-Serine,Amino Acids 20,1,C3H7NO3,3,cpd00550,
+ser__L_e,99,L-Serine,Amino Acids 20,1,C3H7NO3,3,cpd00054,
+thr__L_e,1834,L-Threonine,Amino Acids 20,1,C4H9NO3,4,cpd00161,
+trp__L_e,1476,L-Tryptophan,Amino Acids 20,1,C11H12N2O2,11,cpd00065,
+tyr__L_e,1411,L-Tyrosine,Amino Acids 20,1,C9H11NO3,9,cpd00069,
+val__L_e,3141,L-Valine,Amino Acids 20,1,C5H11NO2,5,cpd00156,
+o2_e,12177,O2,Inorganic,10,O2,0,cpd00007,
+cl_e,21514,Chloride,Inorganic,1000,Cl,0,cpd00099,
+h2o_e,3,H2O,Inorganic,1000,H2O,0,cpd00001;cpd15275,
+pi_e,47,Phosphate,Inorganic,1000,HPO4;HO4P,0,cpd00009,磷酸盐
+so4_e,6427,Sulfate,Inorganic,1000,O4S;SO4,0,cpd00048,硫酸根
+aso3_e,,Arsenite,Inorganic,1000,AsO3,0,cpd04098,
+cro4_e,,Chromate,Inorganic,1000,CrO4,0,cpd11595,
+mobd_e,,Molybdate,Inorganic,1000,MoO4,0,cpd11574,
+ca2_e,21514,Calcium,Metal Ions,1000,Ca,0,cpd00063,
+cobalt2_e,21514,Co2+,Metal Ions,1000,Co,0,cpd00149,
+cu_e,915,Cu+,Metal Ions,1000,Cu,0,,
+cu2_e,8780,Cu2+,Metal Ions,1000,Cu,0,cpd00058,
+fe2_e,1135,Fe2+,Metal Ions,1000,Fe,0,cpd10515,
+fe3_e,3451,Fe3+,Metal Ions,1000,Fe,0,cpd10516,
+k_e,21514,Potassium,Metal Ions,1000,K,0,cpd00205,
+mg2_e,21514,Magnesium,Metal Ions,1000,Mg,0,cpd00254,
+mn2_e,21505,Mn2+,Metal Ions,1000,Mn,0,cpd00030,
+na1_e,,Sodium,Metal Ions,1000,Na,0,cpd00971,
+nh4_e,1,Ammonium,Metal Ions,1000,H4N;NH4,0,cpd00013,
+zn2_e,21514,Zinc,Metal Ions,1000,Zn,0,cpd00034,
+cd2_e,,Cadmium,Metal Ions,1000,Cd,0,cpd01012,
+hg2_e,,Hg2+,Metal Ions,1000,Hg,0,cpd00531,
+ni2_e,,Nickel,Metal Ions,1000,Ni,0,cpd00244,
