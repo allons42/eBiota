@@ -1,5 +1,4 @@
-# eBiota: a platform for *ab initio* designing microbial communities with desired functions
-
+# eBiota: microbial community-scale metabolic modelling and deep learning *ab initio* design microbial communities with desired functions from large-scale seed pools
 
 [![Documentation Status](https://readthedocs.org/projects/e-biota/badge/?version=latest)](https://e-biota.readthedocs.io/en/latest/index.html)
 DOI
@@ -10,7 +9,7 @@ We developed eBiota, a platform for the *ab initio* design of artificial microbi
 
 ## Installation
 
-We recommend installing eBiota in an virtual environment with conda.
+We recommend installing eBiota in a virtual environment with conda.
 
 ```bash
 # Download latest version of eBiota
@@ -41,16 +40,15 @@ There are plenty of configurations to custom your communities, detailed in `conf
 
 ## Main Results
 
-The results mentioned in our paper is quite large, and can be downloaded from zenodo: link.
+The results mentioned in our paper is quite large, and can be downloaded from Zenodo ([doi: 10.5281/zenodo.13762656](https://doi.org/10.5281/zenodo.13762656)).
 
 The following results are included:
 
-1. eBiota-GEM: 21,514 Genome-Scale Metabolic Models (GEMs) constructed using CarveMe based on RefSeq complete genomes.
-2. baterial evaluation: The evaluation of the ability to uptake substrates and secret productions for all 21514 GEMs.
-3. community design result: The result calculated from eBiota-GEM includes various combinations for two-bacterial consortia, covering strain IDs, substrates, products, yields, dual-bacterial growth, single-bacterial growth, co-occurrence predictions, and interactions. 
-4. cultivation information: The mapping of eBiota-GEM to BacDive database, including hierarchical category,  culture medium, temperature, and oxygen tolerance. The data is accessed at Oct 15 2022.
-5. supplementary tables in papers.
+1. **GEM.tar.gz**: The eBiota-GEM dataset, containing 21,514 Genome-Scale Metabolic Models (GEMs) constructed using CarveMe based on RefSeq complete genomes.
+2. **Baterial_evaluation.tar.gz**: The evaluation of the ability to uptake substrates and secret productions for all 21514 GEMs.
+3. **Community_results.tar.gz**: The results calculated from eBiota-GEM includes various combinations for two-bacterial consortia, covering strain IDs, substrates, products, yields, dual-bacterial growth, single-bacterial growth, co-occurrence predictions, and interactions.
 
 ## Citation
 
-eBiota: a platform for *ab initio* designing microbial communities with desired functions
+eBiota: microbial community-scale metabolic modelling and deep learning *ab initio* design microbial communities with desired functions from large-scale seed pools
+

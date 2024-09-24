@@ -56,10 +56,8 @@ If Perl is not availble, follow the instructions on the [official website](https
 
 ## Collect e-Biota database
 
-The complete dataset can be downloaded from Zenodo：link, including the following results:
+The complete dataset can be downloaded from Zenodo ([doi: 10.5281/zenodo.13762656](https://doi.org/10.5281/zenodo.13762656)), including the following results:
 
 1. eBiota-GEM: 21,514 Genome-Scale Metabolic Models (GEMs) constructed using CarveMe based on RefSeq complete genomes.
 2. baterial evaluation: The evaluation of the ability to uptake substrates and secret productions for all 21514 GEMs.
 3. community design: The result calculated from eBiota-GEM includes various combinations for two-bacterial consortia, covering strain IDs, substrates, products, yields, dual-bacterial growth, single-bacterial growth, co-occurrence predictions, and interactions. 
-
-## **Troubleshooting**

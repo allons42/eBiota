@@ -1,4 +1,4 @@
-uptUsage Options
+Usage Options
 ================
 
 ```bash
@@ -47,7 +47,7 @@ Co-occurrence prediction with DeepCooc
 
    ```bash
    python parse_data_for_DeepCooc.py --file_input $file_input --data_taxa_type $data_taxa_type --micro_num $micro_num --feature_index_type moreReacFeature
-
+   
    python parse_data_for_DeepCooc.py --file_input $file_input --data_taxa_type $data_taxa_type --micro_num $micro_num --feature_index_type metflux_ori_431
    ```
    * --file_input: Specify a TSV file containing community information, where each row represents a community and the columns `Bac_1` through `Bac_N` correspond to the respective member bacterium.
