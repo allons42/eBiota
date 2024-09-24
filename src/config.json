@@ -8,6 +8,7 @@
     "LOG": "Log.txt",
     "max_proc": 10,
     "prune": true,
+    "target": "production",
     "substrate": "glc__D_e",
     "intermediate": "default",
     "product": "h2_e",

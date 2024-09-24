@@ -12,22 +12,25 @@ def read_and_check_config():
 
     # check the format of config
     if config["suffix"] not in [".xml.gz", ".xml"]:
-        print("suffix should be .xml or .xml.gz")
+        print("Error: suffix should be '.xml' or '.xml.gz'")
         exit()
     if not os.path.exists(config["path_GEM"]):
-        print(f"path_GEM {config['path_GEM']} not found")
+        print(f"Error: path_GEM {config['path_GEM']} not found")
         exit()
     if os.path.exists(config["path_output"]):
-        print("Output directory already exists. Please check the output directory.")
+        print("Error: Output directory already exists. Please check the output directory.")
         exit()
     if not os.path.exists(config["medium"]):
-        print("medium not found")
+        print("Error: medium not found")
+        exit()
+    if config["target"] not in ["production", "degradation"]:
+        print(f"Error: target should be 'production' or 'degradation'")
         exit()
     if type(config["max_proc"]) != int or config["max_proc"] < 1:
-        print("max_proc should be a positive integer")
+        print("Error: max_proc should be a positive integer")
         exit()
     if type(config["prune"]) != bool:
-        print("prune should be a boolean, true or false")
+        print("Error: prune should be a boolean, true or false")
         exit()
     
     return config
@@ -105,7 +108,7 @@ def rewrite():
         for x in gem.reactions:
             if x.id[:3]!='EX_':
                 x.id = ID + '_' + x.id
-        ## do not edit gene ids, in case of conflict
+        ## do not edit gene ids, to avoid conflict
         #for x in gem.genes:
         #    x.id = ID + '_' + x.id
         
@@ -120,13 +123,16 @@ def get_good_bacteria(pkl=None):
             bac_good = pickle.load(f)
         return bac_good
     
-    if os.path.exists("tmp/bac_good_level30.pkl"):
-        with open("tmp/bac_good_level30.pkl", "rb") as f:
+    target = config["target"]
+    target_row = "production" if target == "production" else "absorption"
+    
+    if os.path.exists(f"tmp/bac_good_{target}.pkl"):
+        with open(f"tmp/bac_good_{target}.pkl", "rb") as f:
             bac_good = pickle.load(f)
         return bac_good
 
     bac_good = {}
-    root_eval = "tmp/bacteria_label_level30/"
+    root_eval = f"tmp/bacteria_label_{target}/"
     fs = os.listdir(root_eval)
     with tqdm(fs) as pbar:
         pbar.set_description("reading bacteria labels")
@@ -136,11 +142,11 @@ def get_good_bacteria(pkl=None):
             for idx,row in good_df.iterrows():
                 tmp_path = (row["substrate"], row["product"], row["O2"], row["glucose"])
                 if tmp_path not in bac_good:
-                    bac_good[tmp_path] = [ (bac[:-4], row["growth"], row["growth"] * row["production"]) ]
+                    bac_good[tmp_path] = [ (bac[:-4], row["growth"], row["growth"] * row[target_row]) ]
                 else:
-                    bac_good[tmp_path].append( (bac[:-4], row["growth"], row["growth"] * row["production"]) )
+                    bac_good[tmp_path].append( (bac[:-4], row["growth"], row["growth"] * row[target_row]) )
 
-    with open("tmp/bac_good_level30.pkl", "wb") as f:
+    with open(f"tmp/bac_good_{target}.pkl", "wb") as f:
         pickle.dump(bac_good, f)
     return bac_good
 

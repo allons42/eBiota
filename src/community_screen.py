@@ -76,14 +76,15 @@ def unique():
                 newid += 1
         bac_good_pruned[k] = new_list
     
-    with open("tmp/bac_good_level30_pruned.pkl", "wb") as f:
+    target = config["target"]
+    with open(f"tmp/bac_good_{target}_pruned.pkl", "wb") as f:
         pickle.dump(bac_good_pruned, f)
 
 
 def get_combination():
     if config["prune"]:
         unique()
-        bac_good = get_good_bacteria(pkl="tmp/bac_good_level30_pruned.pkl")
+        bac_good = get_good_bacteria(pkl=f"tmp/bac_good_{config['target']}_pruned.pkl")
     else:
         bac_good = get_good_bacteria()
     

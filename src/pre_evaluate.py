@@ -6,7 +6,7 @@ from multiprocessing import Pool
 from eBiota_utils import get_metabolites_list, config
 
 
-def test_fva_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_only=False): 
+def test_FBA_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_only=False): 
     if "EX_o2_e" in gem.reactions:
         gem.reactions.get_by_id("EX_o2_e").lower_bound = -10 if o2 else 0
             
@@ -37,13 +37,22 @@ def test_fva_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_on
         elif ("EX_" + ed) not in gem.reactions:
             label = 'no_exchange_reaction'
         else:
-            sol2 = sol
-            if sol2["EX_" + st] > -1e-8:
-                label = 'no_absorption'
-            elif sol2["EX_" + ed] > 1e-8:
-                label = "good"
-            else:
-                label = 'normal'
+            with gem:
+                gem.reactions.get_by_id(bm).lower_bound = 0.99*bm_max
+                if config["target"] == "degradation":
+                    gem.objective = {gem.reactions.get_by_id("EX_"+st): -1}
+                else:
+                    gem.objective = {gem.reactions.get_by_id("EX_"+ed): 1}
+                try:
+                    sol2 = cobra.flux_analysis.pfba(gem)
+                except:
+                    continue
+                if sol2["EX_" + st] > -1e-8:
+                    label = 'no_absorption'
+                elif sol2["EX_" + ed] > 1e-8:
+                    label = "good"
+                else:
+                    label = 'normal'
         res_ex_ed = 0 if (label=='no_exchange_reaction' or label=="no_growth") else sol2["EX_" + ed]
         res_ex_st = 0 if (label=='no_exchange_reaction' or label=="no_growth") else sol2["EX_" + st]
         res[(st, ed, bool_dict[o2]+"O2", bool_dict[glc__D]+"glucose")] = (label, bm_max, res_ex_st, res_ex_ed)
@@ -53,7 +62,13 @@ def test_fva_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_on
 def pre_eval(name, possible_path):
     path_GEM = config["path_GEM"]
     suffix = config["suffix"]
-    output_dir = "tmp/bacteria_label_level30/"
+    if config["target"] == "production":
+        output_dir = "tmp/bacteria_label_production/"
+    elif config["target"] == "degradation":
+        output_dir = "tmp/bacteria_label_degradation/"
+    else:
+        output_dir = "tmp/bacteria_label_production/"
+        
     try:
         gem = cobra.io.read_sbml_model(os.path.join(path_GEM, name + suffix))
     except:
@@ -87,18 +102,18 @@ def pre_eval(name, possible_path):
                 #print("EX_%s not in %s"%(st,gem.id))
                 continue
             
-            tmp_res = test_fva_in_specific_media(gem, st, try_dict[st], o2=True, glc__D=True)
+            tmp_res = test_FBA_in_specific_media(gem, st, try_dict[st], o2=True, glc__D=True)
             res.update(tmp_res)
-            tmp_res = test_fva_in_specific_media(gem, st, try_dict[st], o2=False, glc__D=True)
+            tmp_res = test_FBA_in_specific_media(gem, st, try_dict[st], o2=False, glc__D=True)
             res.update(tmp_res)
-            tmp_res = test_fva_in_specific_media(gem, st, try_dict[st], o2=True, glc__D=False)
+            tmp_res = test_FBA_in_specific_media(gem, st, try_dict[st], o2=True, glc__D=False)
             res.update(tmp_res)
-            tmp_res = test_fva_in_specific_media(gem, st, try_dict[st], o2=False, glc__D=False)
+            tmp_res = test_FBA_in_specific_media(gem, st, try_dict[st], o2=False, glc__D=False)
             res.update(tmp_res)
 
     # 若前面部分出现异常，则不会有文件输出
     sorted_res = sorted(res, key = lambda k: (k[0], k[1], k[2],k[3]))
-    fout = open(output_dir + name + '.txt','w')
+    fout = open(output_dir + name + '.txt', 'w')
     fout.write("substrate,product,O2,glucose,growth,absorption,production,label\n")
     for key in sorted_res:
         fout.write("%s,%s,%s,%s,%.4f,%.4f,%.4f,%s\n"%(key[0],key[1],key[2],key[3],res[key][1],res[key][2],res[key][3],res[key][0]))
@@ -107,7 +122,15 @@ def pre_eval(name, possible_path):
     
 def run_evaluate():
     input_dir = "tmp/BFS_result/path_from_secretion_to_intake_simplified/"
-    output_dir = "tmp/bacteria_label_level30/"
+    if config["target"] == "production":
+        output_dir = "tmp/bacteria_label_production/"
+    elif config["target"] == "degradation":
+        output_dir = "tmp/bacteria_label_degradation/"
+    else:
+        print(f"Warning: target {config['target']} not recognized. Will continue with production.")
+        config["target"] = "production"
+        output_dir = "tmp/bacteria_label_production/"
+        
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
     global basic
@@ -121,9 +144,9 @@ def run_evaluate():
     
     start = time.time()
     n_proc = config["max_proc"]
+    print(f"Start to evaluate with {n_proc} processors.")
 
     while len(done) < len(all_bac):
-
         cnt = len(done)
         limit = cnt + 1000
         pool = Pool(n_proc) # 进程池数量上限

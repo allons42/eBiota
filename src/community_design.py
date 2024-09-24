@@ -192,7 +192,7 @@ def run_community_design():
     print(medium)
 
     if config["prune"]:
-        bac_good = get_good_bacteria(pkl="tmp/bac_good_level30_pruned.pkl")
+        bac_good = get_good_bacteria(pkl=f"tmp/bac_good_{config['target']}_pruned.pkl")
     else:
         bac_good = get_good_bacteria()
     
@@ -249,10 +249,12 @@ def run_community_design():
             oneres = x.get()
             if oneres != None:
                 all_res.append(oneres)
-        
-        res_sorted = sorted(all_res, key=lambda x: x[rxn_out+"_1"]*x["Growth1"]+x[rxn_out+"_2"]*x["Growth2"], reverse=True)
+        if config["target"] =="production":
+            res_sorted = sorted(all_res, key=lambda x: x[rxn_out+"_1"]*x["Growth1"]+x[rxn_out+"_2"]*x["Growth2"], reverse=True)
+        else:
+            res_sorted = sorted(all_res, key=lambda x: x[rxn_in+"_1"]*x["Growth1"]+x[rxn_in+"_2"]*x["Growth2"], reverse=True)
         fout = open(os.path.join(root_output, f"{substrate}__to__{product}__{O2}__{glucose}.txt"), "w")
-        fout.write(f"Bac1\tBac2\tGrowth1\tGrowth2\tintermediate\t{rxn_in}_1\t{rxn_in}_2\tglucose_absorption_1\tglucose_absorption_2\t{rxn_out}_1\t{rxn_out}_2\tcross_feeding_forward\tcross_feeding_reverse\tBac1_single_growth\tBac2_single_growth\n")
+        fout.write(f"Bac1\tBac2\tGrowth1\tGrowth2\tIntermediate\t{rxn_in}_1\t{rxn_in}_2\tGlucose_absorption_1\tGlucose_absorption_2\t{rxn_out}_1\t{rxn_out}_2\tCross_feeding_forward\tCross_feeding_reverse\tBac1_single_growth\tBac2_single_growth\tTotal_{config['target']}\n")
         for tmp_d in res_sorted:
             fout.write(tmp_d["Bac1"] + "\t")
             fout.write(tmp_d["Bac2"] + "\t")
@@ -275,6 +277,10 @@ def run_community_design():
                 
             fout.write(f"{round(tmp_d['Bac1_single_growth'],8)+0.0:.8f}\t") 
             fout.write(f"{round(tmp_d['Bac2_single_growth'],8)+0.0:.8f}\t")
+            if config["target"] =="production":
+                fout.write(f"{round(tmp_d[rxn_out+'_1']*tmp_d['Growth1']+tmp_d[rxn_out+'_2']*tmp_d['Growth2'],8)+0.0:.8f}\t")
+            else:
+                fout.write(f"{round(tmp_d[rxn_in+'_1']*tmp_d['Growth1']+tmp_d[rxn_in+'_2']*tmp_d['Growth2'],8)+0.0:.8f}\t")
             fout.write("\n")
         fout.close()
         with open(FBA_LOG, "a") as log:

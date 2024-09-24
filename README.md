@@ -28,7 +28,7 @@ conda install -c bioconda diamond
 python eBiota.py --test
 ```
 
-## Quickstart
+## Demo
 
 eBiota supports various functions for microbial community design. For a quickstart, we provide an example to design communities that utilize glucose and produce hydrogen.
 
