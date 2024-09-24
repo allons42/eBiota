@@ -36,6 +36,8 @@ def parse_arg():
 
 
 def main(args):
+    if not os.path.exists("tmp"):
+        os.makedirs("tmp")
     function_mode = args.Function
     if function_mode == "design":
         print("Start to analyze the input GEMs...")
@@ -56,7 +58,7 @@ def main(args):
 
         get_combination()
         run_community_design()
-        #DeepCooc()
+        DeepCooc()
         print("All done!")
     
     if args.Function == "test":
