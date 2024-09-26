@@ -75,7 +75,6 @@ temp_dir = os.path.join(config["tmp_dir"], "cooc")
 
 # root for 2w micro，所有rea名称到反应对象的pairs
 pkls_top_root = "/data1/hyzhang/Projects/E_biota/emp_ML/data/pkls"
-txt_top_root = "/data1/hyzhang/Projects/E_biota/emp_ML/res/saved/txts"
 rea_table = os.path.join(pkls_top_root, "reaction_table_carveme_2w.pkl")
 rea_table = load_pkl(rea_table)
 # 换用transport反应的列表

@@ -8,7 +8,6 @@ from eBiota_utils import rewrite, config, update_config
 from pre_evaluate import run_evaluate
 from community_screen import get_combination
 from community_design import run_community_design
-from community_check import DeepCooc
 
 __author__ = "Jiaheng Hou, Haoyu Zhang, Yulin Liao"
 __copyright__ = "Copyright (c) 2024 Zhulab"
@@ -58,6 +57,7 @@ def main(args):
 
         get_combination()
         run_community_design()
+        from community_check import DeepCooc
         DeepCooc()
         print("All done!")
     
