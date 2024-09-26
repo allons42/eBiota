@@ -71,43 +71,41 @@ file_input_txts = [x for x in os.listdir(root_output) if x.endswith(".txt")] ## 
 micro_num = config["community_size"]
 data_taxa_type = config["data_taxa_type"]
 feature_index_type = config["feature_index_type"]
-temp_dir = os.path.join(config["tmp_dir"], "cooc")
+temp_dir = os.path.join("tmp", "cooc")
 
 # root for 2w micro，所有rea名称到反应对象的pairs
-pkls_top_root = "/data1/hyzhang/Projects/E_biota/emp_ML/data/pkls"
-rea_table = os.path.join(pkls_top_root, "reaction_table_carveme_2w.pkl")
+stats_dir = './stats/'
+rea_table = os.path.join(stats_dir, "reaction_table_carveme_2w.pkl")
 rea_table = load_pkl(rea_table)
 # 换用transport反应的列表
-exchange_reaction_table = '../data/model_file/reac_transport_table.tsv'
+exchange_reaction_table = f'{stats_dir}/reac_transport_table.tsv'
 transportReac_list = pd.read_csv(exchange_reaction_table, sep='\t')
 transportReac_list = list(transportReac_list['reaction_nm'])
 
-gem_root_big = "/data3/jyguo/GEM/rebuild_GEM/bacteria/Carve_RefSeq"
-
 # carveme table with species_ids: 修改为ncbi上面获取的genus name--1205
-carveme_list_speciesID = "../data/model_file/carveme_gem_taxonomy_ncbi_1205.csv"
+carveme_list_speciesID = f"{stats_dir}/carveme_gem_taxonomy_ncbi_1205.csv"
 carveme_list_WithspeciesID = pd.read_csv(carveme_list_speciesID)
 
 # 存放每个gcf对应的raaction信息的table
 gcfs_table = txt_list(
-    "/data3/hyzhang/ebiota/GEM_statistics/npys_other/np_rea_table_gcf.txt"
+    f"{stats_dir}/np_rea_table_gcf.txt"
 )
 
 ## date: 2023.1.3 总的来说分成俩类别：使用met index和使用reaction index的
 save_suffix = feature_index_type
 if feature_index_type == 'metflux_lsa_256': 
     gem_reaction_index_table = np.load(
-        "/data1/hyzhang/Projects/E_biota/emp_ML/hiorco_DeepCoex/lsa_metindex_database/res_data/gcfs_MetList_lsa_256.npy"
+        f"{stats_dir}/gcfs_MetList_lsa_256.npy"
     ) # 改成 2w, 256的矩阵了
     single_reac_feature_num = 1
 elif feature_index_type == 'metflux_ori_431':
     gem_reaction_index_table = np.load(
-        "/data1/hyzhang/Projects/E_biota/emp_ML/hiorco_DeepCoex/lsa_metindex_database/res_data/gcfs_MetList_original_431.npy"
+        f"{stats_dir}/gcfs_MetList_original_431.npy"
     ) # 改成 2w, 431的矩阵了
     single_reac_feature_num = 1
 elif feature_index_type == 'moreReacFeature':
     gem_reaction_index_table = np.load(
-        "/data1/hyzhang/Projects/E_biota/emp_ML/hiorco_DeepCoex/More_reaction_features/gems_np.npy"
+        f"{stats_dir}/gems_np.npy"
     ) # 改成 2w, 353, 14的矩阵了
     single_reac_feature_num = 14
 else:
@@ -116,7 +114,7 @@ else:
 ## 主要转换到index的funcs
 # 从gcf直接到index
 def get_gcf_rea_index(
-    gcf="", rea_table=None, extra_gems_root="/data3/jyguo/GEM/multi_strain_h2/GEMs/"
+    gcf="", rea_table=None, extra_gems_root="./GEM/" # external gems directory
 ):
     ## given gcf, return reaction vector or reduced reaction vector using SVD
     try:
@@ -382,7 +380,7 @@ def build_data_for_DLmodel(file_input, part, micro_num, data_taxa_type, temp_dir
 #### dataset.py ####
 # 数据归一化: 已经弃用
 gcfs_all_gem_metList_table = np.load(
-    "../data/model_file/gcfs_MetList_original_431.npy"
+    f"{stats_dir}/gcfs_MetList_original_431.npy"
 )
 mu = np.mean(gcfs_all_gem_metList_table, axis=0)
 sigma = np.std(gcfs_all_gem_metList_table, axis=0)
@@ -390,8 +388,8 @@ sigma = np.std(gcfs_all_gem_metList_table, axis=0)
 class DatasetFolder(Dataset):
     def __init__(
         self,
-        micro_pairs_path="/data1/hyzhang/Projects/E_biota/emp_ML/extend_to_multi_micro/pkls/Micro_num_3/x_part_0_emp_genus_dataset_micro_3.npy",
-        micro_pairs_co_occur_path="/data1/hyzhang/Projects/E_biota/emp_ML/extend_to_multi_micro/pkls/Micro_num_3/y_part_0_emp_genus_dataset_micro_3.npy",
+        micro_pairs_path="",
+        micro_pairs_co_occur_path="",
         data_process="",
         process_transformer=None,
         val_split=0.05,
@@ -905,7 +903,7 @@ def get_interaction_type(od1 = ([0.05, 0.05], [0.1, 0.1]), od2 = ([0.05, 0.05], 
     
     return 'unknown_type', -1
 
-def handle_single_inputfile(file_in = '/data3/jhhou/ebiota/FBA_result/hdca__to__icit__to__glc__D.txt', file_out = ''):
+def handle_single_inputfile(file_in = '', file_out = ''):
     ## 注意：这里的interaction之类的函数只能针对2个bac的情况使用？目前是这样
     base_name = os.path.basename(file_in)
     base_name = base_name.split('.')[0]

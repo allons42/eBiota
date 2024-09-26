@@ -39,24 +39,24 @@ def main(args):
         os.makedirs("tmp")
     function_mode = args.Function
     if function_mode == "design":
-        print("Start to analyze the input GEMs...")
-        cmd = "perl find_path.pl " +  config["path_GEM"]
-        suc = subprocess.call(cmd, shell=True)
-        if suc == 0:
-            print("CoreBFS completed!")
-        else:
-            print("An error occurred in CoreBFS. Please check the parameters!")
-            return
+        # print("Start to analyze the input GEMs...")
+        # cmd = "perl find_path.pl " +  config["path_GEM"]
+        # suc = subprocess.call(cmd, shell=True)
+        # if suc == 0:
+        #     print("CoreBFS completed!")
+        # else:
+        #     print("An error occurred in CoreBFS. Please check the parameters!")
+        #     return
         
-        translate_path()
-        print("All path detected! Start to evaluate the GEMs...")
+        # translate_path()
+        # print("All path detected! Start to evaluate the GEMs...")
 
-        rewrite()
-        run_evaluate()
-        print("Evaluation completed! Start to build communities...")
+        # rewrite()
+        # run_evaluate()
+        # print("Evaluation completed! Start to build communities...")
 
-        get_combination()
-        run_community_design()
+        # get_combination()
+        # run_community_design()
         from community_check import DeepCooc
         DeepCooc()
         print("All done!")

@@ -1,0 +1,336 @@
+reaction_nm	reaction_des	reaction_idx
+CSNtex	Cytosine transport via diffusion (extracellular to periplasm)	166
+H2Otex	H2O transport via diffusion (extracellular to periplasm)	280
+H2Stex	H2s transport via diffusion (extracellular to periplasm)	283
+NH4tex	Ammonia transport via diffusion (extracellular to periplasm)	370
+ORNtex	Ornithine transport via diffusion (extracellular to periplasm)	385
+PROGLYtex	L-Prolinylglycine transport via diffusion (extracellular to periplasm)	453
+PTRCtex	Putrescine transport via diffusion (extracellular to periplasm)	460
+TETtex	Tetrathionate transport via diffusion extracellular to periplasm 	498
+TYRPtex	Phopho-L-tyrosine transport via diffusion (extracellular to periplasm)	524
+12PPDRtex	(R)-Propane-1,2-diol transport via diffusion (extracellular to periplasm)	595
+23CAMPtex	23cAMP transport via diffusion (extracellular to periplasm)	597
+23CCMPtex	23cCMP transport via diffusion (extracellular to periplasm)	598
+23CGMPtex	23cGMP transport via diffusion (extracellular to periplasm)	599
+23CUMPtex	23cUMP transport via diffusion (extracellular to periplasm)	600
+3AMPtex	3AMP transport via diffusion (extracellular to periplasm)	613
+3CMPtex	3CMP transport via diffusion (extracellular to periplasm)	614
+3GMPtex	3GMP transport via diffusion (extracellular to periplasm)	615
+3MBtex	3-methylbutanoic acid transport via diffusion (extracellular to periplasm)	619
+3PEPTtex	LalaDgluMdap (tripeptide) transport via diffusion (extracellular to periplasm)	626
+3UMPtex	3UMP transport via diffusion (extracellular to periplasm)	627
+4HOXPACDtex	4-hydroxyphenylacetaldehyde transport via diffusion (extracellular to periplasm)	630
+4PEPTtex	LalaDgluMdapDala (pentapeptide) transport via diffusion (extracellular to periplasm)	632
+5MTRtex	5-Methylthio-D-ribose transport via proton diffusion (extracellular to periplasm)	633
+ABUTtex	4-aminobutyrate transport via diffusion (extracellular to periplasm)	637
+ACACtex	Acetoacetate transport via diffusion (extracellular to periplasm)	648
+ACALDtex	Acetaldehyde transport via diffusion (extracellular to periplasm)	650
+ACGAL1Ptex	N-acetyl-D-galactosamine 1-phosphate transport via diffusion (extracellular to periplasm)	652
+ACGAM1Ptex	N-acetyl-D-glucosamine 1-phosphate transport via diffusion (extracellular to periplasm)	653
+ACGAtex	N-Acetyl-D-glucosamine transport via diffusion (extracellular to periplasm)	657
+ACMANAtex	N-acetyl-D-mannosamine transport via diffusion (extracellular to periplasm)	663
+ACMUMtex	N-acetylmuramate transport via diffusion (extracellular to periplasm)	665
+ACSERtex	O-Acetyl-L-serine transport via diffusion (extracellular to periplasm)	680
+ACtex	Acetate transport via diffusion (extracellular to periplasm)	685
+ADEtex	Adenine transport via diffusion (extracellular to periplasm)	693
+ADNtex	Adenosine transport via diffusion (extracellular to periplasm)	697
+AGMtex	Agmatine transport via diffusion (extracellular to periplasm)	712
+ALAALAtex	D-alanyl-D-alanine (DalaDala) transport via diffusion (extracellular to periplasm)	724
+ALAtex	L-alanine transport via diffusion (extracellular to periplasm)	730
+AMPtex	AMP transport via diffusion (extracellular to periplasm)	752
+ANHGMtex	GlcNAc-anhMurNAc transport via diffusion (extracellular to periplasm)	753
+ARBtex	L-arabinose transport via diffusion (extracellular to periplasm)	770
+ARGtex	L-arginine transport via diffusion (extracellular to periplasm)	777
+ASNtex	L-asparagine transport via diffusion (extracellular to periplasm)	782
+ASO3tex	Arsenite transport via diffusion (extracellular to periplasm)	784
+ASO4tex	Arsenate transporter (extracellular to periplasm)	786
+ASPtex	L-aspartate transport via diffusion (extracellular to periplasm)	798
+BALAtex	Beta-alanine transport via diffusion (extracellular to periplasm)	805
+BUTtex	Butyrate transport via diffusion (extracellular to periplasm)	816
+CA2tex	Calcium (Ca+2) transport via diffusion (extracellular to periplasm)	823
+CD2tex	Cadmium (Cd+2) transport via diffusion (extracellular to periplasm)	832
+CGLYtex	L-Cysteinylglycine transport via diffusion (extracellular to periplasm)	836
+CHLtex	Choline transport via diffusion (extracellular to periplasm)	840
+CHTBStex	Chitobiose transport via diffusion (extracellular to periplasm)	845
+CITtex	Citrate transport via diffusion (extracellular to periplasm)	847
+CLIPAabctex	Cold lipid A transport via ABC system (periplasm to extracellular)	848
+CLtex	Chloride (Cl-1) transport via diffusion (extracellular to periplasm)	850
+CMPtex	CMP transport via diffusion (extracellular to periplasm)	855
+CMtex	Chloramphenicol transport via diffusion (extracellular to periplasm)	856
+CO2tex	CO2 transport via diffusion (extracellular to periplasm)	858
+COBALT2tex	Cobalt (Co+2) transport via diffusion (extracellular to periplasm)	862
+COLIPAabctex	Core oligosaccharide lipid A transport via ABC system (periplasm to extracellular)	866
+CU2tex	Copper (Cu+2) transport via diffusion (extracellular to periplasm)	877
+CYANtex	Cyanide transport via diffusion (extracellular to periplasm)	880
+CYNTtex	Cyanate transport via diffusion (extracellular to periplasm)	883
+CYStex	L-cysteine transport via diffusion (extracellular to periplasm)	892
+CYTDtex	Cytidine transport via diffusion (extracellular to periplasm)	904
+DADNtex	Deoxyadenosine transport via diffusion (extracellular to periplasm)	909
+DALAtex	D-Alanine transport via diffusion (extracellular to periplasm)	914
+DAMPtex	DAMP transport via diffusion (extracellular to periplasm)	915
+DARBtex	D-arabinose transport via diffusion (extracellular to periplasm)	917
+DCAtex	Decanoate transport via diffusion (extracellular to periplasm)	929
+DCMPtex	DCMP transport via diffusion (extracellular to periplasm)	931
+DCYTtex	Deoxycytidine transport via diffusion (extracellular to periplasm)	935
+DDCAtexi	Fatty acid (dodecanoate) transport via facilitated irreversible diffusion (extracellular to periplasm)	936
+DGMPtex	DGMP transport via diffusion (extracellular to periplasm)	940
+DGSNtex	Deoxyguanosine transport via diffusion (extracellular to periplasm)	941
+DIMPtex	DIMP transport via diffusion (extracellular to periplasm)	958
+DINStex	Deoxyinosine transport via diffusion (extracellular to periplasm)	959
+DMSOtex	Dimethyl sulfoxide transport via diffusion (extracellular to periplasm)	963
+DMStex	Dimethyl sulfide transport via diffusion (extracellular to periplasm)	964
+DOXRBCNtex	Doxorubicin transport via diffusion (extracellular to periplasm)	967
+DTMPtex	DTMP transport via diffusion (extracellular to periplasm)	972
+DUMPtex	DUMP transport via diffusion (extracellular to periplasm)	973
+DURItex	Deoxyuridine transport via diffusion (extracellular to periplasm)	975
+ETOHtex	Ethanol transport via diffusion (extracellular to periplasm)	992
+FALDtex	Formaldehyde transport via diffusion (extracellular to periplasm)	1012
+FE2tex	Iron (II) transport via diffusion (extracellular to periplasm)	1039
+FE3tex	Iron (III) transport via diffusion (extracellular to periplasm)	1046
+FEOXAMUtex	Ferroxamine (minus Fe3) secretion (to extracellular)	1058
+FOAMtex	Formamide transport via diffusion extracellular to periplasm 	1069
+FORtex	Formate transport via diffusion (extracellular to periplasm)	1075
+FRUtex	D-fructose transport via diffusion (extracellular to periplasm)	1086
+FUMtex	Fumarate transport via diffusion (extracellular to periplasm)	1093
+FUSAtex	Fusidic acid transport via diffusion (extracellular to periplasm)	1094
+G3PCtex	Glycero-3-phosphocholine transport via diffusion (extracellular to periplasm)	1105
+G3PEtex	Glycero-3-phosphoethanolamine transport via diffusion (extracellular to periplasm)	1108
+G3PGtex	Glycerophoglycerol transport via diffusion (extracellular to periplasm)	1109
+G3PItex	Glycero-3-phospho-1-inositol transport via diffusion (extracellular to periplasm)	1110
+G3PStex	Glycerophosphserine transport via diffusion (extracellular to periplasm)	1111
+GAL1Ptex	D-galactose 1-phosphate transport via diffusion (extracellular to periplasm)	1115
+GALBDtex	Beta D-galactose transport via diffusion (extracellular to periplasm)	1117
+GALtex	D-galactose transport via diffusion (extracellular to periplasm)	1122
+GAMtex	D-glucosamine transport via diffusion (extracellular to periplasm)	1126
+GLCNtex	D-gluconate transport via diffusion (extracellular to periplasm)	1144
+GLCtex	Glucose transport via diffusion (extracellular to periplasm)	1151
+GLCUR1Ptex	D-glucuronate 1-phosphate transport via diffusion (extracellular to periplasm)	1155
+GLCURtex	D-glucuronat transport via diffusion (extracellular to periplasm)	1158
+GLNtex	L-glutamine transport via diffusion (extracellular to periplasm)	1163
+GLUtex	L-glutamate transport via diffusion (extracellular to periplasm)	1177
+GLYC2Ptex	Glycerol-2-phosphate transport via diffusion (extracellular to periplasm)	1187
+GLYC3Ptex	Glycerol-3-phosphate transport via diffusion (extracellular to periplasm)	1188
+GLYCLTtex	Glycolate transport via diffusion (extracellular to periplasm)	1192
+GLYCtex	Glycerol transport via diffusion (extracellular to periplasm)	1193
+GLYtex	Glycine transport via diffusion (extracellular to periplasm)	1201
+GMPtex	GMP transport via diffusion (extracellular to periplasm)	1207
+GSNtex	Guanosine transport via diffusion (extracellular to periplasm)	1214
+GTHRDtex	Glutathione transport via diffusion (extracellular to periplasm)	1219
+GUAtex	Guanine transport via diffusion (extracellular to periplasm)	1228
+H2tex	Hydrogen transport via diffusion (extracellular to periplasm)	1232
+HDCAtexi	Hexadecanoate transport via facilitated irreversible diffusion (extracellular to periplasm)	1254
+HDCEAtexi	Hexadecenoate transport via facilitated irreversible diffusion (extracellular to periplasm)	1255
+HIStex	L-histidine transport via diffusion (extracellular to periplasm)	1271
+HOMtex	L-homoserine transport via diffusion (extracellular to periplasm)	1278
+HPAtex	4-hydroxyphenylacetate transport via diffusion (extracellular to periplasm)	1281
+Htex	Proton transport via diffusion (extracellular to periplasm)	1285
+HXAtex	Hexanoate transport via diffusion (extracellular to periplasm)	1287
+HYXNtex	Hypoxanthine transport via diffusion (extracellular to periplasm)	1298
+ILEtex	L-isoleucine transport via diffusion (extracellular to periplasm)	1306
+IMPtex	IMP transport via diffusion (extracellular to periplasm)	1308
+INDOLEtex	Indole transport via diffusion (extracellular to periplasm)	1310
+INStex	Inosine transport via diffusion (extracellular to periplasm)	1313
+INSTtex	Inositol transport via diffusion (extracellular to periplasm)	1314
+K2L4Aabctex	KDO(2)-lipid IV A transport via ABC system (periplasm to extracellular)	1318
+Ktex	Potassium transport via diffusion (extracellular to periplasm)	1337
+LALADGLUtex	L-alanyl-D-glutamate transport via diffusion (extracellular to periplasm)	1338
+LALALGLUtex	L-alanyl-L-glutamate transport via diffusion (extracellular to periplasm)	1340
+LCTStex	Lactose transport via diffusion (extracellular to periplasm)	1347
+LEUtex	L-leucine transport via diffusion (extracellular to periplasm)	1356
+LIPAabctex	Lipid A transport via ABC system (periplasm to extracellular)	1359
+L_LACtex	L-lactate transport via diffusion (extracellular to periplasm)	1364
+LYStex	L-lysine transport via diffusion (extracellular to periplasm)	1412
+MALDtex	D-Malate transport via diffusion (extracellular to periplasm)	1417
+MALtex	Malate transport via diffusion (extracellular to periplasm)	1423
+MANGLYCtex	2-O-alpha-mannosyl-D-glycerate transport via diffusion (extracellular to periplasm)	1427
+MANtex	D-mannose transport via diffusion (extracellular to periplasm)	1431
+MELIBtex	Melibiose transport via diffusion (extracellular to periplasm)	1453
+MEOHtex	Methanol transport via diffusion (extracellular to periplasm)	1454
+METtex	L-methionine transport via diffusion (extracellular to periplasm)	1459
+MG2tex	Magnesium (Mg+2) transport via diffusion (extracellular to periplasm)	1460
+MINCYCtex	Minocycline transport via diffusion (extracellular to periplasm)	1465
+MNLtex	Mannitol transport via diffusion (extracellular to periplasm)	1488
+MNtex	Manganese (Mn+2) transport via diffusion (extracellular to periplasm)	1489
+MOBDtex	Molybdate transport via diffusion (extracellular to periplasm)	1496
+MSO3tex	Methanesulfonate transport via diffusion (extracellular to periplasm)	1508
+N2Otex	Nitrious oxide transport via diffusion (extracellular to periplasm)	1513
+NACtex	Nicotinic acid transport via diffusion (extracellular to periplasm)	1517
+NAtex	Sodium transport via diffusion (extracellular to periplasm)	1535
+NI2tex	Nickel transport via diffusion (extracellular to periplasm)	1540
+NMNtex	NMN transport via diffusion (extracellular to periplasm)	1551
+NO2tex	Nitrite transport via diffusion (extracellular to periplasm)	1554
+NO3tex	Nitrate transport via diffusion (extracellular to periplasm)	1558
+NOtex	Nitric oxide transport via diffusion (extracellular to periplasm)	1559
+NOVBCNtex	Novobiocin transport via diffusion (extracellular to periplasm)	1561
+O2tex	Oxygen transport via diffusion (extracellular to periplasm)	1606
+OAAtex	Oxaloacetate transport via diffusion extracellular to periplasm 	1610
+OCDCAtexi	Octadecanoate transport via facilitated irreversible diffusion (extracellular to periplasm)	1616
+OCDCEAtexi	Octadecenoate (n-C18:1) transport via facilitated irreversible diffusion (extracellular to periplasm)	1617
+OCTAtex	Octanoate transport via diffusion (extracellular to periplasm)	1620
+OROTtex	Orotate transport via diffusion (extracellular to periplasm)	1634
+OXFOtex	Oxalate:Formate antiporter (extracellular to periplasm)	1639
+PACALDtex	Phenethylacetaldehyde transport via diffusion (extracellular to periplasm)	1645
+PHEMEtiex	Protoheme transport irreversible out via diffusion (periplasm to extracellular)	1704
+PItex	Phosphate transport via diffusion (extracellular to periplasm)	1708
+PNTOtex	Pantothenate transport via diffusion (extracellular to periplasm)	1740
+PPALtex	Propanal transport via diffusion (extracellular to periplasm)	1742
+PPPNtex	3-phenylpropionate transport via diffusion (extracellular to periplasm)	1762
+PROtex	L-proline transport via diffusion (extracellular to periplasm)	1770
+PYRtex	Pyruvate transport via diffusion (extracellular to periplasm)	1805
+QUIN2tex	Quinate transport via diffusion (extracellular to periplasm)	1807
+RFAMPtex	Rifampin transport via diffusion (extracellular to periplasm)	1815
+RIBtex	Ribose transport via diffusion (extracellular to periplasm)	1821
+SBTtex	D-sorbitol transport via diffusion (extracellular to periplasm)	1841
+SERtex	L-serine transport via diffusion (extracellular to periplasm)	1851
+SO3tex	Sulfite transport via diffusion (extracellular to periplasm)	1862
+SO4tex	Sulfate transport via diffusion (extracellular to periplasm)	1863
+SPMDtex	Spermidine transport via diffusion (extracellular to periplasm)	1868
+SUCCtex	Succinate transport via diffusion (extracellular to periplasm)	1882
+SUCRtex	Sucrose transport transport via diffusion (extracellular to periplasm)	1889
+TARTRDtex	D-tartrate transport via diffusion (extracellular to periplasm)	1895
+TARTRtex	Tartrate transport via diffusion (extracellular to periplasm)	1897
+TAURtex	Taurine transport via diffusion (extracellular to periplasm)	1900
+TCYNTtex	Thiocyanate transport via diffusion (extracellular to periplasm)	1901
+THMDtex	Thymidine transport via diffusion (extracellular to periplasm)	1911
+THRtex	L-threonine transport via diffusion (extracellular to periplasm)	1916
+TMAOtex	Trimethylamine N-oxide transport via diffusion (extracellular to periplasm)	1923
+TMAtex	Trimethylamine transport via diffusion (extracellular to periplasm)	1924
+TREtex	Trehalose transport via diffusion (extracellular to periplasm)	1931
+TSULtex	Thiosulfate transport via diffusion (extracellular to periplasm)	1936
+TTDCAtexi	Tetradecanoate transport via facilitated irreversible diffusion (extracellular to periplasm)	1938
+TTDCEAtexi	Tetradecenoate transport via facilitated irreversible diffusion (extracellular to periplasm)	1939
+TTRCYCtex	Tetracycline transport via diffusion (extracellular to periplasm)	1940
+TYMtex	Tyramine transport via diffusion (extracellular to periplasm)	1942
+TYRtex	L-tyrosine transport via diffusion (extracellular to periplasm)	1947
+UACGAMtex	UDP-N-acetyl-D-glucosamine transport via diffusion (extracellular to periplasm)	1952
+UDPACGALtex	UDP-N-acetyl-D-galactosamine transport via diffusion (extracellular to periplasm)	1962
+UDPGALtex	UDPgalactose transport via diffusion (extracellular to periplasm)	1965
+UDPGLCURtex	UDP-D-glucuronate transport via diffusion (extracellular to periplasm)	1967
+UDPGtex	UDPglucose transport via diffusion (extracellular to periplasm)	1969
+UMPtex	UMP transport via diffusion (extracellular to periplasm)	1978
+UREAtex	Urea transport via diffusion (extracellular to periplasm)	1984
+URItex	Uridine transport via diffusion (extracellular to periplasm)	1989
+VALtex	L-valine transport via diffusion (extracellular to periplasm)	1993
+XMPtex	XMP transport via diffusion (extracellular to periplasm)	1998
+XTSNtex	Xanthosine transport via diffusion (extracellular to periplasm)	2000
+XYLtex	D-xylose transport via diffusion (extracellular to periplasm)	2007
+XYLUtex	L-xylulose transport via diffusion (extracellular to periplasm)	2009
+Zn2tex	Zinc (Zn+2) transport via diffusion (extracellular to periplasm)	2012
+12PPDStex	(S)-Propane-1,2-diol transport via diffusion (extracellular to periplasm)	2202
+2PGtex	D Glycerate 2 phosphate transport via diffusion extracellular to periplasm 	2208
+34dhpactex	Dihydroxyphenylacetaldehyde transport via diffusion (extracellular to periplasm)	2211
+3hoxpactex	3 hydroxyphenylacetic acid transport via diffusion extracellular to periplasm 	2213
+3PGtex	3 Phospho D glycerate transport via diffusion extracellular to periplasm 	2218
+4HBALDtex	4-hydroxybenzaldehyde transport via diffusion (extracellular to periplasm)	2223
+4HBAtex	4-hydroxy-benzyl alcohol transport via diffusion (extracellular to periplasm)	2224
+5DGLCNtex	5-Dehydro-D-gluconate transport via diffusion (extracellular to periplasm)	2230
+ACONCtex	Cisaconitat transport via diffusion extracellular to periplasm 	2235
+AKGtex	Alpha-ketoglutarate transport via diffusion (extracellular to periplasm)	2246
+ALLTNtex	Allantoin transport via diffusion (extracellular to periplasm)	2252
+ARBTtex	Arbutin transport via diffusion (extracellular to periplasm)	2258
+BTOHtex	Butanol transport via diffusion (extracellular to periplasm)	2263
+CLBtex	Cellobiose transport transport via diffusion extracellular to periplasm 	2277
+CRNtex	L-carnitine transport via diffusion (extracellular to periplasm)	2287
+CUtex	Copper (Cu+1) transport via diffusion (extracellular to periplasm)	2290
+DAPtex	1,5-Diaminopentane transport via diffusion (extracellular to periplasm)	2294
+DDGLCNtex	2-dehydro-3-deoxy-D-gluconate transport via diffusion (extracellular to periplasm)	2295
+DHAtex	Dihydroxyacetone transport via diffusion (extracellular to periplasm)	2297
+D_LACtex	D-lactate transport via diffusion (extracellular to periplasm)	2304
+DOPAtex	Dopamine transport via diffusion (extracellular to periplasm)	2305
+DRIBtex	Deoxyribose transport via diffusion extracellular to periplasm 	2307
+ENLIPAabctex	Phosphoethanolamine lipid A transport via ABC system (periplasm to extracellular)	2312
+FUCtex	L-fucose transport via diffusion (extracellular to periplasm)	2334
+GALCTtex	D-galactarte transport via diffusion (extracellular to periplasm)	2338
+GALTtex	Galactitol transport via diffusion (extracellular to periplasm)	2341
+GALURtex	D-galacturonate transport via diffusion (extracellular to periplasm)	2342
+GBBTNtex	Gamma-butyrobetaine transport via diffusion (extracellular to periplasm)	2344
+GLCRtex	D-glucarate transport via diffusion (extracellular to periplasm)	2346
+GLYALDtex	Glyceraldehyde transport via diffusion (extracellular to periplasm)	2350
+GLYBtex	Glycine betaine transport via diffusion (extracellular to periplasm)	2354
+GLYCAtex	D-glycerate transport via diffusion (extracellular to periplasm)	2355
+GM1LIPAabctex	G. metallireducens core lipid A transport via ABC system (periplasm to extracellular)	2358
+HCINNMtex	3-hydroxycinnamic acid transport via diffusion (extracellular to periplasm)	2364
+HCO3tex	Bicarbonate transport via diffusion (extracellular to periplasm)	2365
+HG2tex	Mercury (Hg+2) transport via diffusion (extracellular to periplasm)	2370
+HPPPNtex	3-(3-hydroxyphenyl)propionate transport via diffusion (extracellular to periplasm)	2377
+ICITtex	Citrate transport via diffusion extracellular to periplasm 	2379
+IDONtex	L-idonate transport via diffusion (extracellular to periplasm)	2380
+MALTtexi	MaltoseMaltotriose transport via diffusion (extracellular to periplasm) irreversible	2394
+PHEtex	L-phenylalanine transport via diffusion (extracellular to periplasm)	2430
+RAFFtex	Raffinose transport transport via diffusion extracellular to periplasm 	2451
+SALCHSXtex	Salmochelin SX via diffusion extracellular to periplasm 	2460
+SALCNtex	Salicin transport transport via diffusion extracellular to periplasm 	2462
+TRPtex	L-tryptophan transport via diffusion (extracellular to periplasm)	2480
+XANtex	Xanthine transport via diffusion (extracellular to periplasm)	2492
+THMtex	Thiamine transport via diffusion (extracellular to periplasm)	2640
+ACOLIPAabctex	Arabinose modified core oligosaccharide lipid A transport via ABC system (periplasm to extracellular)	2669
+BUTSO3tex	Butanesulfonate transport via diffusion (extracellular to periplasm)	2678
+ETHSO3tex	Ethanesulfonate transport via diffusion (extracellular to periplasm)	2682
+IBTtex	Isobutyrate transport via diffusion (extracellular to periplasm)	2694
+ISETACtex	Isethionate transport via diffusion (extracellular to periplasm)	2697
+SULFACtex	Sulfoaceate transport via diffusion (extracellular to periplasm)	2707
+GM2LIPAabctex	G. metallireducens core lipid A transport via ABC system (periplasm to extracellular)	2910
+LCYSTtex	L-cysteate transport via ABC system  (extracellular to periplasm)	2951
+MALTHXtexi	Maltohexaose transport via diffusion (extracellular to periplasm) irreversible	2961
+14GLUCANtexi	1,4-alpha-D-glucan transport via diffusion (extracellular to periplasm) irreversible	3113
+PPOHtex	Propanol transport via diffusion (extracellular to periplasm)	3166
+LIPOtex	Lipoate transport via diffusion (extracellular to periplasm)	3313
+MALTPTtexi	MaltopentaoseMaltotriose transport via diffusion (extracellular to periplasm) irreversible	3315
+MALTTRtexi	Maltotriose transport via diffusion (extracellular to periplasm) irreversible	3317
+MALTTTRtexi	MaltotetraoseMaltotriose transport via diffusion (extracellular to periplasm) irreversible	3319
+SKMtex	Shikimate transport via diffusion (extracellular to periplasm)	3356
+CRO4tex	Cromate transport via diffusion (extracellular to periplasm)	3420
+URAtex	Uracil transport via diffusion (extracellular to periplasm)	3548
+3HPPtex	3-hydroxypropionate transport via diffusion (extracellular to periplasm)	3554
+FEROXEFEtex	Ferrioxamine E fe transport via diffusion extracellular to periplasm 	3567
+FEROXEtex	Ferrioxamine E transport via diffusion extracellular to periplasm 	3568
+GALCTNLtex	L-galactonate transport via diffusion (extracellular to periplasm)	3651
+GALCTNtex	D-galactonate transport via diffusion (extracellular to periplasm)	3653
+ARBTNtex	Aerobactin secretion (to extracellular)	3673
+ABZtex	4 aminobenzoate extracellular to cytosol 	3709
+2OBUTtex	2-oxobutanoate transport via diffusion (extracellular to periplasm)	3749
+AIRStex	Aminoimidazole riboside transport via diffusion extracellular to periplasm 	3751
+PEPtex	Phosphoenolpyruvate transport via diffusion extracellular to periplasm 	3773
+ASCBtex	L-ascorbate transport via diffusion (extracellular to periplasm)	3788
+FEROXBFEtex	Ferrioxamine B fe transport via diffusion extracellular to periplasm 	3797
+FEROXBtex	Ferrioxamine B transport via diffusion extracellular to periplasm 	3798
+R5Ptex	Ribose 5-phosphate transport via diffusion (extracellular to periplasm)	3809
+THRPtex	Phospho-L-threonine transport via diffusion (extracellular to periplasm)	3812
+FECRMUtex	Ferrichrome (minus Fe) secretion (to extracellular)	3824
+PSERtex	Phospho-L-serine transport via diffusion (extracellular to periplasm)	3849
+O16A4COLIPAabctex	O16 antigen (x4) core oligosaccharide lipid A transport via ABC system (periplasm to extracellular)	3859
+FEROXGtex	Ferrioxamine G transport via diffusion extracellular to periplasm 	3903
+ECA4COLIPAabctex	Enterobacterial common antigen (x4) core oligosaccharide lipid A transport via ABC system (periplasm to extracellular)	3927
+CLIPAtex	Cold lipid A transport via vector (periplasm to extracellular)	3941
+COLIPAPabctex	Core oligosaccharide lipid A diphosphate transport via ABC system (periplasm to extracellular)	3943
+MMETtex	S-methyl-L-methionine transport via diffusion (extracellular to periplasm)	3982
+DSERtex	D-serine transport via diffusion (extracellular to periplasm)	3987
+PPTtex	Phosphonate transport via diffusion (extracellular to periplasm)	3990
+RMNtex	L-rhamnose transport via diffusion (extracellular to periplasm)	3995
+CYSDtex	D-cysteine transport via diffusion (extracellular to periplasm)	4002
+LYXtex	L-Lyxose transport via diffusion (extracellular to periplasm)	4016
+THYMtex	Thymine transport via diffusion (extracellular to periplasm)	4080
+PEAMNtex	Phenethylamine transport via diffusion (extracellular to periplasm)	4088
+26DAHtex	Meso-2,6-Diaminoheptanedioate transport via diffusion (extracellular to periplasm)	4092
+ACNAMtex	N-acetylneuraminate transport via diffusion (extracellular to periplasm)	4103
+MINOHPtexi	Myo-inositol phosphate transport via diffusion (extracellular to periplasm)	4104
+ALLtex	Allose transport via diffusion (extracellular to periplasm)	4112
+TAGtex	D Tagatose transport via diffusion extracellular to periplasm 	4117
+13PPDtex	1,3-propanediol transporter via diffusion (extracellular to periplasm)	4129
+F6Ptex	Fructose 6-phosphate transport via diffusion (extracellular to periplasm)	4144
+G6Ptex	Glucose 6-phosphate transport via diffusion (extracellular to periplasm)	4146
+GAMAN6Ptex	D-glucosamine 6-phosphate transport via diffusion (extracellular to periplasm)	4148
+GDPtex	GDP transport via diffusion (extracellular to periplasm)	4149
+GTPtex	GTP transport via diffusion (extracellular to periplasm)	4150
+MAN6Ptex	Mannose 6-phosphate transport via diffusion (extracellular to periplasm)	4152
+ACGALtex	N-acetyl-D-galactosamine transport via diffusion (extracellular to periplasm)	4163
+colipa20Oagtex	O antigen x20 core oligosaccharide lipid A transport periplasm to extracellular 	4167
+K2L4Atex	KDO(2)-lipid IV A transport via vector (periplasm to extracellular)	4191
+4hoxpactex	4 hydroxyphenylacetate transport via diffusion extracellular to periplasm 	4200
+COLIPAtex	Core oligosaccharide lipid A transport via vector (periplasm to extracellular)	4202
+ENLIPAtex	Phosphoethanolamine lipid A transport via vector (periplasm to extracellular)	4208
+COt_1	Co transport via diffusion (extracellular to periplasm)	4212
+O16A4COLIPAtex	O16 antigen (x4) core oligosaccharide lipid A transport (periplasm to extracellular)	4215
+LIPAtex	Lipid A transport via vector (periplasm to extracellular)	4234
+ECA4COLIPAtex	Enterobacterial common antigen (x4) core oligosaccharide lipid A transport (periplasm to extracellular)	4246
+ACOLIPAtex	Arabinose modified core oligosaccharide lipid A transport via vector (periplasm to extracellular)	4254

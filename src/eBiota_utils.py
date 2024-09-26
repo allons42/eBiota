@@ -18,8 +18,8 @@ def read_and_check_config():
         print(f"Error: path_GEM {config['path_GEM']} not found")
         exit()
     if os.path.exists(config["path_output"]):
-        print("Error: Output directory already exists. Please check the output directory.")
-        exit()
+        print("Warning: Output directory already exists. Please check the output directory.")
+        # exit()
     if not os.path.exists(config["medium"]):
         print("Error: medium not found")
         exit()

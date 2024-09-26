@@ -18,5 +18,5 @@
     "CUDA_VISIBLE_DEVICES": "2",
     "feature_index_type": "moreReacFeature",
     "data_taxa_type": "gcf",
-    "dl_model_path": "../data/model_file/model_weights.pth"
+    "dl_model_path": "./stats/model_weights.pth"
 }
