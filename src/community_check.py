@@ -72,6 +72,7 @@ micro_num = config["community_size"]
 data_taxa_type = config["data_taxa_type"]
 feature_index_type = config["feature_index_type"]
 temp_dir = os.path.join("tmp", "cooc")
+path_GEM = config["path_GEM"]
 
 # root for 2w micro，所有rea名称到反应对象的pairs
 stats_dir = './stats/'
@@ -114,7 +115,7 @@ else:
 ## 主要转换到index的funcs
 # 从gcf直接到index
 def get_gcf_rea_index(
-    gcf="", rea_table=None, extra_gems_root="./GEM/" # external gems directory
+    gcf="", rea_table=None, extra_gems_root=path_GEM # external gems directory
 ):
     ## given gcf, return reaction vector or reduced reaction vector using SVD
     try:
@@ -927,6 +928,7 @@ def handle_single_inputfile(file_in = '', file_out = ''):
     
     df_main.to_csv(file_in if len(file_out) < 1 else file_out, sep='\t', index=False)
     # 删除dir
+    os.system(f'rm -r {file_in}') # rm the original file
     # shutil.rmtree(txt_dir)
 
 
