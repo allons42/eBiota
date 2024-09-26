@@ -33,7 +33,7 @@ python eBiota.py --test
 eBiota supports various functions for microbial community design. For a quickstart, we provide an example to design communities that utilize glucose and produce hydrogen.
 
 ```bash
-python eBiota.py --Function design --substrate glc__D_e --product h2_e
+python eBiota.py --Function design
 ```
 
 There are plenty of configurations to custom your communities, detailed in `config.json`. For more usage and tutorials, see the [documentation](https://e-biota.readthedocs.io/en/latest/index.html).
@@ -51,4 +51,3 @@ The following results are included:
 ## Citation
 
 eBiota: microbial community-scale metabolic modelling and deep learning *ab initio* design microbial communities with desired functions from large-scale seed pools
-

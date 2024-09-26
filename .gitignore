@@ -156,4 +156,9 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
 
 src/tmp
+src/result
 src/rewrite_GEM
+src/stats/model_weights.pth
+src/stats/gcfs_MetList_original_431.npy
+src/stats/gems_np.npy
+src/Log.txt
