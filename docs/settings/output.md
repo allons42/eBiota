@@ -18,8 +18,8 @@ The base output file is TSV (Tab-Separated Values) format, including the followi
 | EX_{product}_2         | Production rate of given product by the 2nd bacterium        |
 | Cross_feeding_forward  | Cross feeding metabolites from the 1st bacterium to the 2nd bacterium, including their exchange rate |
 | Cross_feeding_reverse  | Cross feeding metabolites from the 2nd bacterium to the 1st bacterium, including their exchange rate |
-| Bac1_single_growth     | Growth rate of the 1st bacterium in mono-culture             |
-| Bac2_single_growth     | Growth rate of the 2nd bacterium in mono-culture             |
+| Bac1_mono_growth       | Growth rate of the 1st bacterium in mono-culture             |
+| Bac2_mono_growth       | Growth rate of the 2nd bacterium in mono-culture             |
 | DeepCooc_Co_occurrence | Prediction of co-occurrence by DeepCooc                      |
 | Interaction_type       | Interaction type of the microbial community                  |
 | Total_production       | Cumulative production rate of the microbial community        |
