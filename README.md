@@ -1,9 +1,6 @@
 # eBiota: *ab initio* design microbial communities from large-scale seed pools using deep learning and optimization algorithm with microbial community-scale metabolic models
 
-[![Documentation Status](https://readthedocs.org/projects/e-biota/badge/?version=latest)](https://e-biota.readthedocs.io/en/latest/index.html)
-DOI
-
-
+[![Documentation Status](https://readthedocs.org/projects/ebiota/badge/?version=latest)](https://ebiota.readthedocs.io/en/latest/?badge=latest)
 
 ## Contents
 

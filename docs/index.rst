@@ -27,5 +27,5 @@ Check out the following instructions for installation, usage and tutorials.
    :maxdepth: 2
    :caption: Settings
 
-   /setting/medium
-   /setting/output
+   /settings/medium
+   /settings/output
