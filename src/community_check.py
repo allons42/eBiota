@@ -236,8 +236,8 @@ class EMPdataset:
         self.dataset_from = dataset_from
         self.data_taxa_type = data_taxa_type
         # 读入数据，后续根据数据格式再修改
-        self.data_df = pd.read_csv(csv_file, sep='\t',)
-        self.data_df.reset_index(inplace=True, drop=True)
+        self.data_df = pd.read_csv(csv_file, sep='\t', index_col=False)
+        # self.data_df.reset_index(inplace=True, drop=True)
         
         self.data = []
         for i in range(self.data_df.shape[0]):
@@ -908,14 +908,14 @@ def handle_single_inputfile(file_in = '', file_out = ''):
     ## 注意：这里的interaction之类的函数只能针对2个bac的情况使用？目前是这样
     base_name = os.path.basename(file_in)
     base_name = base_name.split('.')[0]
-    df_main = pd.read_csv(file_in, sep='\t')
+    df_main = pd.read_csv(file_in, sep='\t', index_col=False)
     
     # 后处理6种interaction
     def get_6_interaction_type(x):
-        spe1_list, spe2_list = (x['Bac1_single_growth'], x['Growth1']), (x['Bac2_single_growth'], x['Growth2'])
+        spe1_list, spe2_list = (x['Bac1_mono_growth'], x['Growth1']), (x['Bac2_mono_growth'], x['Growth2'])
         interact_name, _ = get_interaction_type(spe1_list, spe2_list, threshold=0.01, hyposis_test = False)
         return interact_name
-    df_main['interaction_type'] = df_main[['Growth1', 'Growth2', 'Bac1_single_growth', 'Bac2_single_growth']].apply(lambda x: get_6_interaction_type(x), axis=1)
+    df_main['interaction_type'] = df_main[['Growth1', 'Growth2', 'Bac1_mono_growth', 'Bac2_mono_growth']].apply(lambda x: get_6_interaction_type(x), axis=1)
     
     # 后处理eveness
     def eveness_index(x):
@@ -924,11 +924,9 @@ def handle_single_inputfile(file_in = '', file_out = ''):
         H = - (p1 * np.log(p1) + p2 * np.log(p2))
         eveness = H / np.log(2)
         return eveness
-    # df_main['eveness_index'] = df_main[['Growth1', 'Growth2', 'Bac1_single_growth', 'Bac2_single_growth']].apply(lambda x: eveness_index(x), axis=1)
+    # df_main['eveness_index'] = df_main[['Growth1', 'Growth2', 'Bac1_mono_growth', 'Bac2_mono_growth']].apply(lambda x: eveness_index(x), axis=1)
     
     df_main.to_csv(file_in if len(file_out) < 1 else file_out, sep='\t', index=False)
-    # 删除dir
-    os.system(f'rm -r {file_in}') # rm the original file
     # shutil.rmtree(txt_dir)
 
 
@@ -951,11 +949,11 @@ def DeepCooc():
         dl_model_path = config["dl_model_path"]
         # training strategy
         batch_size = 128
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = torch.device("cuda" if config["USE_CUDA"] and torch.cuda.is_available() else "cpu")
         zero_class_ratio = 0.5
 
         # model structure
-        exchange_reaction_table = None  # '/data1/hyzhang/Projects/E_biota/emp_ML/hiorco_DeepCoex/DL_src/ex_reactions_select/reac_transport_table.tsv'
+        exchange_reaction_table = None
         arch = "" 
         model_mode = 'FC_mergedCNN'
         single_out_dim = 256
@@ -1012,7 +1010,7 @@ def DeepCooc():
         y_pred = np.concatenate(y_pred, axis=0)
         
         # 保存结果
-        input_df = pd.read_csv(f'{root_output}/{file_input}', sep='\t',)
+        input_df = pd.read_csv(f'{root_output}/{file_input}', sep='\t', index_col=False)
         input_df['DeepCooc_Co_occurrence'] = y_pred
         input_df['DeepCooc_Co_occurrence'] = input_df['DeepCooc_Co_occurrence'].apply(lambda x: 1 if x > 0.5 else 0)
         out_file = os.path.join(model_save_root, os.path.basename(f'{root_output}/{file_input}').replace('.txt', '.tsv'))
@@ -1021,6 +1019,7 @@ def DeepCooc():
         # 删除中间文件
         os.remove(test_x)
         os.remove(test_y)
+        os.system(f'rm -r {root_output}/{file_input}') # rm the original file
         
         # 获取其他指标
         handle_single_inputfile(out_file, out_file)

@@ -55,7 +55,7 @@ pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --e
 After installing Pytorch, you need to download necessary files from Zenodo:
 
 ```bash
-wget -O https://zenodo.org/records/13762656/files/DeepCooc_files.tar.gz?download=1
+wget -O DeepCooc_files.tar.gz https://zenodo.org/records/13762656/files/DeepCooc_files.tar.gz?download=1
 tar -xzvf DeepCooc_files.tar.gz -C stats/
 rm DeepCooc_files.tar.gz
 ```

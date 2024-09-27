@@ -275,12 +275,14 @@ def run_community_design():
             for k,v in tmp_d["cross21"].items():
                 fout.write(f",{k}:{round(v,8)+0.0:.8f}")
                 
-            fout.write(f"{round(tmp_d['Bac1_single_growth'],8)+0.0:.8f}\t") 
+            fout.write(f"\t{round(tmp_d['Bac1_single_growth'],8)+0.0:.8f}\t") 
             fout.write(f"{round(tmp_d['Bac2_single_growth'],8)+0.0:.8f}\t")
             if config["target"] =="production":
-                fout.write(f"{round(tmp_d[rxn_out+'_1']*tmp_d['Growth1']+tmp_d[rxn_out+'_2']*tmp_d['Growth2'],8)+0.0:.8f}\t")
+                total = tmp_d[rxn_out + '_1'] * tmp_d['Growth1'] + tmp_d[rxn_out + '_2'] * tmp_d['Growth2']
+                fout.write(f"{round(total,8)+0.0:.8f}\t")
             else:
-                fout.write(f"{round(tmp_d[rxn_in+'_1']*tmp_d['Growth1']+tmp_d[rxn_in+'_2']*tmp_d['Growth2'],8)+0.0:.8f}\t")
+                total = tmp_d[rxn_in + '_1'] * tmp_d['Growth1'] + tmp_d[rxn_in + '_2'] * tmp_d['Growth2']
+                fout.write(f"{round(total,8)+0.0:.8f}\t")
             fout.write("\n")
         fout.close()
         with open(FBA_LOG, "a") as log:

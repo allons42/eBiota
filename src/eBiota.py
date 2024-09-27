@@ -82,22 +82,6 @@ def main(args):
         print("Evaluation is completed!")
 
     elif function_mode == "design":
-        print("Start to analyze the input GEMs...")
-        cmd = "perl find_path.pl " +  config["path_GEM"]
-        suc = subprocess.call(cmd, shell=True)
-        if suc == 0:
-            print("CoreBFS completed!")
-        else:
-            print("An error occurred in CoreBFS. Please check the parameters!")
-            return
-        
-        translate_path()
-        print("All path detected! Start to evaluate the GEMs...")
-
-        rewrite()
-        run_evaluate()
-        print("Evaluation completed! Start to build communities...")
-
         get_combination()
         run_community_design()
         print("Design is completed!")
@@ -132,7 +116,7 @@ def main(args):
             print("All tests passed.")
 
     else:
-        print("\nInvalid function mode. Please check the parameters.")
+        print("Invalid function mode. Please check the parameters.")
 
 
 if __name__ == "__main__":
@@ -144,7 +128,7 @@ if __name__ == "__main__":
     print("python eBiota.py -F evaluate -o ./results")
     print("python eBiota.py -F design -o ./results")
     print("python eBiota.py -F cooccur -o ./results")
-    print("python eBiota.py -F test")
+    print("python eBiota.py -F test\n")
 
     args = parse_arg()
     update_config(args)

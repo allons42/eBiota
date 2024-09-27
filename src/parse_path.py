@@ -34,7 +34,7 @@ def translate_path():
     if not os.path.exists(root_out):
         os.makedirs(root_out)
     fs = os.listdir(root_in)
-    print(len(fs), "GEMs are considered")
+    print(len(fs), "GEMs are included.")
     for f in tqdm(fs, desc="translating paths"):
         if f.endswith(".txt"):
             with open(os.path.join(root_in, f)) as fin:
