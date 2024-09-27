@@ -1,7 +1,7 @@
 Output format
 =====
 
-The base output file is TSV (Tab-Separated Values) format, including the following contents:
+The full output file is in TSV (Tab-Separated Values) format, including the following results:
 
 | column id              | meaning                                                      |
 | ---------------------- | ------------------------------------------------------------ |

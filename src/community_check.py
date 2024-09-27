@@ -915,7 +915,7 @@ def handle_single_inputfile(file_in = '', file_out = ''):
         spe1_list, spe2_list = (x['Bac1_mono_growth'], x['Growth1']), (x['Bac2_mono_growth'], x['Growth2'])
         interact_name, _ = get_interaction_type(spe1_list, spe2_list, threshold=0.01, hyposis_test = False)
         return interact_name
-    df_main['interaction_type'] = df_main[['Growth1', 'Growth2', 'Bac1_mono_growth', 'Bac2_mono_growth']].apply(lambda x: get_6_interaction_type(x), axis=1)
+    df_main['Interaction_type'] = df_main[['Growth1', 'Growth2', 'Bac1_mono_growth', 'Bac2_mono_growth']].apply(lambda x: get_6_interaction_type(x), axis=1)
     
     # 后处理eveness
     def eveness_index(x):
