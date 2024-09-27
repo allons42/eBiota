@@ -1,12 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,jupyternotebooks
 
-# large files
-./src/stats/gcfs_MetList_original_431.npy
-./src/stats/gems_np.npy
-./src/stats/model_weights.pth
-./src/stats/DeepCooc_files.tar.gz
-
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
@@ -160,6 +154,7 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
 
+# temporary files and large files
 src/tmp
 src/result
 src/rewrite_GEM
@@ -167,3 +162,5 @@ src/stats/model_weights.pth
 src/stats/gcfs_MetList_original_431.npy
 src/stats/gems_np.npy
 src/Log.txt
+src/ErrorLog.txt
+src/stats/DeepCooc_files.tar.gz

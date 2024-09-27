@@ -45,7 +45,7 @@ def main(args):
         cmd = "perl find_path.pl " +  config["path_GEM"]
         suc = subprocess.call(cmd, shell=True)
         if suc == 0:
-            print("CoreBFS completed!")
+            print("CoreBFS is completed!")
         else:
             print("An error occurred in CoreBFS. Please check the parameters!")
             return
@@ -69,7 +69,7 @@ def main(args):
         cmd = "perl find_path.pl " +  config["path_GEM"]
         suc = subprocess.call(cmd, shell=True)
         if suc == 0:
-            print("CoreBFS completed!")
+            print("CoreBFS is completed!")
         else:
             print("An error occurred in CoreBFS. Please check the parameters!")
             return

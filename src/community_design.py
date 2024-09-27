@@ -254,7 +254,7 @@ def run_community_design():
         else:
             res_sorted = sorted(all_res, key=lambda x: x[rxn_in+"_1"]*x["Growth1"]+x[rxn_in+"_2"]*x["Growth2"], reverse=True)
         fout = open(os.path.join(root_output, f"{substrate}__to__{product}__{O2}__{glucose}.txt"), "w")
-        fout.write(f"Bac1\tBac2\tGrowth1\tGrowth2\tIntermediate\t{rxn_in}_1\t{rxn_in}_2\tGlucose_absorption_1\tGlucose_absorption_2\t{rxn_out}_1\t{rxn_out}_2\tCross_feeding_forward\tCross_feeding_reverse\tBac1_single_growth\tBac2_single_growth\tTotal_{config['target']}\n")
+        fout.write(f"Bac1\tBac2\tGrowth1\tGrowth2\tIntermediate\t{rxn_in}_1\t{rxn_in}_2\tGlucose_absorption_1\tGlucose_absorption_2\t{rxn_out}_1\t{rxn_out}_2\tCross_feeding_forward\tCross_feeding_reverse\tBac1_mono_growth\tBac2_mono_growth\tTotal_{config['target']}\n")
         for tmp_d in res_sorted:
             fout.write(tmp_d["Bac1"] + "\t")
             fout.write(tmp_d["Bac2"] + "\t")
