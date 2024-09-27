@@ -5,11 +5,15 @@ import pandas as pd
 from tqdm import tqdm
 import pickle
 
-def read_and_check_config():
+def read_config():
     # read config file
     with open('config.json', 'r') as file:
         config = json.load(file)
+    return config
 
+config = read_config()
+
+def check_config():
     # check the format of config
     if config["suffix"] not in [".xml.gz", ".xml"]:
         print("Error: suffix should be '.xml' or '.xml.gz'")
@@ -18,7 +22,7 @@ def read_and_check_config():
         print(f"Error: path_GEM {config['path_GEM']} not found")
         exit()
     if os.path.exists(config["path_output"]):
-        print("Warning: Output directory already exists. Please check the output directory.")
+        print("Warning: Output directory already exists. Please make sure it is correct.")
         # exit()
     if not os.path.exists(config["medium"]):
         print("Error: medium not found")
@@ -32,10 +36,6 @@ def read_and_check_config():
     if type(config["prune"]) != bool:
         print("Error: prune should be a boolean, true or false")
         exit()
-    
-    return config
-
-config = read_and_check_config()
 
 def update_config(arg):
     if arg.outdir:

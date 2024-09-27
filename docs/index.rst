@@ -26,9 +26,3 @@ Check out the following instructions for installation, usage and tutorials.
    /usage/option
    /usage/medium
    /usage/output
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Tutorials
-
-   /tutorials/community

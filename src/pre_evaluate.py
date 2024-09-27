@@ -1,6 +1,7 @@
 import cobra
 import os
 import time
+from tqdm import tqdm
 from multiprocessing import Pool
 
 from eBiota_utils import get_metabolites_list, config
@@ -139,34 +140,35 @@ def run_evaluate():
     
     # multi process
     fs = os.listdir(output_dir)
-    print(f"{len(all_bac)} bacteria in total, {len(fs)} have been evaluated.")
+    print(f"{len(all_bac)} bacteria in total, {len(fs)} have been evaluated before.")
     done = set(fs)
     
     start = time.time()
     n_proc = config["max_proc"]
+    pool = Pool(n_proc) # 进程池数量上限
+    pbar = tqdm(total=len(all_bac))
+    tasks = []
+
     print(f"Start to evaluate with {n_proc} processors.")
 
-    while len(done) < len(all_bac):
-        cnt = len(done)
-        limit = cnt + 1000
-        pool = Pool(n_proc) # 进程池数量上限
+    for gcf in all_bac:
+        if gcf not in done:
+            gcf_path = []
+            with open(os.path.join(input_dir, gcf)) as fin:
+                lines = fin.readlines()
+                for line in lines:
+                    tmp = line.strip().split("\t")
+                    gcf_path.append((tmp[1],tmp[0]))
+            
+            task = pool.apply_async(func=pre_eval, args=(gcf[:-4], gcf_path), callback=lambda _: pbar.update())
+            tasks.append(task)
+            done.add(gcf)
 
-        for gcf in all_bac:
-            if len(done) >= limit:
-                print(len(done))
-                break
-            if gcf not in done:
-                gcf_path = []
-                with open(os.path.join(input_dir, gcf)) as fin:
-                    lines = fin.readlines()
-                    for line in lines:
-                        tmp = line.strip().split("\t")
-                        gcf_path.append((tmp[1],tmp[0]))
-                pool.apply_async(func=pre_eval, args=(gcf[:-4], gcf_path))
-                done.add(gcf)
-
-        pool.close()
-        pool.join()
+    for task in tasks:
+        task.wait()
+    pool.close()
+    pool.join()
+    pbar.close()
 
     end = time.time()
     print("evaluation runtime: %.2f seconds"%(end-start))

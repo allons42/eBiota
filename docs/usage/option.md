@@ -1,14 +1,35 @@
 Usage Options
 ================
 
+eBiota supports various functions for microbial community design. For a quickstart, we provide an example to design communities that utilize glucose and produce hydrogen. The whole process would take about 10 minutes.
+
 ```bash
-python eBiota.py [--argument]
+python eBiota.py --Function doall --outdir result
 ```
 
-Building GEM model
+There are plenty of configurations to customize your communities, detailed in `config.json`. Here list some important configurations:
+
+| Configuration  | meaning                                                      |
+| -------------- | ------------------------------------------------------------ |
+| suffix         | suffix of GEM files, usually ".xml" or ".xml.gz"             |
+| path_GEM       | the path to GEM files                                        |
+| path_output    | the path to store final results                              |
+| medium         | the path to medium file                                      |
+| max_proc       | maximum process number in parallel                           |
+| prune          | whether to prune similar GEMs in the results                 |
+| target         | "production" or "degradation"                                |
+| **substrate**  | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
+| intermediate   | the chosen intermediate, set to "default" to enumerate all possible intermediates |
+| **product**    | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
+| oxygen         | whether the medium contains oxygen, set to "default" to consider both conditions |
+| glucose        | whether the medium contains glucose, set to "default" to consider both conditions |
+| community_size | the size of microbial communities                            |
+
+
+Building GEM model from genomes
 ------------------
 
-We use the open-source tool CarveMe to build Genome-scale Metabolic Models (GEMs), which can be reconstructed with existing faa file or RefSeq GCF id. Alternatively, you can directly use existing GEMs from databases such as BiGG.
+We use the open-source tool [CarveMe](https://carveme.readthedocs.io/) to build Genome-scale Metabolic Models (GEMs), which can be reconstructed with existing faa file or RefSeq GCF id. Alternatively, you can directly use existing GEMs from databases such as BiGG.
 
 ```bash
 # use Carveme to build GEM (.xml or .xml.gz) with faa file
@@ -23,59 +44,22 @@ Bacteria evaluation
 ```bash
 python eBiota.py --Function evaluate
 ```
+This function will evaluate the GEMs in the `GEM` directory and store the results in the `tmp` directory. The evaluation results include the growth rate and production rate of each bacterium in the medium determined by `config.json`.
+
 
 Community design
 ----------------
 
 ```bash
-python eBiota.py --Function design --medium basic --eval_path ./evaluation
+python eBiota.py --Function design --outdir result
 ```
-
-- --medium: choose the medium, by default “basic” (modified LB medium). Users can define custom medium as input.
-- --aerobic, --anaerobic: choose aerobic or anaerobic. If not specified, this will be determined by oxygen maxFlux in medium.
-- --glucose, --glucose_free: choose whether glucose is provided. If not specified, this will be determined by glucose maxFlux in medium.
-- --degrade/--produce：Specify whether the optimization goal is degradation or production, by default “produce”.
-- --target_substrate, --target_product, --target_intermediate: Specify substrates, products, and intermediates, choosing from BiGG IDs.
-- --target_reaction: Specify a desired type of interaction relationship, with parameters belonging to [parasitism, commensalism, neutralism, amensalism, competition, mutualism]. By default all types are displayed.
-
-Notice that the bacteria used for community design should be processed by “Function: evaluate”. The program will check “eval_path” and evaluate missing bacteria, using “evaluation” directory by default.
+This is the main function to design microbial communities. The program will output the designed communities in the designated directory. All reletive parameters are determined by `config.json`, including the medium, the number of bacteria in the community, the optimization goal, etc.
+Notice that the bacteria used for community design should be processed by “Function: evaluate” before. 
 
 Co-occurrence prediction with DeepCooc
 --------------------------------------
-
-1. Convert the user-provided microbial community composition (GCF id, genus name, etc.) into data formats compatible with the DeepCooc model:
-
-   ```bash
-   python parse_data_for_DeepCooc.py --file_input $file_input --data_taxa_type $data_taxa_type --micro_num $micro_num --feature_index_type moreReacFeature
    
-   python parse_data_for_DeepCooc.py --file_input $file_input --data_taxa_type $data_taxa_type --micro_num $micro_num --feature_index_type metflux_ori_431
+   ```bash 
+   python eBiota.py --Function cooc --outdir result
    ```
-   * --file_input: Specify a TSV file containing community information, where each row represents a community and the columns `Bac_1` through `Bac_N` correspond to the respective member bacterium.
-   * --micro_num: Specify number of members in the community.
-   * --data_taxa_type: Specify the type of input information, supporting GCF ids and genus names currently.
-   * --feature_index_type: Specify the type of feature to extract, ''metflux_ori_431'' for metabolic flux features and ''moreReacFeature'' for transport reaction flux features. By default, the model only uses the latter as input.
-
-   The program generates the file `./temp/x_part_-1_${data_taxa_type}_dataset_${feature_index_type}_micro_${micro_num}.npy` to be used as input data for the deep learning model.
-2. Predicting microbial community coexistence condition：
-
-   ```bash
-   python hiorco_DeepCooc_main.py --test_x ./temp/x_part_-1_${data_taxa_type}_dataset_moreReacFeature_micro_${micro_num}.npy \\\\
-       --test_x_met ./temp/x_part_-1_${data_taxa_type}_dataset_moreReacFeature_micro_${micro_num}.npy \\\\
-       --test_y ./temp/y_part_-1_${data_taxa_type}_dataset_moreReacFeature_micro_${micro_num}.npy \\\\
-       --micro_num $micro_num \\\\
-       --input_tsv $file_input \\\\
-       --saved_dir $saved_dir \\\\
-       --model_mode FC_mergedCNN \\\\
-       --dl_model_path ../data/model_file/model_weights.pth \\\\
-   ```
-   * --test_x, --test_x_met: Accept input features generated by above script.
-   * --input_tsv, --micro_num: The definitions are consistent with those above mentioned.
-   * --saved_dir: Specify the output directory.
-   * --dl_model_path, --model_mode: Specify the model parameters of DeepCooc.
-3. In addition to the coexistence prediction metrics from DeepCooc, we also offer microbial interaction metrics derived from other literatures：
-
-   ```
-   python other_filter_label.py --file_input $file_input --file_out $file_out
-   ```
-   * --file_input: A TSV file outputted by the DeepCooc model. Note that this TSV file should include the growth and production values of individual community member obtained from the main function of eBiota
-   * --file_out: Specify the output file path, the output file additionally provides six types of interaction relationships (only for community with two bacteria).
+This function will predict the co-occurrence relationship between bacteria in communities. This function requires the output of "Function: design" as input.

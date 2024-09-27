@@ -4,7 +4,7 @@
     "path_rewrite": "rewrite_GEM",
     "path_output": "result",
     "medium": "stats/BasicLB_medium.csv",
-    "ERR_LOG": "errorLog.txt",
+    "ERR_LOG": "ErrorLog.txt",
     "LOG": "Log.txt",
     "max_proc": 10,
     "prune": true,
@@ -15,7 +15,7 @@
     "community_size": 2,
     "knockout": false,
     "USE_CUDA": true,
-    "CUDA_VISIBLE_DEVICES": "2",
+    "CUDA_VISIBLE_DEVICES": "0",
     "feature_index_type": "moreReacFeature",
     "data_taxa_type": "gcf",
     "dl_model_path": "./stats/model_weights.pth"

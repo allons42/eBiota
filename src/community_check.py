@@ -924,7 +924,7 @@ def handle_single_inputfile(file_in = '', file_out = ''):
         H = - (p1 * np.log(p1) + p2 * np.log(p2))
         eveness = H / np.log(2)
         return eveness
-    df_main['eveness_index'] = df_main[['Growth1', 'Growth2', 'Bac1_single_growth', 'Bac2_single_growth']].apply(lambda x: eveness_index(x), axis=1)
+    # df_main['eveness_index'] = df_main[['Growth1', 'Growth2', 'Bac1_single_growth', 'Bac2_single_growth']].apply(lambda x: eveness_index(x), axis=1)
     
     df_main.to_csv(file_in if len(file_out) < 1 else file_out, sep='\t', index=False)
     # 删除dir
@@ -1013,8 +1013,8 @@ def DeepCooc():
         
         # 保存结果
         input_df = pd.read_csv(f'{root_output}/{file_input}', sep='\t',)
-        input_df['Hiorco_DeepCooc_pred_value'] = y_pred
-        input_df['Hiorco_DeepCooc_Co_occurrence'] = input_df['Hiorco_DeepCooc_pred_value'].apply(lambda x: 1 if x > 0.5 else 0)
+        input_df['DeepCooc_Co_occurrence'] = y_pred
+        input_df['DeepCooc_Co_occurrence'] = input_df['DeepCooc_Co_occurrence'].apply(lambda x: 1 if x > 0.5 else 0)
         out_file = os.path.join(model_save_root, os.path.basename(f'{root_output}/{file_input}').replace('.txt', '.tsv'))
         input_df.to_csv(out_file, sep='\t', index=False)
         
