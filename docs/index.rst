@@ -10,7 +10,7 @@ eBiota is built and maintained by the `ZhuLab`_ at Peking University. All codes 
 .. _ZhuLab: https://cqb.pku.edu.cn/zhulab/
 .. _Github: https://github.com/allons42/eBiota
 
-Check out the following instructions for installation, usage and tutorials.
+Check out the following instructions for installation, usage and settings.
 
 .. toctree::
    :maxdepth: 2

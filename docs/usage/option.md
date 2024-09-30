@@ -18,9 +18,9 @@ There are plenty of configurations to customize your communities, detailed in `c
 | max_proc       | maximum process number in parallel                           |
 | prune          | whether to prune similar GEMs in the results                 |
 | target         | "production" or "degradation"                                |
-| **substrate**  | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
+| substrate      | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
 | intermediate   | the chosen intermediate, set to "default" to enumerate all possible intermediates |
-| **product**    | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
+| product        | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
 | oxygen         | whether the medium contains oxygen, set to "default" to consider both conditions |
 | glucose        | whether the medium contains glucose, set to "default" to consider both conditions |
 | community_size | the size of microbial communities                            |
@@ -58,7 +58,7 @@ Notice that the bacteria used for community design should be processed by “Fun
 
 Co-occurrence prediction with DeepCooc
 --------------------------------------
-   
+
    ```bash 
    python eBiota.py --Function cooc --outdir result
    ```

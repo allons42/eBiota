@@ -15,7 +15,7 @@
 
 ## Introduction
 
-We developed eBiota to *ab initio* design microbial communities with desired functions from a large-scale bacterial seed pool and predict their behaviors. These desired functions include maximizing the production or degradation efficiency of specified compounds, primary goals in the field of constructing microbial factories. To achieve this, eBiota integrates three novel algorithms: CoreBFS, ProdFBA, and DeepCooc, significantly reducing cost and time, with these savings increasing exponentially as the number of members in the microbial community grows. CoreBFS is a graph-based search algorithm that determines whether a bacterium has complete metabolic pathways from substrates (or intermediates) to products (or intermediates). CoreBFS completes the search efficiently, within acceptable costs and timeframes, by memorizing molecules and metabolic pathways. ProdFBA, an extension of classical FBA, is a multi-step optimization algorithm based on GEM for individual bacteria and MCMM for communities. ProdFBA infers metabolic flux distributions for microbial communities with potential optimum production (or degradation) efficiency, providing a large number of microbial communities capable of efficiently producing (or degrading) the target compound. DeepCooc is a novel deep learning algorithm that uses residual neural networks (ResNet) to predict high-order co-occurrence in microbial communities, shedding light on microbial co-existence. DeepCooc’s performance is significantly superior to common machine learning methods, with an accuracy increased by more than 24.7%, and AUROC (area under the receiver operating characteristic curve) increased by more than 14.0%.
+We developed eBiota to *ab initio* design microbial communities with desired functions from a large-scale bacterial seed pool and predict their behaviors. These desired functions include maximizing the production or degradation efficiency of specified compounds, primary goals in the field of constructing microbial factories. To achieve this, eBiota integrates three novel algorithms: CoreBFS, ProdFBA, and DeepCooc, significantly reducing cost and time, with these savings increasing exponentially as the number of members in the microbial community grows. CoreBFS is a graph-based search algorithm that determines whether a bacterium has complete metabolic pathways from substrates (or intermediates) to products (or intermediates). CoreBFS completes the search efficiently, within acceptable costs and timeframes, by memorizing molecules and metabolic pathways. ProdFBA, an extension of classical FBA, is a multi-step optimization algorithm based on GEM for individual bacteria and MCMM for communities. ProdFBA infers metabolic flux distributions for microbial communities with potential optimum production (or degradation) efficiency, providing a large number of microbial communities capable of efficiently producing (or degrading) the target compound. DeepCooc is a novel deep learning algorithm that uses residual neural networks (ResNet) to predict high-order co-occurrence in microbial communities, shedding light on microbial co-existence. DeepCooc’s performance is significantly superior to common machine learning methods, with an accuracy increased by more than 24.7%, and AUC increased by more than 14.0%.
 
 **For more usage and tutorials, see the [documentation](https://ebiota.readthedocs.io/en/latest/index.html).**
 
@@ -43,7 +43,7 @@ pip install -r requirements.txt
 The DeepCooc module, used for co-occurrence analysis, utilizes deep learning and requires the installation of the PyTorch package. Please refer to the [PyTorch](https://pytorch.org/get-started/locally/) official website to choose the appropriate CUDA version or CPU version for installation. We used the 1.12.0+cu113 version, and other versions should be feasible.
 
 ```bash
-# Install Pytorch with conda or wheel on Linux
+# Install PyTorch with conda or wheel on Linux
 # Conda
 conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit=11.3 -c pytorch
 
@@ -51,7 +51,7 @@ conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit
 pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-After installing Pytorch, you need to download necessary files from Zenodo:
+After installing PyTorch, you need to download necessary files from Zenodo:
 
 ```bash
 wget -O DeepCooc_files.tar.gz https://zenodo.org/records/13762656/files/DeepCooc_files.tar.gz?download=1
@@ -76,7 +76,7 @@ conda install -c bioconda diamond
 
 ### 5. [Optional] Install Gurobi optimizer
 
-We recommend using *Gurobi* as LP-solver, as it is usually faster than the default optimizer *glpk*. The *Gurobi* solver is free for academic use ([see here](https://www.gurobi.com/features/academic-named-user-license/)). Please follow the instructions to install *Gurobi*.
+We recommend using *Gurobi* as Linear Programming solver, as it is usually faster than the default optimizer *glpk*. The *Gurobi* solver is free for academic use ([see here](https://www.gurobi.com/features/academic-named-user-license/)). Please follow the instructions to install *Gurobi*.
 
 ## Quickstart
 
@@ -111,7 +111,7 @@ The results mentioned in our paper is quite large, and can be downloaded from Ze
 The following results are included:
 
 1. **GEM.tar.gz**: The eBiota-GEM dataset, containing 21,514 Genome-Scale Metabolic Models (GEMs) constructed using CarveMe based on RefSeq complete genomes.
-2. **Baterial_evaluation.tar.gz**: The evaluation of the ability to uptake substrates and secret productions for all 21514 GEMs.
+2. **Baterial_evaluation.tar.gz**: The evaluation of the ability to uptake substrates and secret productions for all 21,514 GEMs.
 3. **Community_results.tar.gz**: The results calculated from eBiota-GEM includes various combinations for two-bacterial consortia, covering strain IDs, substrates, products, yields, dual-bacterial growth, single-bacterial growth, co-occurrence predictions, and interactions.
 4. **DeepCooc_files.tar.gz**: The parameters of DeepCooc, required by eBiota platform.
 
