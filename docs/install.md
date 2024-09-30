@@ -20,7 +20,7 @@ conda create -n ebiota_env python=3.9
 conda activate ebiota_env
 pip install -r requirements.txt
 
-# [Optional] install Carveme for GEM rebuild, according to https://carveme.readthedocs.io/
+# [Optional] install CarveMe for GEM rebuild, according to https://carveme.readthedocs.io/
 pip install carveme
 conda install -c bioconda diamond
 ```
@@ -38,7 +38,7 @@ conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit
 pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-After installing Pytorch, you need to download necessary files from Zenodo:
+After installing Pytorch, you need to download necessary files from Zenodo ([doi: 10.5281/zenodo.13762656](https://doi.org/10.5281/zenodo.13762656)):
 
 ```bash
 wget -O DeepCooc_files.tar.gz https://zenodo.org/records/13762656/files/DeepCooc_files.tar.gz?download=1
@@ -61,7 +61,7 @@ Our algorithm requires Perl, which is usually already installed in computer syst
 perl -v
 ```
 
-If Perl is not availble, follow the instructions on the [official website](https://www.perl.org/get.html) to install.
+If Perl is not installed, follow the instructions on the [official website](https://www.perl.org/get.html) to install.
 
 ## **[Optional] Optimizer for Linear Programming**
 

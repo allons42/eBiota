@@ -5,9 +5,10 @@ Welcome to the online documentation for eBiota.
 
 eBiota is a platform for the automated *ab initio* design of artificial microbial communities with desired functions from a large seeding pool. It combines novel screening algorithms, modified FBA and deep learning co-occurrence prediction algorithms for community design. For more information, see our paper: **eBiota: ab initio design microbial communities from large-scale seed pools using deep learning and optimization algorithm with microbial community-scale metabolic models**.
 
-eBiota is built and maintained by the `ZhuLab`__ at Peking University.
+eBiota is built and maintained by the `ZhuLab`_ at Peking University. All codes are available at `Github`_.
 
-.. __: https://cqb.pku.edu.cn/zhulab/
+.. _ZhuLab: https://cqb.pku.edu.cn/zhulab/
+.. _Github: https://github.com/allons42/eBiota
 
 Check out the following instructions for installation, usage and tutorials.
 

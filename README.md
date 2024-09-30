@@ -1,6 +1,6 @@
 # eBiota: *ab initio* design microbial communities from large-scale seed pools using deep learning and optimization algorithm with microbial community-scale metabolic models
 
-[![Documentation Status](https://readthedocs.org/projects/ebiota/badge/?version=latest)](https://ebiota.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/ebiota/badge/?version=latest)](https://ebiota.readthedocs.io/en/latest/?badge=latest) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13762656.svg)](https://doi.org/10.5281/zenodo.13762656)
 
 ## Contents
 
@@ -15,7 +15,9 @@
 
 ## Introduction
 
-We developed eBiota, a platform for the *ab initio* design of artificial microbial communities with desired functions from a large bacterial seed pool, including maximal production or degradation efficiency of specified compounds. To achieve this, three novel algorithms are embedded in eBiota: CoreBFS, ProdFBA, and DeepCooc. CoreBFS is a graph-based, breadth-first search (BFS) algorithm for rapidly determining whether a bacterium has metabolic pathways from substrates to intermediates and/or from intermediates to products. Noting that *ab initio* designing artificial microbial communities from such a large seed pool is computationally expensive, CoreBFS allows efficient searches at acceptable computational cost through pre-stored molecules and metabolic pathways. ProdFBA is a multi-step FBA algorithm that infers metabolic flux distributions for microbial communities with potential optimum production (or degradation) efficiency while ensuring biomass. Compared with classical FBA, ProdFBA provides more artificial microbial communities with the potential to generate target products. DeepCooc is a deep learning algorithm for predicting the co-occurrence of microbial communities, which provides insight into microbial co-existence.
+We developed eBiota to *ab initio* design microbial communities with desired functions from a large-scale bacterial seed pool and predict their behaviors. These desired functions include maximizing the production or degradation efficiency of specified compounds, primary goals in the field of constructing microbial factories. To achieve this, eBiota integrates three novel algorithms: CoreBFS, ProdFBA, and DeepCooc, significantly reducing cost and time, with these savings increasing exponentially as the number of members in the microbial community grows. CoreBFS is a graph-based search algorithm that determines whether a bacterium has complete metabolic pathways from substrates (or intermediates) to products (or intermediates). CoreBFS completes the search efficiently, within acceptable costs and timeframes, by memorizing molecules and metabolic pathways. ProdFBA, an extension of classical FBA, is a multi-step optimization algorithm based on GEM for individual bacteria and MCMM for communities. ProdFBA infers metabolic flux distributions for microbial communities with potential optimum production (or degradation) efficiency, providing a large number of microbial communities capable of efficiently producing (or degrading) the target compound. DeepCooc is a novel deep learning algorithm that uses residual neural networks (ResNet) to predict high-order co-occurrence in microbial communities, shedding light on microbial co-existence. DeepCooc’s performance is significantly superior to common machine learning methods, with an accuracy increased by more than 24.7%, and AUROC (area under the receiver operating characteristic curve) increased by more than 14.0%.
+
+**For more usage and tutorials, see the [documentation](https://ebiota.readthedocs.io/en/latest/index.html).**
 
 ![workflow](img/Fig1.png)
 
@@ -95,14 +97,12 @@ There are plenty of configurations to customize your communities, detailed in `c
 | max_proc       | maximum process number in parallel                           |
 | prune          | whether to prune similar GEMs in the results                 |
 | target         | "production" or "degradation"                                |
-| **substrate**  | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
+| substrate      | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
 | intermediate   | the chosen intermediate, set to "default" to enumerate all possible intermediates |
-| **product**    | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
-| **oxygen**     | whether the medium contains oxygen, set to "default" to consider both conditions |
-| **glucose**    | whether the medium contains glucose, set to "default" to consider both conditions |
+| product        | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
+| oxygen         | whether the medium contains oxygen, set to "default" to consider both conditions |
+| glucose        | whether the medium contains glucose, set to "default" to consider both conditions |
 | community_size | the size of microbial communities                            |
-
-For more usage and tutorials, see the [documentation](https://e-biota.readthedocs.io/en/latest/index.html).
 
 ## Main Results
 
@@ -121,4 +121,4 @@ eBiota: *ab initio* design microbial communities from large-scale seed pools usi
 
 ## Contact
 
-If there are any problems, feel free to ask us: jhhou@pku.edu.cn, or hqzhu@pku.edu.cn.
+If there are any problems, feel free to ask us: jiangxiaoqing357@126.com, jhhou@pku.edu.cn, or hqzhu@pku.edu.cn.
