@@ -2,13 +2,13 @@ import argparse
 import subprocess
 import os
 import re
-import shutil
 
 from parse_path import translate_path
 from eBiota_utils import rewrite, config, check_config, update_config
 from pre_evaluate import run_evaluate
 from community_screen import get_combination
 from community_design import run_community_design
+from community_mod import gene_mod
 
 __author__ = "Jiaheng Hou, Haoyu Zhang, Yulin Liao"
 __copyright__ = "Copyright (c) 2024 Zhulab"
@@ -114,6 +114,11 @@ def main(args):
             passflag = False
         if passflag:
             print("All tests passed.")
+
+    elif args.Function == "genemod":
+        print("Start to analyze possible gene modifications. This may take a while...")
+        gene_mod(args.input_tsv)
+        print("Gene modification is completed!")
 
     else:
         print("Invalid function mode. Please check the parameters.")

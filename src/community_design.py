@@ -202,10 +202,9 @@ def run_community_design():
     if not os.path.exists(root_output):
         os.mkdir(root_output)
 
-
-    # 测试时可以只保留上面的代码，用coculture函数模拟菌群FBA
-    # coculture的参数：e.g. pair=('GCF_000006685.1', 'GCF_000014585.1'), O2_bool=True, glucose_bool=True, 
-    #                rxn_in="glc__D_e", rxn_out="h2_e", intermediate=["co2_e", "acald_e"]
+    # use coculture to test：
+    # e.g. pair=('GCF_000006685.1', 'GCF_000014585.1'), O2_bool=True, glucose_bool=True, 
+    #            rxn_in="glc__D_e", rxn_out="h2_e", intermediate=["co2_e", "acald_e"]
 
     # path_cnt_h2 = [p for p in path_cnt if p[0][1] == "h2_e"]
 
@@ -226,8 +225,20 @@ def run_community_design():
                 with open(ERR_LOG, "a") as err:
                     err.write(f"This path has no candidate: {key},{intermediate}")
                 continue
+                
+            if config["designated_bacteria"] != "default":
+                for bac in config["designated_bacteria"].split(","):
+                    for p in bac_good[substrate, intermediate, O2, glucose]:
+                        if p[0] == bac:
+                            p1.append(p)
+                    for p in bac_good[intermediate, product, O2, glucose]:
+                        if p[0] == bac:
+                            p2.append(p)
+
             for a,_,_ in p1:
                 for b,_,_ in p2:
+                    if a == b or (config["designated_bacteria"] != "default" and a not in config["designated_bacteria"].split(",") and b not in config["designated_bacteria"].split(",")):
+                        continue
                     pairs[(a,b)].append(intermediate)
         
         rxn_in = "EX_" + substrate
