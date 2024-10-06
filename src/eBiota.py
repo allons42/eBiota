@@ -31,6 +31,13 @@ def parse_arg():
         type=str,
         help="Path of the output directory."
     )
+
+    args.add_argument(
+        "--input_tsv", "-i",
+        default=None,
+        type=str,
+        help="Path of the input TSV file, used for gene modification."
+    )
     args = args.parse_args()
     return args
 
@@ -86,11 +93,16 @@ def main(args):
         run_community_design()
         print("Design is completed!")
     
-    elif function_mode == "cooccur":
+    elif function_mode == "cooc":
         from community_check import DeepCooc
         DeepCooc()
         print("DeepCooc co-occurrence prediction is done!")
 
+    elif args.Function == "genemod":
+        print("Start to analyze possible gene modifications. This may take a while...")
+        gene_mod(args.input_tsv)
+        print("Gene modification is completed!")
+        
     elif args.Function == "test":
         passflag = True
         try:
@@ -115,24 +127,20 @@ def main(args):
         if passflag:
             print("All tests passed.")
 
-    elif args.Function == "genemod":
-        print("Start to analyze possible gene modifications. This may take a while...")
-        gene_mod(args.input_tsv)
-        print("Gene modification is completed!")
-
     else:
         print("Invalid function mode. Please check the parameters.")
 
 
 if __name__ == "__main__":
     print("Welcome to use eBiota!")
-    print("Usage: python eBiota.py -F [Function mode] -o [Output directory]")
-    print("Function mode: doall, evaluate, design, cooccur, test\n")
+    print("Usage: python eBiota.py -F [Function mode] -o [Output directory] -i [Input tsv file for modification]")
+    print("Function mode: doall, evaluate, design, cooc, genemod, test\n")
     print("Examples:")
     print("python eBiota.py -F doall -o ./results")
     print("python eBiota.py -F evaluate -o ./results")
     print("python eBiota.py -F design -o ./results")
-    print("python eBiota.py -F cooccur -o ./results")
+    print("python eBiota.py -F cooc -o ./results")
+    print("python eBiota.py -F genemod -i ./results/glc__D_e__to__h2_e__with_O2__with_glucose.tsv")
     print("python eBiota.py -F test\n")
 
     args = parse_arg()

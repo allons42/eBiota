@@ -88,21 +88,22 @@ python eBiota.py --Function doall
 
 There are plenty of configurations to customize your communities, detailed in `config.json`. Here list some important configurations:
 
-| Configuration  | meaning                                                      |
-| -------------- | ------------------------------------------------------------ |
-| suffix         | suffix of GEM files, usually ".xml" or ".xml.gz"             |
-| path_GEM       | the path to GEM files                                        |
-| path_output    | the path to store final results                              |
-| medium         | the path to medium file                                      |
-| max_proc       | maximum process number in parallel                           |
-| prune          | whether to prune similar GEMs in the results                 |
-| target         | "production" or "degradation"                                |
-| substrate      | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
-| intermediate   | the chosen intermediate, set to "default" to enumerate all possible intermediates |
-| product        | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
-| oxygen         | whether the medium contains oxygen, set to "default" to consider both conditions |
-| glucose        | whether the medium contains glucose, set to "default" to consider both conditions |
-| community_size | the size of microbial communities                            |
+| Configuration       | meaning                                                      |
+| ------------------- | ------------------------------------------------------------ |
+| suffix              | suffix of GEM files, usually ".xml" or ".xml.gz"             |
+| path_GEM            | the path to GEM files                                        |
+| path_output         | the path to store final results                              |
+| medium              | the path to medium file                                      |
+| max_proc            | maximum process number in parallel                           |
+| prune               | whether to prune similar GEMs in the results                 |
+| target              | "production" or "degradation"                                |
+| substrate           | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
+| intermediate        | the chosen intermediate, set to "default" to enumerate all possible intermediates |
+| product             | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
+| designated_bacteria | select some bacteria that is needed in the community         |
+| oxygen              | whether the medium contains oxygen, set to "true", "false", or "default" to consider both conditions |
+| glucose             | whether the medium contains glucose, set to "true", "false", or "default" to consider both conditions |
+| community_size      | the size of microbial communities                            |
 
 ## Main Results
 

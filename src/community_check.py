@@ -905,7 +905,7 @@ def get_interaction_type(od1 = ([0.05, 0.05], [0.1, 0.1]), od2 = ([0.05, 0.05], 
     return 'unknown_type', -1
 
 def handle_single_inputfile(file_in = '', file_out = ''):
-    ## 注意：这里的interaction之类的函数只能针对2个bac的情况使用？目前是这样
+    ## 注意：这里的interaction之类的函数只能针对2个bac的情况使用
     base_name = os.path.basename(file_in)
     base_name = base_name.split('.')[0]
     df_main = pd.read_csv(file_in, sep='\t', index_col=False)
@@ -915,7 +915,9 @@ def handle_single_inputfile(file_in = '', file_out = ''):
         spe1_list, spe2_list = (x['Bac1_mono_growth'], x['Growth1']), (x['Bac2_mono_growth'], x['Growth2'])
         interact_name, _ = get_interaction_type(spe1_list, spe2_list, threshold=0.01, hyposis_test = False)
         return interact_name
-    df_main['Interaction_type'] = df_main[['Growth1', 'Growth2', 'Bac1_mono_growth', 'Bac2_mono_growth']].apply(lambda x: get_6_interaction_type(x), axis=1)
+    
+    if config["community_size"] == 2:
+        df_main['Interaction_type'] = df_main[['Growth1', 'Growth2', 'Bac1_mono_growth', 'Bac2_mono_growth']].apply(lambda x: get_6_interaction_type(x), axis=1)
     
     # 后处理eveness
     def eveness_index(x):
@@ -946,7 +948,7 @@ def DeepCooc():
         file_nm = file_input.split('.')[0]
         test_x = f'{temp_dir}/x_{file_nm}_{data_taxa_type}_dataset_moreReacFeature_micro_{micro_num}.npy'
         test_y = f'{temp_dir}/y_{file_nm}_{data_taxa_type}_dataset_moreReacFeature_micro_{micro_num}.npy'
-        dl_model_path = config["dl_model_path"]
+        dl_model_path = f"./stats/model_weights_{micro_num}bac.pth"
         # training strategy
         batch_size = 128
         device = torch.device("cuda" if config["USE_CUDA"] and torch.cuda.is_available() else "cpu")
@@ -991,7 +993,7 @@ def DeepCooc():
         )
         model = MicroCoexistenceNet_hy(micro_num=micro_num, main_model=model_main)
 
-        # 模型、loss、metric
+        # model、loss、metric
         model = model.to(device)
         model.load_state_dict(torch.load(dl_model_path))
 

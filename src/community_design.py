@@ -99,8 +99,8 @@ def merge_model(names, GEM):
 def FBA(names, gem, biomass_func, interests):
     try:
         sol = gem.optimize() # faster than pFBA
-        gem.reactions.get_by_id(biomass_func[0]).lower_bound = 0.99*sol[biomass_func[0]]
-        gem.reactions.get_by_id(biomass_func[1]).lower_bound = 0.99*sol[biomass_func[1]]
+        for bm in biomass_func:
+            gem.reactions.get_by_id(bm).lower_bound = 0.99*sol[bm]
         gem.objective = {gem.reactions.get_by_id(interests[1]): 1}
         sol = cobra.flux_analysis.pfba(gem)
     except:
@@ -114,40 +114,53 @@ def FBA(names, gem, biomass_func, interests):
     if "EX_glc__D_e" in gem.reactions:
         interests.append("EX_glc__D_e")
     else:
-        res["EX_glc__D_e_1"] = 0
-        res["EX_glc__D_e_2"] = 0
+        for i in range(len(names)):
+            res[f"EX_glc__D_e_{i+1}"] = 0
         
     # e.g. interests = ["EX_glc__D_e", "EX_3hpp_e"]
     for i in range(len(interests)):
-        met = gem.metabolites.get_by_id(interests[i][3:])
-        a_produce, b_produce = 0, 0
+        met = gem.metabolites.get_by_id(interests[i][3:]) # remove "EX_"
+        x_produce = [0 for j in range(len(names))]
         for rxn in met.reactions:
             if rxn.id != interests[i]:
                 flux = sol[rxn.id] * rxn.get_coefficient(met) # +:producing, -:consuming
-                if rxn.id.startswith(names[0]):
-                    a_produce += flux
-                elif rxn.id.startswith(names[1]):
-                    b_produce += flux
-        res[interests[i]+"_1"] = a_produce
-        res[interests[i]+"_2"] = b_produce
+                for j in range(len(names)):
+                    if rxn.id.startswith(names[j]):
+                        x_produce[j] += flux
+        for j in range(len(names)):
+            res[interests[i]+"_"+str(j+1)] = x_produce[j]
     
-    cross12 = {}
-    cross21 = {}
+    cross = defaultdict(dict)
     for met in gem.metabolites:
         if met.id.endswith("_e"):
-            a_produce, b_produce = 0, 0
+            x_produce = [0 for j in range(len(names))]
             for rxn in met.reactions:
                 flux = sol[rxn.id] * rxn.get_coefficient(met) # +:producing, -:consuming
-                if rxn.id.startswith(names[0]):
-                    a_produce += flux
-                elif rxn.id.startswith(names[1]):
-                    b_produce += flux
-            if a_produce > 1e-8 and b_produce < -1e-8:
-                cross12[met.id] = min(a_produce, -b_produce)
-            elif b_produce > 1e-8 and a_produce < -1e-8:
-                cross21[met.id] = min(-a_produce, b_produce)
-    res["cross12"] = cross12
-    res["cross21"] = cross21
+                for j in range(len(names)):
+                    if rxn.id.startswith(names[j]):
+                        x_produce[j] += flux
+            
+            if len(names) == 2:
+                if x_produce[0] > 1e-8 and x_produce[1] < -1e-8:
+                    cross["12"][met.id] = min(x_produce[0], -x_produce[1])
+                elif x_produce[1] > 1e-8 and x_produce[0] < -1e-8:
+                    cross["21"][met.id] = min(-x_produce[0], x_produce[1])
+            elif len(names) == 3:
+                if x_produce[0] > 1e-8 and x_produce[1] < -1e-8:
+                    cross["12"][met.id] = min(x_produce[0], -x_produce[1])
+                if x_produce[0] > 1e-8 and x_produce[2] < -1e-8:
+                    cross["13"][met.id] = min(x_produce[0], -x_produce[2])
+                if x_produce[1] > 1e-8 and x_produce[0] < -1e-8:
+                    cross["21"][met.id] = min(-x_produce[0], x_produce[1])
+                if x_produce[1] > 1e-8 and x_produce[2] < -1e-8:
+                    cross["23"][met.id] = min(x_produce[1], -x_produce[2])
+                if x_produce[2] > 1e-8 and x_produce[0] < -1e-8:
+                    cross["31"][met.id] = min(-x_produce[0], x_produce[2])
+                if x_produce[2] > 1e-8 and x_produce[1] < -1e-8:
+                    cross["32"][met.id] = min(-x_produce[1], x_produce[2])
+
+    for k in ["12", "13", "21", "23", "31", "32"]:
+        res[f"cross{k}"] = cross[k]
     return res
 
 
@@ -213,10 +226,17 @@ def run_community_design():
     for key,value in tqdm(path_all):
         start_time = time.time()
         substrate, product, O2, glucose = key[0], key[1], key[2], key[3]
+        if config["oxygen"] != "default":
+            if config["oxygen"] != (O2 == "with_O2"):
+                continue
+        if config["glucose"] != "default":
+            if config["glucose"] != (glucose == 'with_glucose'):
+                continue
+        
         if f"{substrate}__to__{product}__{O2}__{glucose}.txt" in os.listdir(root_output):
             continue
         
-        pairs = defaultdict(list) # dictionary of { (bac1,bac2):[intermediate] }
+        pairs = defaultdict(list) # dictionary of { (bac1,bac2): [intermediate] }
         for intermediate in value:
             try:
                 p1 = bac_good[substrate, intermediate, O2, glucose][:10]
@@ -235,11 +255,25 @@ def run_community_design():
                         if p[0] == bac:
                             p2.append(p)
 
-            for a,_,_ in p1:
-                for b,_,_ in p2:
-                    if a == b or (config["designated_bacteria"] != "default" and a not in config["designated_bacteria"].split(",") and b not in config["designated_bacteria"].split(",")):
-                        continue
-                    pairs[(a,b)].append(intermediate)
+            if config["community_size"] == 2:
+                for a,_,_ in p1:
+                    for b,_,_ in p2:
+                        if a == b or (config["designated_bacteria"] != "default" and a not in config["designated_bacteria"].split(",") and b not in config["designated_bacteria"].split(",")):
+                            continue
+                        pairs[(a,b)].append(intermediate)
+            elif config["community_size"] == 3:
+                for a,_,_ in p1:
+                    for b,_,_ in p2:
+                        if a == b or (config["designated_bacteria"] != "default" and a not in config["designated_bacteria"].split(",") and b not in config["designated_bacteria"].split(",")):
+                            continue
+                        for c,_,_ in p1:
+                            if c == a or c == b or (a,c,b) in pairs:
+                                continue
+                            pairs[(a,c,b)].append(intermediate)
+                        for c,_,_ in p2:
+                            if c == a or c == b or (a,b,c) in pairs:
+                                continue
+                            pairs[(a,b,c)].append(intermediate)
         
         rxn_in = "EX_" + substrate
         rxn_out = "EX_" + product
@@ -260,41 +294,90 @@ def run_community_design():
             oneres = x.get()
             if oneres != None:
                 all_res.append(oneres)
-        if config["target"] =="production":
-            res_sorted = sorted(all_res, key=lambda x: x[rxn_out+"_1"]*x["Growth1"]+x[rxn_out+"_2"]*x["Growth2"], reverse=True)
-        else:
-            res_sorted = sorted(all_res, key=lambda x: x[rxn_in+"_1"]*x["Growth1"]+x[rxn_in+"_2"]*x["Growth2"], reverse=True)
-        fout = open(os.path.join(root_output, f"{substrate}__to__{product}__{O2}__{glucose}.txt"), "w")
-        fout.write(f"Bac1\tBac2\tGrowth1\tGrowth2\tIntermediate\t{rxn_in}_1\t{rxn_in}_2\tGlucose_absorption_1\tGlucose_absorption_2\t{rxn_out}_1\t{rxn_out}_2\tCross_feeding_forward\tCross_feeding_reverse\tBac1_mono_growth\tBac2_mono_growth\tTotal_{config['target']}\n")
-        for tmp_d in res_sorted:
-            fout.write(tmp_d["Bac1"] + "\t")
-            fout.write(tmp_d["Bac2"] + "\t")
-            fout.write(f"{round(tmp_d['Growth1'],8)+0.0:.8f}\t") # Add zero to turn negative zero into positive zero for nicer display
-            fout.write(f"{round(tmp_d['Growth2'],8)+0.0:.8f}\t")
-            fout.write(",".join(tmp_d["intermediate"]) + "\t")
-            fout.write(f"{round(tmp_d[rxn_in+'_1'],8)+0.0:.8f}\t")
-            fout.write(f"{round(tmp_d[rxn_in+'_2'],8)+0.0:.8f}\t")
-            fout.write(f"{round(tmp_d['EX_glc__D_e_1'],8)+0.0:.8f}\t")
-            fout.write(f"{round(tmp_d['EX_glc__D_e_2'],8)+0.0:.8f}\t")
-            fout.write(f"{round(tmp_d[rxn_out+'_1'],8)+0.0:.8f}\t")
-            fout.write(f"{round(tmp_d[rxn_out+'_2'],8)+0.0:.8f}\t")
-            
-            fout.write(f"{len(tmp_d['cross12'])}")
-            for k,v in tmp_d["cross12"].items():
-                fout.write(f",{k}:{round(v,8)+0.0:.8f}")
-            fout.write(f"\t{len(tmp_d['cross21'])}")
-            for k,v in tmp_d["cross21"].items():
-                fout.write(f",{k}:{round(v,8)+0.0:.8f}")
-                
-            fout.write(f"\t{round(tmp_d['Bac1_single_growth'],8)+0.0:.8f}\t") 
-            fout.write(f"{round(tmp_d['Bac2_single_growth'],8)+0.0:.8f}\t")
+
+        if config["community_size"] == 2:
             if config["target"] =="production":
-                total = tmp_d[rxn_out + '_1'] * tmp_d['Growth1'] + tmp_d[rxn_out + '_2'] * tmp_d['Growth2']
-                fout.write(f"{round(total,8)+0.0:.8f}\t")
+                res_sorted = sorted(all_res, key=lambda x: x[rxn_out+"_1"]*x["Growth1"]+x[rxn_out+"_2"]*x["Growth2"], reverse=True)
             else:
-                total = tmp_d[rxn_in + '_1'] * tmp_d['Growth1'] + tmp_d[rxn_in + '_2'] * tmp_d['Growth2']
-                fout.write(f"{round(total,8)+0.0:.8f}\t")
-            fout.write("\n")
-        fout.close()
-        with open(FBA_LOG, "a") as log:
-            log.write(f"{substrate}\t{product}:\t{len(pairs)} pairs are done in {time.time()-start_time} seconds\n")
+                res_sorted = sorted(all_res, key=lambda x: x[rxn_in+"_1"]*x["Growth1"]+x[rxn_in+"_2"]*x["Growth2"], reverse=True)
+            fout = open(os.path.join(root_output, f"{substrate}__to__{product}__{O2}__{glucose}.txt"), "w")
+            fout.write(f"Bac1\tBac2\tGrowth1\tGrowth2\tIntermediate\t{rxn_in}_1\t{rxn_in}_2\tGlucose_absorption_1\tGlucose_absorption_2\t{rxn_out}_1\t{rxn_out}_2\tCross_feeding_forward\tCross_feeding_reverse\tBac1_mono_growth\tBac2_mono_growth\tTotal_{config['target']}\n")
+            for tmp_d in res_sorted:
+                fout.write(tmp_d["Bac1"] + "\t")
+                fout.write(tmp_d["Bac2"] + "\t")
+                fout.write(f"{round(tmp_d['Growth1'],8)+0.0:.8f}\t") # Add zero to turn negative zero into positive zero for nicer display
+                fout.write(f"{round(tmp_d['Growth2'],8)+0.0:.8f}\t")
+                fout.write(",".join(tmp_d["intermediate"]) + "\t")
+                fout.write(f"{round(tmp_d[rxn_in+'_1'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d[rxn_in+'_2'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d['EX_glc__D_e_1'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d['EX_glc__D_e_2'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d[rxn_out+'_1'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d[rxn_out+'_2'],8)+0.0:.8f}\t")
+                
+                fout.write(f"{len(tmp_d['cross12'])}")
+                for k,v in tmp_d["cross12"].items():
+                    fout.write(f",{k}:{round(v,8)+0.0:.8f}")
+                fout.write(f"\t{len(tmp_d['cross21'])}")
+                for k,v in tmp_d["cross21"].items():
+                    fout.write(f",{k}:{round(v,8)+0.0:.8f}")
+                    
+                fout.write(f"\t{round(tmp_d['Bac1_single_growth'],8)+0.0:.8f}\t") 
+                fout.write(f"{round(tmp_d['Bac2_single_growth'],8)+0.0:.8f}\t")
+                if config["target"] =="production":
+                    total = tmp_d[rxn_out + '_1'] * tmp_d['Growth1'] + tmp_d[rxn_out + '_2'] * tmp_d['Growth2']
+                    fout.write(f"{round(total,8)+0.0:.8f}\t")
+                else:
+                    total = tmp_d[rxn_in + '_1'] * tmp_d['Growth1'] + tmp_d[rxn_in + '_2'] * tmp_d['Growth2']
+                    fout.write(f"{round(total,8)+0.0:.8f}\t")
+                fout.write("\n")
+            fout.close()
+            with open(FBA_LOG, "a") as log:
+                log.write(f"{substrate}\t{product}:\t{len(pairs)} pairs are done in {time.time()-start_time} seconds\n")
+        
+        elif config["community_size"] == 3:
+            if config["target"] =="production":
+                res_sorted = sorted(all_res, key=lambda x: x[rxn_out+"_1"]*x["Growth1"]+x[rxn_out+"_2"]*x["Growth2"]+x[rxn_out+"_3"]*x["Growth3"], reverse=True)
+            else:
+                res_sorted = sorted(all_res, key=lambda x: x[rxn_in+"_1"]*x["Growth1"]+x[rxn_in+"_2"]*x["Growth2"]+x[rxn_in+"_3"]*x["Growth3"], reverse=True)
+            fout = open(os.path.join(root_output, f"{substrate}__to__{product}__{O2}__{glucose}.txt"), "w")
+            fout.write(f"Bac1\tBac2\tBac3\tGrowth1\tGrowth2\tGrowth3\tIntermediate\t{rxn_in}_1\t{rxn_in}_2\t{rxn_in}_3\t")
+            fout.write(f"Glucose_absorption_1\tGlucose_absorption_2\tGlucose_absorption_3\t{rxn_out}_1\t{rxn_out}_2\t{rxn_out}_3\tCross_feeding_12\tCross_feeding_13\tCross_feeding_21\tCross_feeding_23\tCross_feeding_31\tCross_feeding_32\tBac1_mono_growth\tBac2_mono_growth\tBac3_mono_growth\tTotal_{config['target']}\n")
+            for tmp_d in res_sorted:
+                fout.write(tmp_d["Bac1"] + "\t")
+                fout.write(tmp_d["Bac2"] + "\t")
+                fout.write(tmp_d["Bac3"] + "\t")
+                fout.write(f"{round(tmp_d['Growth1'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d['Growth2'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d['Growth3'],8)+0.0:.8f}\t")
+                fout.write(",".join(tmp_d["intermediate"]) + "\t")
+                fout.write(f"{round(tmp_d[rxn_in+'_1'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d[rxn_in+'_2'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d[rxn_in+'_3'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d['EX_glc__D_e_1'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d['EX_glc__D_e_2'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d['EX_glc__D_e_3'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d[rxn_out+'_1'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d[rxn_out+'_2'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d[rxn_out+'_3'],8)+0.0:.8f}\t")
+
+                for k in ["12", "13", "21", "23", "31", "32"]:
+                    fout.write(f"{len(tmp_d['cross'+k])}")
+                    for kk,v in tmp_d["cross"+k].items():
+                        fout.write(f",{kk}:{round(v,8)+0.0:.8f}")
+                    fout.write("\t")
+
+                fout.write(f"{round(tmp_d['Bac1_single_growth'],8)+0.0:.8f}\t") 
+                fout.write(f"{round(tmp_d['Bac2_single_growth'],8)+0.0:.8f}\t")
+                fout.write(f"{round(tmp_d['Bac3_single_growth'],8)+0.0:.8f}\t")
+
+                if config["target"] =="production":
+                    total = tmp_d[rxn_out + '_1'] * tmp_d['Growth1'] + tmp_d[rxn_out + '_2'] * tmp_d['Growth2'] + tmp_d[rxn_out + '_3'] * tmp_d['Growth3']
+                    fout.write(f"{round(total,8)+0.0:.8f}\t")
+                else:
+                    total = tmp_d[rxn_in + '_1'] * tmp_d['Growth1'] + tmp_d[rxn_in + '_2'] * tmp_d['Growth2'] + tmp_d[rxn_in + '_3'] * tmp_d['Growth3']
+                    fout.write(f"{round(total,8)+0.0:.8f}\t")
+                fout.write("\n")
+            fout.close()
+            with open(FBA_LOG, "a") as log:
+                log.write(f"{substrate}\t{product}:\t{len(pairs)} pairs are done in {time.time()-start_time} seconds\n")

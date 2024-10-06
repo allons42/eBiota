@@ -13,10 +13,11 @@
     "intermediate": "default",
     "product": "h2_e",
     "designated_bacteria": "default",
+    "oxygen": "default",
+    "glucose": "default",
     "community_size": 2,
     "USE_CUDA": true,
     "CUDA_VISIBLE_DEVICES": "0",
     "feature_index_type": "moreReacFeature",
     "data_taxa_type": "gcf",
-    "dl_model_path": "./stats/model_weights.pth"
 }

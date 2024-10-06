@@ -1,6 +1,7 @@
 import cobra
 import os
 import pandas as pd
+from tqdm import tqdm
 import pickle
 from eBiota_utils import get_metabolites_list, config
 
@@ -162,7 +163,7 @@ def coculture(pair, medium, O2_bool, glucose_bool, rxn_in, rxn_out, intermediate
 
 def gene_mod(input_tsv):
     medium = get_metabolites_list()
-    with open('ststs/bigg_reaction_info.pkl', "rb") as f:
+    with open('stats/bigg_reaction_info.pkl', "rb") as f:
         rxn2met = pickle.load(f)
     df = pd.read_csv(input_tsv, sep="\t")
     tmp = input_tsv.split("/")[-1].split(".")[0].split("__to__")
@@ -185,24 +186,31 @@ def gene_mod(input_tsv):
         GEM2 = read_gem(b2, medium=medium, o2=O2_bool, glc=glc_bool)
         gem, biomass_func = merge_model([bac1, bac2], [GEM1, GEM2])
         gem.reactions.get_by_id("EX_" + subs).lower_bound = -10
-        bestko, bestflux, = "None", row["Total_production"]
-        for rxn in gem.reactions:
+        bestko, bestkoflux, = "None", row["Total_production"]
+        for rxn in tqdm(gem.reactions, desc="Knockout"):
             with gem:
                 if not rxn.id.startswith("EX_"):
                     rxn.knock_out()
                     oneres = FBA([bac1, bac2], gem, biomass_func, [rxn_in, rxn_out])
                     if oneres:
                         tot = oneres[rxn_in+'_1']*oneres['Growth1']+oneres[rxn_in+'_2']*oneres['Growth2']
-                        if tot > bestflux:
+                        if tot > bestkoflux:
                             bestko = rxn.id
-                            bestflux = tot
+                            bestkoflux = tot
         
-        bestki, bestflux, = "None", row["Total_production"]
+        bestki, bestkiflux = "None", row["Total_production"]
         add_id = lambda x: x if x.endswith("_e") else (bac1 + "_" + x)
-        for ins in rxn2met:
+        for ins in tqdm(rxn2met, desc="Knockin"):
             with gem:
                 ins_info = rxn2met[ins]
                 ins_mets = {add_id(k): v for k,v in ins_info["mets"].items()}
+                non_exist_met = False
+                for k in ins_mets:
+                    if k not in gem.metabolites:
+                        non_exist_met = True
+                        break
+                if non_exist_met:
+                    continue
                 R = cobra.Reaction(ins)
                 R.name = ins
                 R.subsystem = ''
@@ -214,10 +222,37 @@ def gene_mod(input_tsv):
                 oneres = FBA([bac1, bac2], gem, biomass_func, [rxn_in, rxn_out])
                 if oneres:
                     tot = oneres[rxn_in+'_1']*oneres['Growth1']+oneres[rxn_in+'_2']*oneres['Growth2']
-                    if tot > bestflux:
-                        bestki = ins
-                        bestflux = tot
+                    if tot > bestkiflux:
+                        bestki = bac1 + "_" + ins
+                        bestkiflux = tot
+        
+        add_id = lambda x: x if x.endswith("_e") else (bac2 + "_" + x)
+        for ins in tqdm(rxn2met, desc="Knockin"):
+            with gem:
+                ins_info = rxn2met[ins]
+                ins_mets = {add_id(k): v for k,v in ins_info["mets"].items()}
+                non_exist_met = False
+                for k in ins_mets:
+                    if k not in gem.metabolites:
+                        non_exist_met = True
+                        break
+                if non_exist_met:
+                    continue
+                R = cobra.Reaction(ins)
+                R.name = ins
+                R.subsystem = ''
+                R.bounds = ins_info["bounds"]
+                R.add_metabolites({
+                    gem.metabolites.get_by_id(k): v for k,v in ins_mets.items()
+                })
+                gem.add_reactions([R])
+                oneres = FBA([bac1, bac2], gem, biomass_func, [rxn_in, rxn_out])
+                if oneres:
+                    tot = oneres[rxn_in+'_1']*oneres['Growth1']+oneres[rxn_in+'_2']*oneres['Growth2']
+                    if tot > bestkiflux:
+                        bestki = bac2 + "_" + ins
+                        bestkiflux = tot
 
         for k in df.columns:
             fout.write(str(row[k]) + "\t")
-            fout.write(f"{bestko}\t{bestki}\n")
+        fout.write(f"{bestko}\t{bestki}\n")

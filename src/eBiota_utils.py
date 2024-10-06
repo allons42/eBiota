@@ -36,6 +36,9 @@ def check_config():
     if type(config["prune"]) != bool:
         print("Error: prune should be a boolean, true or false")
         exit()
+    if config["community_size"] not in {2, 3}:
+        print("Error: currently only support community of size 2 or 3.")
+        exit()
 
 def update_config(arg):
     if arg.outdir:
@@ -45,9 +48,9 @@ def update_config(arg):
         json.dump(config, f, indent=4)
 
 
-# 获取培养基，返回一个字典
-# key: 代谢物的id，以_e结尾
-# value：允许的最大摄取速率
+# access the medium, return a dict:
+#     key: id of exchange metabolites, ends with "_e"
+#     value: max uptake rate
 def get_metabolites_list(medium="Basic"):
     medium_file = {
         "Basic": "BasicLB_medium",
@@ -111,7 +114,6 @@ def rewrite():
         ## do not edit gene ids, to avoid conflict
         #for x in gem.genes:
         #    x.id = ID + '_' + x.id
-        
         gem.repair()
         cobra.io.write_sbml_model(gem, os.path.join(root_new, file))
 
@@ -163,7 +165,7 @@ def read_gem(file, medium=None, o2=True, glc=True):
         for rxn in gem.exchanges:
             rxt = rxn.reactants[0]
             if rxt.id not in medium.keys():
-                rxn.lower_bound = 0 # 禁止吸收培养基以外的物质
+                rxn.lower_bound = 0 # do not uptake metabolites not in the medium
             else:
                 rxn.lower_bound = -medium[rxt.id]
     
@@ -174,10 +176,10 @@ def read_gem(file, medium=None, o2=True, glc=True):
     return gem
 
 
-# 将多个GEM合并为一个，目标函数设为各菌biomass之和
-# 参数：GEM_path（根路径），names（所有GEM文件名的列表），suffix（后缀为.xml或.xml.gz）
-#     若设定培养基，需要指定medium，O2，glucose，medium=None的情况下默认包括所有物质
-# 返回值：合并后的model，各菌biomass function的id
+# Merge multiple GEMs into one, setting the objective function to the sum of each bacterium's biomass.
+# Parameters: GEM_path (root path), names (list of all GEM file names), suffix (either .xml or .xml.gz).
+#     If a medium is specified, O2 and glucose must also be defined; if medium is None, all substances are included by default.
+# Return value: the merged model and the IDs of each bacterium's biomass function.
 def merge_model(GEM_path, names, medium=None, O2=True, glucose=True, base_threshold=0.1):
     GEM = []
     sing = []
@@ -232,15 +234,15 @@ def merge_model(GEM_path, names, medium=None, O2=True, glucose=True, base_thresh
     return new_model, biomass_func
 
 
-# draw phase plane
-# GEM: cobra格式代谢模型
-# rxn1, rxn2: 相平面两个轴对应的反应，例如生长和生产。格式为字符串。
-# ref: 相平面上采样点y/x的相对值，即 (y/y_max) / (x/x_max)
-# relative_ref: 决定ref采用相对比例还是绝对比例
-# axis_lim: 决定是否控制坐标轴的范围，使得(0,0)为原点
-# max_point: 决定是否额外标记最大值点
-# labels: 自定义标题和横轴纵轴名称
-# extra_points: [x,y,text], 三个list组成的list，用来标记额外点
+# Draw phase plane
+# GEM: cobra format Genome-scale Metabolic Model
+# rxn1, rxn2: The reactions corresponding to the two axes of the phase plane, such as growth and production. Format: string.
+# ref: The relative value of sampled points on the phase plane, calculated as (y/y_max) / (x/x_max).
+# relative_ref: Determines whether ref uses relative or absolute proportions.
+# axis_lim: Decides whether to control the axis limits to make (0,0) the origin.
+# max_point: Determines whether to additionally mark the maximum value point.
+# labels: Custom titles and names for the x and y axes.
+# extra_points: A list of lists [x,y,text] used to mark additional points.
 # example: draw_phase_plane(Se, "BIOMASS__1", "EX_sucr_e")
 def draw_phase_plane(GEM, rxn1, rxn2, ref=[0.001, 0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.5, 2, 3.3, 10, 1000], relative_ref=True, axis_lim=True, max_point=True, labels=None, extra_points=None):
     from cobra import Metabolite
@@ -283,10 +285,10 @@ def draw_phase_plane(GEM, rxn1, rxn2, ref=[0.001, 0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 
     import matplotlib.pyplot as plt
     if not labels:
         labels = ['Phase Plane', rxn1, rxn2]
-    plt.figure(figsize=(5,5)) # 设置画布的尺寸
-    plt.title(labels[0],fontsize=20) # 标题，并设定字号大小
-    plt.xlabel(labels[1],fontsize=14) # 设置x轴，并设定字号大小
-    plt.ylabel(labels[2],fontsize=14) # 设置y轴，并设定字号大小
+    plt.figure(figsize=(5,5))
+    plt.title(labels[0],fontsize=20)
+    plt.xlabel(labels[1],fontsize=14)
+    plt.ylabel(labels[2],fontsize=14)
     if axis_lim:
         plt.xlim((0, 1.1 * x0[0]))
         plt.ylim((0, 1.1 * y[1]))
