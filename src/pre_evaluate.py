@@ -39,7 +39,6 @@ def test_FBA_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_on
             label = 'no_exchange_reaction'
         else:
             with gem:
-                gem.reactions.get_by_id(bm).lower_bound = 0.99*bm_max
                 if sol["EX_" + st] > -1e-8:
                     label = 'no_absorption'
                 elif sol["EX_" + ed] > 1e-8:

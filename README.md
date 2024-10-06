@@ -1,4 +1,4 @@
-# eBiota: *ab initio* design microbial communities from large-scale seed pools using deep learning and optimization algorithm with microbial community-scale metabolic models
+# eBiota: *ab initio* design microbial communities from large-scale seed pools using deep learning and rapid optimization with microbial community-scale metabolic models
 
 [![Documentation Status](https://readthedocs.org/projects/ebiota/badge/?version=latest)](https://ebiota.readthedocs.io/en/latest/?badge=latest) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13895108.svg)](https://doi.org/10.5281/zenodo.13895108)
 
@@ -93,7 +93,7 @@ There are plenty of configurations to customize your communities, detailed in `c
 | suffix              | suffix of GEM files, usually ".xml" or ".xml.gz"             |
 | path_GEM            | the path of the GEM seed pool                                |
 | path_output         | the path to store final results                              |
-| medium              | the medium file for microbiota                               |
+| medium              | the medium file for microbial communities                    |
 | max_proc            | maximum process number in parallel                           |
 | prune               | whether to prune similar GEMs in the results                 |
 | target              | "production" or "degradation"                                |

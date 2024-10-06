@@ -19,5 +19,5 @@
     "USE_CUDA": true,
     "CUDA_VISIBLE_DEVICES": "0",
     "feature_index_type": "moreReacFeature",
-    "data_taxa_type": "gcf",
+    "data_taxa_type": "gcf"
 }
