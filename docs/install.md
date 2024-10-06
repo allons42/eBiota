@@ -38,10 +38,10 @@ conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit
 pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
 
-After installing PyTorch, you need to download necessary files from Zenodo ([doi: 10.5281/zenodo.13762656](https://doi.org/10.5281/zenodo.13762656)):
+After installing PyTorch, you need to download necessary files from Zenodo ([doi: 10.5281/zenodo.13895108](https://doi.org/10.5281/zenodo.13895108)):
 
 ```bash
-wget -O DeepCooc_files.tar.gz https://zenodo.org/records/13762656/files/DeepCooc_files.tar.gz?download=1
+wget -O DeepCooc_files.tar.gz https://zenodo.org/records/13895108/files/DeepCooc_files.tar.gz?download=1
 tar -xzvf DeepCooc_files.tar.gz -C stats/
 rm DeepCooc_files.tar.gz
 ```
@@ -69,7 +69,7 @@ We recommend using *Gurobi* as Linear Programming solver, as it is usually faste
 
 ## [Optional] Collect eBiota database
 
-The complete dataset can be downloaded from Zenodo ([doi: 10.5281/zenodo.13762656](https://doi.org/10.5281/zenodo.13762656)), including the following results:
+The complete dataset can be downloaded from Zenodo ([doi: 10.5281/zenodo.13895108](https://doi.org/10.5281/zenodo.13895108)), including the following results:
 
 1. **GEM.tar.gz**: The eBiota-GEM dataset, containing 21,514 Genome-Scale Metabolic Models (GEMs) constructed using CarveMe based on RefSeq complete genomes.
 2. **Baterial_evaluation.tar.gz**: The evaluation of the ability to uptake substrates and secret productions for all 21,514 GEMs.

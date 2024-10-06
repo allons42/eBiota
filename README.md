@@ -1,6 +1,6 @@
 # eBiota: *ab initio* design microbial communities from large-scale seed pools using deep learning and optimization algorithm with microbial community-scale metabolic models
 
-[![Documentation Status](https://readthedocs.org/projects/ebiota/badge/?version=latest)](https://ebiota.readthedocs.io/en/latest/?badge=latest) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13762656.svg)](https://doi.org/10.5281/zenodo.13762656)
+[![Documentation Status](https://readthedocs.org/projects/ebiota/badge/?version=latest)](https://ebiota.readthedocs.io/en/latest/?badge=latest) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13895108.svg)](https://doi.org/10.5281/zenodo.13895108)
 
 ## Contents
 
@@ -17,15 +17,15 @@
 
 We developed eBiota to *ab initio* design microbial communities with desired functions from a large-scale bacterial seed pool and predict their behaviors. These desired functions include maximizing the production or degradation efficiency of the target compound, which are primary goals in the field of constructing microbial factories. To achieve this, eBiota has developed three novel algorithms: CoreBFS, ProdFBA, and DeepCooc, significantly reducing cost and time required for designing microbial communities, with these savings increasing exponentially as the microbial community grows. CoreBFS, a graph-based search algorithm, is used to determine whether a bacterium has complete metabolic pathways from substrates (or intermediates) to products (or intermediates). Within acceptable costs and timeframes, it completes the search efficiently by memorizing molecules and metabolic pathways. ProdFBA, an extension of classical FBA, is a multi-step linear programming algorithm based on genome-scale metabolic models (GEMs) for individual bacteria and MCMMs for bacterial communities. It infers metabolic flux distributions for microbial communities with potential maximum production (or degradation) efficiency, providing a large number of microbial communities capable of efficiently producing (or degrading) the target compound. DeepCooc is a novel deep learning algorithm that employs residual neural networks (ResNet) to learn high-order co-occurrence in microbial communities using data from 23,323 samples across various environments and human body sites, shedding light on microbial co-existence. DeepCooc’s performance is significantly superior to classical machine learning methods, with an accuracy increased by more than 24.7%, and AUC increased by more than 14.0%.
 
-**For more usage and tutorials, see the [documentation](https://ebiota.readthedocs.io/en/latest/index.html).**
+**For more usages and tutorials, see the [documentation](https://ebiota.readthedocs.io/en/latest/index.html).**
 
 ![workflow](img/Fig1.png)
 
 ## Installation
 
-### 1. Create conda environment
+### 1. Create Conda environment
 
-We recommend installing eBiota in a virtual environment with conda.
+We recommend installing eBiota in a virtual environment with Conda.
 
 ```bash
 # Download latest version of eBiota
@@ -54,7 +54,7 @@ pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --e
 After installing PyTorch, you need to download necessary files from Zenodo:
 
 ```bash
-wget -O DeepCooc_files.tar.gz https://zenodo.org/records/13762656/files/DeepCooc_files.tar.gz?download=1
+wget -O DeepCooc_files.tar.gz https://zenodo.org/records/13895108/files/DeepCooc_files.tar.gz?download=1
 tar -xzvf DeepCooc_files.tar.gz -C stats/
 rm DeepCooc_files.tar.gz
 ```
@@ -76,7 +76,7 @@ conda install -c bioconda diamond
 
 ### 5. [Optional] Install Gurobi optimizer
 
-We recommend using *Gurobi* as Linear Programming solver, as it is usually faster than the default optimizer *glpk*. The *Gurobi* solver is free for academic use ([see here](https://www.gurobi.com/features/academic-named-user-license/)). Please follow the instructions to install *Gurobi*.
+We recommend using *Gurobi* as Linear Programming solver, as it is much faster than the default optimizer *glpk*. The *Gurobi* solver is free for academic use ([see here](https://www.gurobi.com/features/academic-named-user-license/)). Please follow the instructions to install *Gurobi*.
 
 ## Quickstart
 
@@ -91,23 +91,23 @@ There are plenty of configurations to customize your communities, detailed in `c
 | Configuration       | meaning                                                      |
 | ------------------- | ------------------------------------------------------------ |
 | suffix              | suffix of GEM files, usually ".xml" or ".xml.gz"             |
-| path_GEM            | the path to GEM files                                        |
+| path_GEM            | the path of the GEM seed pool                                |
 | path_output         | the path to store final results                              |
-| medium              | the path to medium file                                      |
+| medium              | the medium file for microbiota                               |
 | max_proc            | maximum process number in parallel                           |
 | prune               | whether to prune similar GEMs in the results                 |
 | target              | "production" or "degradation"                                |
 | substrate           | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
 | intermediate        | the chosen intermediate, set to "default" to enumerate all possible intermediates |
 | product             | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
-| designated_bacteria | select some bacteria that is needed in the community         |
+| designated_bacteria | selected bacteria in the community                           |
 | oxygen              | whether the medium contains oxygen, set to "true", "false", or "default" to consider both conditions |
 | glucose             | whether the medium contains glucose, set to "true", "false", or "default" to consider both conditions |
 | community_size      | the size of microbial communities                            |
 
 ## Main Results
 
-The results mentioned in our paper is quite large, and can be downloaded from Zenodo ([doi: 10.5281/zenodo.13762656](https://doi.org/10.5281/zenodo.13762656)).
+The results mentioned in our paper is quite large, and can be downloaded from Zenodo ([doi: 10.5281/zenodo.13895108](https://doi.org/10.5281/zenodo.13895108)).
 
 The following results are included:
 
