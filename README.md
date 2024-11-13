@@ -23,6 +23,8 @@ We developed eBiota, a set of computational tools for the reliable and efficient
 
 ## Installation
 
+Following the steps below, the installation on a normal desktop computer would take a few minutes.
+
 ### 1. Create Conda environment
 
 We recommend installing eBiota in a virtual environment with Conda.
