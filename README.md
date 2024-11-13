@@ -1,4 +1,4 @@
-# eBiota: *Ab initio* design of microbial communities from large-scale seed pools using deep learning and rapid optimization
+# *Ab initio* design of microbial communities from large-scale seed pools using deep learning and rapid optimization
 
 [![Documentation Status](https://readthedocs.org/projects/ebiota/badge/?version=latest)](https://ebiota.readthedocs.io/en/latest/?badge=latest) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13895108.svg)](https://doi.org/10.5281/zenodo.13895108)
 
@@ -114,7 +114,7 @@ The following results are included:
 1. **GEM.tar.gz**: The eBiota-GEM dataset, containing 21,514 Genome-Scale Metabolic Models (GEMs) constructed using CarveMe based on RefSeq complete genomes.
 2. **Baterial_evaluation.tar.gz**: The evaluation of the ability to uptake substrates and secret productions for all 21,514 GEMs.
 3. **Community_results.tar.gz**: The results calculated from eBiota-GEM includes various combinations for two-bacterial consortia, covering strain IDs, substrates, products, yields, dual-bacterial growth, single-bacterial growth, co-occurrence predictions, and interactions.
-4. **DeepCooc_files.tar.gz**: The parameters of DeepCooc, required by eBiota platform.
+4. **DeepCooc_files.tar.gz**: The parameter files of DeepCooc, required by eBiota platform.
 
 ## Citation
 
