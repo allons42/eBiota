@@ -11,7 +11,7 @@ eBiota accepts custom medium in CSV format, as demonstrated in the Usage section
 
 ### id
 
-The **id** must be consistent with the metabolite id in the GEM. It typically ends with "_e", representing an exchange metabolite. Notice that there are two commonly used naming system: [BiGG ID](http://bigg.ucsd.edu/universal/metabolites) and [ModelSEED ID](https://modelseed.org/biochem/compounds). The default setting of eBiota is BiGG ID, which is also used in Carveme GEM and BiGG GEM. To use ModelSEED ID, we provide a “SEED Compound” column in Basic LB medium, which can also be searched in the above website.
+The **id** must be consistent with the metabolite id in the GEM. It typically ends with "_e", representing an exchange metabolite. Notice that there are two commonly used naming system: [BiGG ID](http://bigg.ucsd.edu/universal/metabolites) and [ModelSEED ID](https://modelseed.org/biochem/compounds). The default setting of eBiota is BiGG ID, which is also used in Carveme GEM and BiGG GEM. To use ModelSEED ID, we provide a “SEED Compound” column in Basic LB medium, which can also be searched in the aforementioned website.
 
 ### maxFlux
 
