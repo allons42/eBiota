@@ -82,7 +82,7 @@ We recommend using *Gurobi* as Linear Programming solver, as it is much faster t
 
 ## Quickstart
 
-eBiota supports various functions for microbial community design. For a quickstart, we provide an example to design communities that utilize glucose and produce hydrogen. The whole process would take about 10 minutes.
+eBiota supports various functions for microbial community design. For a quickstart, we provide an example to design communities that utilize glucose and produce hydrogen. The whole process would take about 10 minutes. The results are displayed in [example_result](src/example_result).
 
 ```bash
 python eBiota.py --Function doall
