@@ -118,8 +118,8 @@ The following results are included:
 
 ## Citation
 
-eBiota: *ab initio* design microbial communities from large-scale seed pools using deep learning and optimization algorithm with microbial community-scale metabolic models.
+*Ab initio* design of microbial communities from large-scale seed pools using deep learning and rapid optimization.
 
 ## Contact
 
-If there are any problems, feel free to ask us: jiangxiaoqing357@126.com, jhhou@pku.edu.cn, haoserzhang7733@gmail.com or hqzhu@pku.edu.cn.
+If there are any problems, feel free to raise issues or ask us: jiangxiaoqing357@126.com, jhhou@pku.edu.cn, haoserzhang7733@gmail.com or hqzhu@pku.edu.cn.
