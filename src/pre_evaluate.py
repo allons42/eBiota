@@ -71,17 +71,17 @@ def pre_eval(name, possible_path):
     for rxn in gem.exchanges:
         rxt = rxn.reactants[0].id
         if rxt not in basic.keys():
-            rxn.lower_bound = 0 # 禁止吸收培养基以外的物质
+            rxn.lower_bound = 0 # Prohibit absorption of substances other than culture medium
         else:
             rxn.lower_bound = -basic[rxt]
     
-    # 此处的gem为预处理完成的gem
+    # GEM after preprocess
     # print(gem.medium)
     
     res = {}
     try_dict = {}
     for st,ed in possible_path:
-        if st==ed or st in basic.keys(): # 不考虑培养基中的物质作为起始物质
+        if st==ed or st in basic.keys(): # Not considering substances in the culture medium as starting materials
             continue
         elif st not in try_dict:
             try_dict[st] = [ed]
@@ -103,7 +103,7 @@ def pre_eval(name, possible_path):
             tmp_res = test_FBA_in_specific_media(gem, st, try_dict[st], o2=False, glc__D=False)
             res.update(tmp_res)
 
-    # 若前面部分出现异常，则不会有文件输出
+    # If there is an exception in the previous section, there will be no file output
     sorted_res = sorted(res, key = lambda k: (k[0], k[1], k[2],k[3]))
     fout = open(output_dir + name + '.txt', 'w')
     fout.write("substrate,product,O2,glucose,growth,absorption,production,label\n")
@@ -136,7 +136,7 @@ def run_evaluate():
     
     start = time.time()
     n_proc = config["max_proc"]
-    pool = Pool(n_proc) # 进程池数量上限
+    pool = Pool(n_proc) # Maximum number of process pools
     pbar = tqdm(total=len(all_bac))
     tasks = []
 

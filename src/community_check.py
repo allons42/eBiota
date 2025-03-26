@@ -2,7 +2,6 @@ import os
 import cobra
 import pickle
 import copy
-import torch
 import numpy as np
 import pandas as pd
 from random import shuffle
@@ -15,6 +14,7 @@ if config["USE_CUDA"] and config["CUDA_VISIBLE_DEVICES"] != "default":
 
 from sklearn import metrics
 import scipy.stats as stats
+import torch
 import torch.nn as nn
 from itertools import permutations
 from torch.utils.data import Dataset, DataLoader

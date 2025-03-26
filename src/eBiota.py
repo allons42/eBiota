@@ -106,10 +106,9 @@ def main(args):
     elif args.Function == "test":
         passflag = True
         try:
-            # 使用subprocess.run执行命令，并捕获输出
+            # use subprocess.run to execute Perl
             result = subprocess.run(['perl', '-v'], stdout=subprocess.PIPE, universal_newlines=True)
             version_match = re.search(r'(v\d+\.\d+\.\d+)', result.stdout).group(1)
-            # 输出结果
             print("Perl version:", version_match)
         except Exception as e:
             print(f"Error: Failed to get Perl version: {e}")
@@ -120,7 +119,13 @@ def main(args):
             if config["USE_CUDA"]:
                 if torch.cuda.is_available():
                     print("CUDA version:", torch.version.cuda)
-                    print("GPU:", torch.cuda.get_device_name(0))
+                    if config["CUDA_VISIBLE_DEVICES"] != "default":
+                        device_id = int(config["CUDA_VISIBLE_DEVICES"])
+                    else:
+                        device_id = 0
+                    print("GPU:", torch.cuda.get_device_name(device_id))
+            else:
+                print("Disable GPU acceleration and use CPU for computation.")
         except:
             print("Error: Pytorch is not correctly installed.")
             passflag = False

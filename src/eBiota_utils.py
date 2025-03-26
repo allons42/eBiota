@@ -29,7 +29,7 @@ def check_config():
         # exit()
 
     if not os.path.exists(config["medium"]):
-        print(f"Error: medium {config['medium']} not found")
+        print(f"Error: medium {config['medium']} not found.")
         exit()
 
     if config["target"] not in ["production", "degradation"]:
@@ -48,8 +48,8 @@ def check_config():
         print("Error: currently only support community of size 2 or 3.")
         exit()
 
-    if not os.path.exists("stats/model_weights.pth"):
-        print("""Error: Required DeepCooc model files are missing. Please download the necessary files by following the instructions in the README or the eBiota documentation: https://ebiota.readthedocs.io/en/latest/install.html""")
+    if not os.path.exists("stats/model_weights_2bac.pth"):
+        print("Error: Required DeepCooc model files are missing. Please download the necessary files by following the instructions in the README or the eBiota documentation: https://ebiota.readthedocs.io/en/latest/install.html")
         exit()
 
 def update_config(arg):

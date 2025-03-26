@@ -15,7 +15,7 @@
     "glucose": "default",
     "community_size": 2,
     "USE_CUDA": true,
-    "CUDA_VISIBLE_DEVICES": "0",
+    "CUDA_VISIBLE_DEVICES": "default",
     "suffix": ".xml",
     "feature_index_type": "moreReacFeature",
     "data_taxa_type": "gcf"

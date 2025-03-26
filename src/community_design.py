@@ -40,7 +40,7 @@ def read_gem(name, medium=None, o2=True, glc=True):
         for rxn in gem.exchanges:
             rxt = rxn.reactants[0]
             if rxt.id not in medium.keys():
-                rxn.lower_bound = 0 # 禁止吸收培养基以外的物质
+                rxn.lower_bound = 0 # Prohibit absorption of substances other than culture medium
             else:
                 rxn.lower_bound = -medium[rxt.id]
     
