@@ -15,29 +15,41 @@ config = read_config()
 
 def check_config():
     # check the format of config
-    if config["suffix"] not in [".xml.gz", ".xml"]:
-        print("Error: suffix should be '.xml' or '.xml.gz'")
+    if config["suffix"] != ".xml":
+        print("Error: suffix must be '.xml'. For '.xml.gz' files, please run 'gzip -d *.gz' to decompress.")
         exit()
+
     if not os.path.exists(config["path_GEM"]):
-        print(f"Error: path_GEM {config['path_GEM']} not found")
+        print(f"Error: path_GEM {config['path_GEM']} not found.")
         exit()
+    config["path_rewrite"] = os.path.join(config["path_GEM"], "rewrite_GEM")
+
     if os.path.exists(config["path_output"]):
-        print("Warning: Output directory already exists. Please make sure it is correct.")
+        print(f"Warning: Output directory {config['path_output']} already exists. Please make sure it is correct.")
         # exit()
+
     if not os.path.exists(config["medium"]):
-        print("Error: medium not found")
+        print(f"Error: medium {config['medium']} not found")
         exit()
+
     if config["target"] not in ["production", "degradation"]:
-        print(f"Error: target should be 'production' or 'degradation'")
+        print(f"Error: target should be 'production' or 'degradation'.")
         exit()
+
     if type(config["max_proc"]) != int or config["max_proc"] < 1:
-        print("Error: max_proc should be a positive integer")
+        print("Error: max_proc should be a positive integer.")
         exit()
+
     if type(config["prune"]) != bool:
-        print("Error: prune should be a boolean, true or false")
+        print("Error: prune should be a boolean, true or false.")
         exit()
+
     if config["community_size"] not in {2, 3}:
         print("Error: currently only support community of size 2 or 3.")
+        exit()
+
+    if not os.path.exists("stats/model_weights.pth"):
+        print("""Error: Required DeepCooc model files are missing. Please download the necessary files by following the instructions in the README or the eBiota documentation: https://ebiota.readthedocs.io/en/latest/install.html""")
         exit()
 
 def update_config(arg):

@@ -1,7 +1,5 @@
 {
-    "suffix": ".xml",
     "path_GEM": "GEM",
-    "path_rewrite": "rewrite_GEM",
     "path_output": "result",
     "medium": "stats/BasicLB_medium.csv",
     "ERR_LOG": "ErrorLog.txt",
@@ -18,6 +16,7 @@
     "community_size": 2,
     "USE_CUDA": true,
     "CUDA_VISIBLE_DEVICES": "0",
+    "suffix": ".xml",
     "feature_index_type": "moreReacFeature",
     "data_taxa_type": "gcf"
 }

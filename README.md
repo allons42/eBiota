@@ -42,7 +42,9 @@ pip install -r requirements.txt
 
 ### 2. Install DeepCooc
 
-The DeepCooc module, used for co-occurrence analysis, utilizes deep learning and requires the installation of the PyTorch package. Please refer to the [PyTorch](https://pytorch.org/get-started/locally/) official website to choose the appropriate CUDA version or CPU version for installation. We used the 1.12.0+cu113 version, and other versions should be feasible.
+**DeepCooc** is a deep learning-based module for co-occurrence analysis that requires **PyTorch** as a dependency. Please install PyTorch from the [official website](https://pytorch.org/get-started/locally/), selecting either the GPU version or CPU-only version based on your system. This implementation was tested with PyTorch 1.12.0+cu113, but other versions should also be compatible.
+
+GPU acceleration is optional. To disable it, set `USE_CUDA=false` in the eBiota configuration (see [Quickstart](#Quickstart) for details).
 
 ```bash
 # Install PyTorch with conda or wheel on Linux
@@ -88,24 +90,25 @@ eBiota supports various functions for microbial community design. For a quicksta
 python eBiota.py --Function doall
 ```
 
-There are plenty of configurations to customize your communities, detailed in `config.json`. Here list some important configurations:
+All community customization options are available in `config.json`. Below is a detailed explanation of each parameter: 
 
-| Configuration       | meaning                                                      |
-| ------------------- | ------------------------------------------------------------ |
-| suffix              | suffix of GEM files, usually ".xml" or ".xml.gz"             |
-| path_GEM            | the path of the GEM seed pool                                |
-| path_output         | the path to store final results                              |
-| medium              | the medium file for microbial communities                    |
-| max_proc            | maximum process number in parallel                           |
-| prune               | whether to prune similar GEMs in the results                 |
-| target              | "production" or "degradation"                                |
-| substrate           | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) |
-| intermediate        | the chosen intermediate, set to "default" to enumerate all possible intermediates |
-| product             | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) |
-| designated_bacteria | selected bacteria in the community                           |
-| oxygen              | whether the medium contains oxygen, set to "true", "false", or "default" to consider both conditions |
-| glucose             | whether the medium contains glucose, set to "true", "false", or "default" to consider both conditions |
-| community_size      | the size of microbial communities                            |
+| Configuration        | meaning                                                      | default                  |
+| -------------------- | ------------------------------------------------------------ | ------------------------ |
+| path_GEM             | the path of the GEM seed pool                                | GEM                      |
+| path_output          | the path to store final results                              | result                   |
+| medium               | the medium file for microbial communities                    | stats/BasicLB_medium.csv |
+| max_proc             | maximum process number in parallel                           | 10                       |
+| USE_CUDA             | whether to enable GPU acceleration (via CUDA) for DeepCooc computations | true                     |
+| CUDA_VISIBLE_DEVICES | Specifies the GPU device ID(s) to use. This setting has no effect if `USE_CUDA=false` | 0                        |
+| prune                | whether to prune similar GEMs in the results                 | true                     |
+| target               | "production" or "degradation"                                | production               |
+| substrate            | the chosen substrate, set to "default" to enumerate all possible substrates (only in production mode) | glc__D_e                 |
+| intermediate         | the chosen intermediate, set to "default" to enumerate all possible intermediates | default                  |
+| product              | the chosen product, set to "default" to enumerate all possible products (only in degradation mode) | h2_e                     |
+| designated_bacteria  | selected bacteria in the community                           | default                  |
+| oxygen               | whether the medium contains oxygen, set to "true", "false", or "default" to consider both conditions | default                  |
+| glucose              | whether the medium contains glucose, set to "true", "false", or "default" to consider both conditions | default                  |
+| community_size       | the size of microbial communities, supporting 2 or 3         | 2                        |
 
 ## Main Results
 

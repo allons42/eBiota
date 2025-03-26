@@ -27,7 +27,9 @@ conda install -c bioconda diamond
 
 **3. Install DeepCooc**
 
-The DeepCooc module, used for co-occurrence analysis, utilizes deep learning and requires the installation of the PyTorch package. Please refer to the [PyTorch](https://pytorch.org/get-started/locally/) official website to choose the appropriate CUDA version or CPU version for installation. We used the 1.12.0+cu113 version, and other versions should be feasible.
+**DeepCooc** is a deep learning-based module for co-occurrence analysis that requires **PyTorch** as a dependency. Please install PyTorch from the [official website](https://pytorch.org/get-started/locally/), selecting either the GPU version or CPU-only version based on your system. This implementation was tested with PyTorch 1.12.0+cu113, but other versions should also be compatible.
+
+GPU acceleration is optional. To disable it, set `USE_CUDA=false` in the eBiota configuration (see [Quickstart](#Quickstart) for details).
 
 ```bash
 # Install PyTorch with conda or wheel on Linux
