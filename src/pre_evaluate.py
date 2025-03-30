@@ -39,14 +39,20 @@ def test_FBA_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_on
             label = 'no_exchange_reaction'
         else:
             with gem:
-                if sol["EX_" + st] > -1e-8:
+                gem.reactions.get_by_id(bm).lower_bound = 0.99*bm_max
+                gem.objective = {gem.reactions.get_by_id("EX_"+ed): 1}
+                try:
+                    sol2 = cobra.flux_analysis.pfba(gem)
+                except:
+                    continue
+                if sol2["EX_" + st] > -1e-8:
                     label = 'no_absorption'
-                elif sol["EX_" + ed] > 1e-8:
+                elif sol2["EX_" + ed] > 1e-8:
                     label = "good"
                 else:
                     label = 'normal'
-        res_ex_ed = 0 if (label=='no_exchange_reaction' or label=="no_growth") else sol["EX_" + ed]
-        res_ex_st = 0 if (label=='no_exchange_reaction' or label=="no_growth") else sol["EX_" + st]
+        res_ex_ed = 0 if (label=='no_exchange_reaction' or label=="no_growth") else sol2["EX_" + ed]
+        res_ex_st = 0 if (label=='no_exchange_reaction' or label=="no_growth") else sol2["EX_" + st]
         res[(st, ed, bool_dict[o2]+"O2", bool_dict[glc__D]+"glucose")] = (label, bm_max, res_ex_st, res_ex_ed)
     return res
 

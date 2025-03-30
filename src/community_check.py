@@ -1015,6 +1015,7 @@ def DeepCooc():
         input_df = pd.read_csv(f'{root_output}/{file_input}', sep='\t', index_col=False)
         input_df['DeepCooc_Co_occurrence'] = y_pred
         input_df['DeepCooc_Co_occurrence'] = input_df['DeepCooc_Co_occurrence'].apply(lambda x: 1 if x > 0.5 else 0)
+        input_df = input_df[input_df['Total_production'] > 0]
         out_file = os.path.join(model_save_root, os.path.basename(f'{root_output}/{file_input}').replace('.txt', '.tsv'))
         input_df.to_csv(out_file, sep='\t', index=False)
         

@@ -13,7 +13,7 @@ from community_mod import gene_mod
 __author__ = "Jiaheng Hou, Haoyu Zhang, Yulin Liao"
 __copyright__ = "Copyright (c) 2024 Zhulab"
 __license__ = "The MIT License (MIT)"
-__version__ = "1.0"
+__version__ = "1.1"
 
 
 def parse_arg():

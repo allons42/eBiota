@@ -22,7 +22,7 @@ def check_config():
     if not os.path.exists(config["path_GEM"]):
         print(f"Error: path_GEM {config['path_GEM']} not found.")
         exit()
-    config["path_rewrite"] = os.path.join(config["path_GEM"], "rewrite_GEM")
+    config["path_rewrite"] = "tmp/rewrite_GEM"
 
     if os.path.exists(config["path_output"]):
         print(f"Warning: Output directory {config['path_output']} already exists. Please make sure it is correct.")
