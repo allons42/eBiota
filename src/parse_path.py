@@ -1,8 +1,24 @@
 import re
 import os
+import sys
+import shutil
+import subprocess
 from tqdm import tqdm
 
-# from eBiota_utils import get_metabolite_name_dict
+from eBiota_utils import config
+
+def run_CoreBFS():
+    if os.path.exists("tmp/BFS_result"):
+        shutil.rmtree("tmp/BFS_result")
+    print("Start to analyze the input GEMs...")
+    cmd = "perl find_path.pl " +  config["path_GEM"]
+    suc = subprocess.call(cmd, shell=True)
+    if suc == 0:
+        print("CoreBFS is completed!")
+        print("==============================")
+    else:
+        print("An error occurred in CoreBFS. Please check config.json!")
+        sys.exit(1)
 
 def get_metabolite_name_dict_direct():
     fnames = open("tmp/BFS_result/all_metabolites_names.txt")
@@ -50,3 +66,6 @@ def translate_path():
                     x,y = line.split(" linked to ")
                     y,z = y.split(" with level=")
                     fout.write(f'{d[x]}_e\t{d[y]}_e\t{z}')
+    
+    print("All path detected!")
+    print("==============================")

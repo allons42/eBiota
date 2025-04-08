@@ -25,19 +25,6 @@ $medium_end{'ATP C10H12N5O13P3'}=1;
 $medium_end{'ATP'}=1;
 $medium_end{'Phosphate'}=1;
 $medium_end{'Nicotinamide adenine dinucleotide phosphate - reduced'}=1;
-my %add_reaction=(); # added reactions
-#$add_reaction{'Sucrose 6-phosphate'}="D-Glucose";
-#$add_reaction{'Malonate semialdehyde'}="malonyl-CoA";  
-#$add_reaction{'malonyl-CoA'}="D-Fructose 6-phosphate";  
-#$add_reaction{'D-Fructose 6-phosphate'}="D-Fructose";  
-#$add_reaction{'D-Fructose'}="Sucrose C12H22O11";  
-#$add_reaction{'Sucrose C12H22O11'}="D-Fructose";  
-#$add_reaction{'Sucrose C12H22O11'}="D-Glucose";  
-#$add_reaction{'Malonate semialdehyde'}="Sucrose C12H22O11";  
-#my %metabolite=%{lock_retrieve("specific_bacteria_gem_info/storable/metabolite.storable")};
-#$metabolite{'M_sucr_e'}{'name'}="Sucrose C12H22O11";
-#$metabolite{'M_sucr_p'}{'name'}="Sucrose C12H22O11";
-#$metabolite{'M_sucr_c'}{'name'}="Sucrose C12H22O11";
 my %basic_molecules; # currency metabolites and other basic molecules
 $basic_molecules{'ADP C10H12N5O10P2'}=1;
 $basic_molecules{'ADP'}=1;
@@ -152,6 +139,17 @@ $basic_molecules{'DUMP'}=1;
 #$basic_molecules{'CO2 CO2'}=1;
 #$basic_molecules{'CO2'}=1;
 $basic_molecules{''}=1;
+
+my %add_reaction=(); # added reactions
+$add_reaction{'Sucrose 6-phosphate'}="D-Glucose";
+$add_reaction{'Malonate semialdehyde'}="malonyl-CoA";
+$add_reaction{'malonyl-CoA'}="D-Fructose 6-phosphate";
+$add_reaction{'D-Fructose 6-phosphate'}="D-Fructose";
+$add_reaction{'D-Fructose'}="Sucrose C12H22O11";
+$add_reaction{'Sucrose C12H22O11'}="D-Fructose";
+$add_reaction{'Sucrose C12H22O11'}="D-Glucose";
+$add_reaction{'Malonate semialdehyde'}="Sucrose C12H22O11";
+
 my %target_media;
 #$target_media{'CO2 CO2'}=1;
 #$target_media{'D-Glucose'}=1;
@@ -170,12 +168,9 @@ my @csources;
 
 new_carve_me_read_and_analyze_specific_bacteria_gem(); # analyze xml GEM file
 new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria(); # find pathways
+
 #new_carve_me_analyze_path_result("3-Hydroxypropanoate","Sucrose","CO2"); # find combinations for specific pathways (deprecated)
-
-#new_carve_me_deep_analysis_of_bacteria_internal_pathways_and_link_target_secretion_to_target_intake("Formate","L-Methionine","ASF356"); # find specific pathways of certein intake and secretion
-
-#my %bac_reactions=%{lock_retrieve("/data/ylliao/ebiota/bigg/reaction_info_for_every_bacteria/storable/iJB785.storable")}; # check reaction of specific GEM
-#print_reaction("R_RBPCcx",\%bac_reactions);
+#new_carve_me_deep_analysis_of_bacteria_internal_pathways_and_link_target_secretion_to_target_intake("H2","Propanal","GCF_001767355.1"); # find specific pathways of certein intake and secretion
 
 ############################################################################################################################
 ## functions
@@ -714,9 +709,9 @@ sub new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria{
 				}
 			}
 		}
-		foreach my $product(keys %add_reaction){
-			$product_to_reactant{$product}{'reactant'}{$add_reaction{$product}}{'reaction'}{'add_reaction'}="";
-		}
+		#foreach my $product(keys %add_reaction){
+		#	$product_to_reactant{$product}{'reactant'}{$add_reaction{$product}}{'reaction'}{'add_reaction'}="";
+		#}
 		# return;
 		
 		#利用分层遍历，寻找从摄取物到培养基底物的代谢通路
@@ -731,7 +726,7 @@ sub new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria{
 				my $size=$#arr+1;
 				last unless $arr[0];
 				$level++;
-				last if $level==$max_level; #####################################
+				last if $level==$max_level;
 				while($size--){
 					my $t=shift @arr;
 					next if $circle{$t} and $circle{$t}==1;
@@ -749,7 +744,7 @@ sub new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria{
 			}
 		}
 		# return;
-
+		
 		#利用分层遍历，寻找从分泌物到摄取物的代谢通路
 		foreach my $secretion(sort keys %bac_secretion){ #每一轮遍历的起点是细菌的分泌物
 			$secretion=$bac_secretion{$secretion}{'name'}; 
@@ -762,7 +757,7 @@ sub new_carve_me_find_path_from_secretion_to_intake_for_each_bacteria{
 				my $size=$#arr+1; 
 				last unless $arr[0];
 				$level++;
-				last if $level==$max_level; #############################################
+				last if $level==$max_level;
 				while($size--){
 					my $t=shift @arr;
 					next if $circle{$t} and $circle{$t}==1; #防止环形路径产生
@@ -967,9 +962,9 @@ sub new_carve_me_deep_analysis_of_bacteria_internal_pathways_and_link_target_sec
 			}
 		}
 	}
-	foreach my $product(keys %add_reaction){
-		$reactant_to_product{$add_reaction{$product}}{'product'}{$product}{'reaction'}{'add_reaction'}="";
-	}
+	#foreach my $product(keys %add_reaction){
+	#	$reactant_to_product{$add_reaction{$product}}{'product'}{$product}{'reaction'}{'add_reaction'}="";
+	#}
 	open OUT,">tmp/BFS_result/reactant_and_product/$bac_name\_link_reactant_to_product.txt";
 	print OUT Dumper(%reactant_to_product);
 	close OUT;
@@ -1012,9 +1007,9 @@ sub new_carve_me_deep_analysis_of_bacteria_internal_pathways_and_link_target_sec
 			}
 		}
 	}
-	foreach my $product(keys %add_reaction){
-		$product_to_reactant{$product}{'reactant'}{$add_reaction{$product}}{'reaction'}{'add_reaction'}="";
-	}
+	#foreach my $product(keys %add_reaction){
+	#	$product_to_reactant{$product}{'reactant'}{$add_reaction{$product}}{'reaction'}{'add_reaction'}="";
+	#}
 	open OUT,">tmp/BFS_result/reactant_and_product/$bac_name\_link_product_to_reactant.txt";
 	print OUT Dumper(%product_to_reactant);
 	close OUT;
@@ -1033,7 +1028,7 @@ sub new_carve_me_deep_analysis_of_bacteria_internal_pathways_and_link_target_sec
 		$level++;
 		print "\nlevel: $level\n";
 		last if $stop==1;
-		last if $level==$max_level; #################################
+		last if $level==$max_level;
 		while($size--){
 			my $t=shift @arr;
 			next if $circle{$t} and $circle{$t}==1;

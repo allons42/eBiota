@@ -22,7 +22,59 @@ def test_FBA_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_on
     bool_dict = {True:"with_", False:"without_"}
     #C_number = gem.metabolites.get_by_id("EX_"+st).elements.get("C",0)
     try:
+        if 'gurobi' in str(gem.solver):
+            gem.solver.problem.reset()
+        elif 'cplex' in str(gem.solver):
+            gem.solver.problem.parameters.advance.set(0)
         sol = cobra.flux_analysis.pfba(gem)
+    except:
+        return {}
+    bm = str(gem.objective.expression).split(' ')[0][4:]
+    res = {}
+    
+    if growth_only:
+        return sol[bm]
+    
+    for ed in ed_list:
+        bm_max = sol[bm]
+        if bm_max < 1e-8:
+            label = 'no_growth'
+        elif ("EX_" + ed) not in gem.reactions:
+            label = 'no_exchange_reaction'
+        else:
+            sol2 = sol
+            if sol2["EX_" + st] > -1e-8:
+                label = 'no_absorption'
+            elif sol2["EX_" + ed] > 1e-8:
+                label = "good"
+            else:
+                label = 'normal'
+        res_ex_ed = 0 if (label=='no_exchange_reaction' or label=="no_growth") else sol2["EX_" + ed]
+        res_ex_st = 0 if (label=='no_exchange_reaction' or label=="no_growth") else sol2["EX_" + st]
+        res[(st, ed, bool_dict[o2]+"O2", bool_dict[glc__D]+"glucose")] = (label, bm_max, res_ex_st, res_ex_ed)
+    return res
+
+
+def test_FVA_in_specific_media(gem, st, ed_list, o2=True, glc__D=True, growth_only=False): 
+    if "EX_o2_e" in gem.reactions:
+        gem.reactions.get_by_id("EX_o2_e").lower_bound = -10 if o2 else 0
+        
+    if "EX_glc__D_e" in gem.reactions:
+        gem.reactions.get_by_id("EX_glc__D_e").lower_bound = -10 if glc__D else 0
+    
+    if "EX_"+st in gem.reactions:
+        gem.reactions.get_by_id("EX_"+st).lower_bound = -10
+    elif not growth_only:
+        return {}
+    
+    bool_dict = {True:"with_", False:"without_"}
+    #C_number = gem.metabolites.get_by_id("EX_"+st).elements.get("C",0)
+    try:
+        if 'gurobi' in str(gem.solver):
+            gem.solver.problem.reset()
+        elif 'cplex' in str(gem.solver):
+            gem.solver.problem.parameters.advance.set(0)
+        sol = gem.optimize()
     except:
         return {}
     bm = str(gem.objective.expression).split(' ')[0][4:]
@@ -168,7 +220,8 @@ def run_evaluate():
     pbar.close()
 
     end = time.time()
-    print("evaluation runtime: %.2f seconds"%(end-start))
+    print("Evaluation completed! Runtime: %.2f seconds"%(end-start))
+    print("==============================")
 
 if __name__ == '__main__':
     run_evaluate()

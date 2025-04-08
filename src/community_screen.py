@@ -1,14 +1,10 @@
 import cobra
-import re
 import os
-import time
-import copy
 import pandas as pd
 from tqdm import tqdm
 import pickle
 from multiprocessing import Pool
 from collections import Counter, defaultdict
-import matplotlib.pyplot as plt
 
 from eBiota_utils import get_good_bacteria, config, get_start_and_linker_metabolites
 

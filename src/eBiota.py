@@ -3,7 +3,7 @@ import subprocess
 import os
 import re
 
-from parse_path import translate_path
+from parse_path import run_CoreBFS, translate_path
 from eBiota_utils import rewrite, config, check_config, update_config
 from pre_evaluate import run_evaluate
 from community_screen import get_combination
@@ -48,22 +48,12 @@ def main(args):
     function_mode = args.Function
 
     if function_mode == "doall":
-        print("Start to analyze the input GEMs...")
-        cmd = "perl find_path.pl " +  config["path_GEM"]
-        suc = subprocess.call(cmd, shell=True)
-        if suc == 0:
-            print("CoreBFS is completed!")
-        else:
-            print("An error occurred in CoreBFS. Please check the parameters!")
-            return
-        
+        run_CoreBFS()
         translate_path()
-        print("All path detected! Start to evaluate the GEMs...")
-
+        print("Start to evaluate the GEMs...")
         rewrite()
         run_evaluate()
-        print("Evaluation completed! Start to build communities...")
-
+        print("Start to build communities...")
         get_combination()
         run_community_design()
 
@@ -72,21 +62,11 @@ def main(args):
         print("All done!")
 
     elif function_mode == "evaluate":
-        print("Start to analyze the input GEMs...")
-        cmd = "perl find_path.pl " +  config["path_GEM"]
-        suc = subprocess.call(cmd, shell=True)
-        if suc == 0:
-            print("CoreBFS is completed!")
-        else:
-            print("An error occurred in CoreBFS. Please check the parameters!")
-            return
-        
+        run_CoreBFS()
         translate_path()
-        print("All path detected! Start to evaluate the GEMs...")
-
+        print("Start to evaluate the GEMs...")
         rewrite()
         run_evaluate()
-        print("Evaluation is completed!")
 
     elif function_mode == "design":
         get_combination()
