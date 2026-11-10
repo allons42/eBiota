@@ -995,7 +995,7 @@ def DeepCooc():
 
         # model、loss、metric
         model = model.to(device)
-        model.load_state_dict(torch.load(dl_model_path))
+        model.load_state_dict(torch.load(dl_model_path, map_location=device))
 
         # 运行模型
         size = len(test_data_loader)
