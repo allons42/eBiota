@@ -63,6 +63,8 @@ tar -xzvf DeepCooc_files.tar.gz -C stats/
 rm DeepCooc_files.tar.gz
 ```
 
+The [DeepCooc dataset](data/DeepCooc_data_splits.zip) provides community-disjoint and genus-disjoint training, validation, and test sets for pairs and triplets, with a reference feature matrix for each genus.
+
 ### 3. Check if the installation is successful
 
 ```bash
