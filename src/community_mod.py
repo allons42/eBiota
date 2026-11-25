@@ -172,7 +172,7 @@ def gene_mod(input_tsv):
     rxn_in = "EX_" + subs
     rxn_out = "EX_" + prod
     O2_bool = True if "with_O2" in tmp[1] else False
-    glc_bool = True if "with_glcose" in tmp[1] else False
+    glc_bool = True if "with_glucose" in tmp[1] else False
 
     fout = open(".".join(input_tsv.split(".")[:-1]) + "_mod.tsv", "w")
     fout.write("\t".join(df.columns) + "\tBest_knockout\tBest_knockin\n")
@@ -193,7 +193,7 @@ def gene_mod(input_tsv):
                     rxn.knock_out()
                     oneres = FBA([bac1, bac2], gem, biomass_func, [rxn_in, rxn_out])
                     if oneres:
-                        tot = oneres[rxn_in+'_1']*oneres['Growth1']+oneres[rxn_in+'_2']*oneres['Growth2']
+                        tot = oneres[rxn_out+'_1']*oneres['Growth1']+oneres[rxn_out+'_2']*oneres['Growth2']
                         if tot > bestkoflux:
                             bestko = rxn.id
                             bestkoflux = tot
@@ -221,7 +221,7 @@ def gene_mod(input_tsv):
                 gem.add_reactions([R])
                 oneres = FBA([bac1, bac2], gem, biomass_func, [rxn_in, rxn_out])
                 if oneres:
-                    tot = oneres[rxn_in+'_1']*oneres['Growth1']+oneres[rxn_in+'_2']*oneres['Growth2']
+                    tot = oneres[rxn_out+'_1']*oneres['Growth1']+oneres[rxn_out+'_2']*oneres['Growth2']
                     if tot > bestkiflux:
                         bestki = bac1 + "_" + ins
                         bestkiflux = tot
@@ -248,7 +248,7 @@ def gene_mod(input_tsv):
                 gem.add_reactions([R])
                 oneres = FBA([bac1, bac2], gem, biomass_func, [rxn_in, rxn_out])
                 if oneres:
-                    tot = oneres[rxn_in+'_1']*oneres['Growth1']+oneres[rxn_in+'_2']*oneres['Growth2']
+                    tot = oneres[rxn_out+'_1']*oneres['Growth1']+oneres[rxn_out+'_2']*oneres['Growth2']
                     if tot > bestkiflux:
                         bestki = bac2 + "_" + ins
                         bestkiflux = tot

@@ -4,7 +4,7 @@ import pickle
 import copy
 import numpy as np
 import pandas as pd
-from random import shuffle
+import random
 from tqdm import tqdm
 from multiprocessing import Pool
 from eBiota_utils import config
@@ -158,8 +158,10 @@ def genus_species_ave_index(
     species_gems = list(df_species["assembly"])
 
     # get gems from the species id and trans to gem to get reaction index
-    shuffle(species_gems)
+    species_gems = sorted(species_gems)
     if species_ave_gems_num < len(species_gems):
+        rng = random.Random(42)
+        rng.shuffle(species_gems)
         species_gems = species_gems[:species_ave_gems_num]
 
     n_rea =  gem_reaction_index_table.shape[1] # len(rea_table)
@@ -667,7 +669,7 @@ class GEMreactionNetFc(nn.Module):
         )
 
     def forward(self, x):
-        x = torch.squeeze(x)
+        x = torch.squeeze(x, dim=1)
         out = self.linears(x)
         return out
 
@@ -996,19 +998,21 @@ def DeepCooc():
         # model、loss、metric
         model = model.to(device)
         model.load_state_dict(torch.load(dl_model_path, map_location=device))
+        model.eval()
 
         # 运行模型
         size = len(test_data_loader)
         y_pred = []
-        for batch, (X, X_metInd, y) in enumerate(test_data_loader):
-            print(f'{batch}/{size}.....')
-            
-            # Compute prediction and loss
-            X, X_metInd, y = X.to(device), X_metInd.to(device), y.to(device).long()
-            y_pred_t, _ = model(X, X_metInd)
-            y_pred_np = y_pred_t.cpu().detach().numpy()
-            
-            y_pred.append(y_pred_np)
+        with torch.no_grad():
+            for batch, (X, X_metInd, y) in enumerate(test_data_loader):
+                print(f'{batch}/{size}.....')
+                
+                # Compute prediction and loss
+                X, X_metInd, y = X.to(device), X_metInd.to(device), y.to(device).long()
+                y_pred_t, _ = model(X, X_metInd)
+                y_pred_np = y_pred_t.cpu().detach().numpy()
+                
+                y_pred.append(y_pred_np)
         y_pred = np.concatenate(y_pred, axis=0)
         
         # 保存结果
